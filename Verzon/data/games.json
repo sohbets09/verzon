@@ -1,0 +1,129 @@
+[
+    {
+        "id": 1,
+        "title": "Call of Duty: Black Ops",
+        "category": "Action",
+        "price": 0,
+        "image": "https://unite-gaming.com.tm/wp-content/uploads/2023/09/witcher-1-3.png",
+        "description": "Call of Duty: Black Ops, köp sanly täzelik bilen atyjynyň ýedinji bölegi. Esasy üýtgeşiklik, Ikinji jahan urşy ýagdaýyndan düýbünden ýüz öwürmek, mundan beýläk serialyň hereketi häzirki zaman dünýäsinde bolup geçýär.",
+        "download_url": "https://games.unite-gaming.com/Call_of_Duty_Black_Ops.rar"
+    },
+    {
+        "id": 2,
+        "title": "Call of Duty: Black Ops 2",
+        "category": "Action",
+        "price": 0,
+        "image": "https://unite-gaming.com.tm/wp-content/uploads/2023/09/witcher-1-2.png",
+        "description": "100 oýunçy bilen ýaryşýan iň meşhur Battle Royale oýny.",
+        "download_url": "https://games.unite-gaming.com/Call_of_Duty_Black_Ops_2.rar"
+    },
+    {
+        "id": 3,
+        "title": "Counter Strike 2",
+        "category": "Action, shooter",
+        "price": 0,
+        "image": "https://unite-gaming.com.tm/wp-content/uploads/2023/03/wallpaperflare.com_wallpaper-1305x640.jpg",
+        "description": "Tapgyryň öňki oýunlary ýaly, “Counter-Strike 2”, oýunçylar iki topara bölünip, biri-birine garşy göreşýän 3D oýunçy köp adamly atyjydyr.",
+        "download_url": "https://store.steampowered.com/app/730/CounterStrike_2/"
+    },
+    {
+        "id": 4,
+        "title": "Counter Strike – Source",
+        "category": "Action, shooter",
+        "price": 0,
+        "image": "https://unite-gaming.com.tm/wp-content/uploads/2023/03/rectangle-131-30.jpg",
+        "description": "СSS – “Valve” we “Turtle Rock Studios” tarapyndan işlenip düzülen köp adamly ilkinji wideo düşüriji wideo oýny; “Half-Life” oýny üçin 1999-njy ýyldaky üýtgeşme “Counter-Strike” -iň remiksi.",
+        "download_url": "https://games.unite-gaming.com/CS-Source.rar"
+    },
+    {
+        "id": 5,
+        "title": "Counter Strike – 1.6",
+        "category": "Action, Shooter",
+        "price": 0,
+        "image": "https://unite-gaming.com.tm/wp-content/uploads/2023/03/rectangle-131-28.jpg",
+        "description": "“Counter-Strike 1.6” ilkinji adam bäsleşýän topara esaslanýan atyjynyň iň meşhur we durnukly wersiýasy. Esasy ideologiýa iki toparyň, ýagny terrorçylara garşy terroristleriň garşylygydyr.",
+        "download_url": "https://games.unite-gaming.com/library0/CS_1_6.exe"
+    },
+    {
+        "id": 6,
+        "title": "Minecraft",
+        "category": "PVP/PVE, Survival, Sandbox",
+        "price": 0,
+        "image": "https://unite-gaming.com.tm/wp-content/uploads/2023/03/mincraftcover.jpg",
+        "description": "Minecraft – açyk dünýä elementleri bolan çägeli gutujykdan halas bolmak oýny. Stil boýunça oýun dünýäsi tutuşlygyna bloklardan durýar. Oýundaky oýun ýönekeý – oýunçylar jaýlary, galalary we tutuş şäherleri gurmak üçin serişdeleri çykarýarlar.",
+        "download_url": "http://games.unite-gaming.com/minecraft_installer.exe"
+    },
+    {
+        "id": 7,
+        "title": "Call of Duty 4: Modern Warfare",
+        "category": "Action, Shooter",
+        "price": 0,
+        "image": "https://unite-gaming.com.tm/wp-content/uploads/2023/03/rectangle-131-16.jpg",
+        "description": "Oýun Ikinji jahan urşunyň eýýäm tanyş söweş meýdançalaryndan häzirki zaman dünýäsine alyp barýar, bu ýerde adamzada abanýan esasy howp indi faşistler däl, eýsem ähli zolaklaryň terrorçylarydyr.",
+        "download_url": "https://games.unite-gaming.com/Call_of_Duty_4-Modern_Warfare.rar"
+    },
+    {
+        "id": 8,
+        "title": "Call of Duty: World At War",
+        "category": "Action, Shooter, Co-op",
+        "price": 0,
+        "image": "https://unite-gaming.com.tm/wp-content/uploads/2023/03/rectangle-131-15.jpg",
+        "description": "Call of Duty: World At War – köp mukdarda pirotexniki enjam bilen çyzykly ilkinji atyjy, oňa oýunçylara iki hekaýa kampaniýasy hödürlenýär – Amerika we Sowet Soýuzy.",
+        "download_url": "https://games.unite-gaming.com/Call_Of_Duty-World_At_War.rar"
+    },
+    {
+        "id": 9,
+        "title": "Call of Duty: Modern Warfare 2",
+        "category": "Shooter, Co-op",
+        "price": 0,
+        "image": "https://unite-gaming.com.tm/wp-content/uploads/2023/03/rectangle-131-14.jpg",
+        "description": "Oýun kapitan Jon Praýs, Ser Seržant Kaýl “Gaz” Garrik, seržant Jon “Soup” Maktawiş we leýtenant Simon “Ghost” Rilini öz içine alýan Task Force 141 döredilenden üç ýyl soň bolup geçýär.",
+        "download_url": "https://games.unite-gaming.com/COD_MW_2.rar"
+    },
+    {
+        "id": 10,
+        "title": "Call of Duty: Black Ops 6",
+        "category": "Action",
+        "price": 0,
+        "image": "https://unite-gaming.com.tm/wp-content/uploads/2025/08/tops-1440x595.jpg",
+        "description": "Köpden bäri garaşylýan partlaýjy ilkinji adam, her sekunt sizi oturgyjyňyzyň gyrasynda saklaýar. Dinamiki atyşyklar, içaly hyjuwynyň garaňky atmosferasy we uly göwrümli söweşler we realizmiň täze derejesi bilen kinematiki sýu plotet birleşýär. Sowuk urşuň, dönüklik we gizlin amallaryň garaňky dünýäsine duşarsyňyz, bu ýerde diňe özüňize ynanyp bilersiňiz.",
+        "download_url": "https://games.unite-gaming.com/library0/Call%20of%20Duty%20Black%20Ops%206.rar"
+    },
+    {
+        "id": 11,
+        "title": "Red Dead Redemption Remastered",
+        "category": "action-adventure",
+        "price": 0,
+        "image": "https://unite-gaming.com.tm/wp-content/uploads/2025/04/red-dead-redemption-remastered-1.jpg",
+        "description": "1911-nji ýylda hökümetde işlemäge mejbur bolan öňki garakçy Jon Marston ýaly oýnaýan Rokstar oýunlaryndan günbatar kultynyň täzelenen görnüşi. ABŞ-Meksika serhet ýakalaryny gözden geçiriň, kämilleşdirilen grafika (4K, HDR), gaýtadan işlenen yşyklandyryş we optimal öndürijilik bilen atyşyk, aw we topar söweşleri bilen meşgullanyň.",
+        "download_url": "https://games.unite-gaming.com/games2/Red-Dead-Redemption-Remastered-by-Igruha.7z"
+    },
+    {
+        "id": 12,
+        "title": "Assassin’s Creed IV",
+        "category": "Action",
+        "price": 0,
+        "image": "https://unite-gaming.com.tm/wp-content/uploads/2023/08/frame-5685-5-1354x640.png",
+        "description": "Black Flag, Assassin Creed-iň gaty gowy görýän zatlarynyň hemmesini kellesine öwürýär. Täze gahrymanymyz, Edward Kenweý atly garakçy öldürilen ganhoryň eşigini çykarýar we kömegi bilen Templar gubernatory bilen duşuşýar.",
+        "download_url": "https://games.unite-gaming.com/Assassins_Creed_4.rar"
+    },
+    {
+        "id": 13,
+        "title": "Marvel’s Spider-Man 2",
+        "category": "Action, Adventure, Open World",
+        "price": 0,
+        "image": "https://unite-gaming.com.tm/wp-content/uploads/2025/05/marvels-spider-man-2-1.webp",
+        "description": "Çalt depginde üçünji şahs oýun oýny, oýunçylar Piter Parker we Maýls Morales, Bruklin we Kwins ýaly giňeldilen Nýu-Cityork şäherini gözden geçirenlerinde gözegçilik edýärler. Oýun, hersiniň özboluşly ukyplary we ussat agaçlary bolan gahrymanlaryň arasynda derrew çalyşmagy hödürleýär.",
+        "download_url": "https://games.unite-gaming.com/games2/Marvels_Spider_Man_2.rar"
+    },
+    {
+        "id": 14,
+        "title": "Grand Theft Auto V",
+        "category": "action-adventure",
+        "price": 0,
+        "image": "https://unite-gaming.com.tm/wp-content/uploads/2025/04/grand-theft-auto-v-1536x960.jpg",
+        "description": "“Grand Theft Auto V”, üç sany baş gahrymanyň hekaýalarynyň biri-biri bilen baglanyşýan güneşli Los Santosa (Los An Angeleselesiň parodiýasy) alyp barýan açyk dünýä hereketidir, öňki talaňçy Maýkl, köçäniň garakçysy Franklin we psihopat Trevor",
+        "download_url": "https://games.unite-gaming.com/games2/Grand-Theft-Auto-V-by-Igruha.7z"
+    }
+
+]

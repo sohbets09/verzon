@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verzon - Oýun Dükan</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">VERZON</div>
+        <nav>
+            <a href="index.html" class="active">Dükan</a>
+            <a href="library.html">Kitaphana</a>
+            <a href="profile.html">Profil</a>
+            <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
+            <a href="login.html" id="authBtn">Giriş</a>
+        </nav>
+        <div class="user-info">
+            <span id="usernameDisplay">👤 Myhman</span>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="hero-content">
+            <h1><span>Indiki Nesil</span> Oýun Dünýäsi</h1>
+            <p>Iň täze oýunlary tapyň, olary kitaphananyza goşuň we oýnanyň!</p>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Oýunlary gözleň..." onkeyup="searchGames()">
+                <button onclick="searchGames()">🔍 Gözle</button>
+            </div>
+        </div>
+    </div>
+
+   <!-- <div class="sponsors-section">
+        <h4>🌟 Işbirçilerimiz</h4>
+        <div class="sponsors-grid">
+            <a href="https://sohbets.com" target="_blank" class="sponsor-item">
+                <img src="https://via.placeholder.com/100x40/00d4ff/000000?text=Sohbets" alt="Sohbets">
+                <span>Sohbets Production</span>
+            </a>
+            <a href="https://gamezone.tm" target="_blank" class="sponsor-item">
+                <img src="https://via.placeholder.com/100x40/ff2d75/ffffff?text=GameZone" alt="GameZone">
+                <span>GameZone</span>
+            </a>
+            <a href="https://cybershop.tm" target="_blank" class="sponsor-item">
+                <img src="https://via.placeholder.com/100x40/7c3aed/ffffff?text=CyberShop" alt="CyberShop">
+                <span>CyberShop</span>
+            </a>
+            <a href="https://techhub.tm" target="_blank" class="sponsor-item">
+                <img src="https://via.placeholder.com/100x40/f59e0b/000000?text=TechHub" alt="TechHub">
+                <span>TechHub</span>
+            </a>
+        </div>
+    </div> -->
+
+    <div class="container">
+        <div class="section-header">
+            <h2>🎮 <span class="accent">Katalog</span></h2>
+        </div>
+
+        <div id="searchResults" style="display: none;">
+            <h3 class="section-subtitle">🔍 Gözleg Netijeleri</h3>
+            <div class="game-grid" id="searchGrid"></div>
+        </div>
+
+        <div class="game-section" id="freeSection">
+            <h3 class="section-subtitle">🎁 Mugt Oýunlar</h3>
+            <div class="game-grid" id="freeGamesGrid"></div>
+        </div>
+
+        <div class="game-section" id="paidSection">
+            <h3 class="section-subtitle">🪙 Pullu Oýunlar</h3>
+            <div class="game-grid" id="paidGamesGrid"></div>
+        </div>
+    </div>
+
+   <!-- <div class="sidebar-sponsors">
+        <h5>🤝 Sponsorlar</h5>
+        <a href="https://gamingworld.tm" target="_blank" class="sidebar-sponsor">
+            <img src="https://via.placeholder.com/60/22d3a7/000000?text=GW" alt="GamingWorld">
+            <div>
+                <div class="name">GamingWorld</div>
+                <div class="desc">Oýun dünýäsi</div>
+            </div>
+        </a>
+        <a href="https://esports.tm" target="_blank" class="sidebar-sponsor">
+            <img src="https://via.placeholder.com/60/ff2d75/ffffff?text=ES" alt="Esports">
+            <div>
+                <div class="name">Esports TM</div>
+                <div class="desc">Sport oýunlar</div>
+            </div>
+        </a>
+    </div> -->
+
+    <script>
+        // ============================================
+        //  OÝUNLARY DIŇE JSON-DAN ÝÜKLE
+        // ============================================
+        let allGames = [];
+
+        async function loadGames() {
+            try {
+                const response = await fetch('data/games.json');
+                allGames = await response.json();
+                displayGames(allGames);
+            } catch (error) {
+                console.error('Oýunlar ýüklenmedi:', error);
+                // ÝÜKLEMESE, BOŞ GÖRKEZ!
+                allGames = [];
+                displayGames(allGames);
+            }
+        }
+
+        // ============================================
+        //  ULANYJY DOLANDYRYŞ
+        // ============================================
+
+        function checkUser() {
+            const username = localStorage.getItem('username');
+            const display = document.getElementById('usernameDisplay');
+            const authBtn = document.getElementById('authBtn');
+            const adminLink = document.getElementById('adminLink');
+            
+            if (username) {
+                if (display) display.textContent = '👤 ' + username;
+                if (authBtn) {
+                    authBtn.textContent = 'Çykmak';
+                    authBtn.onclick = function(e) {
+                        e.preventDefault();
+                        localStorage.removeItem('username');
+                        localStorage.removeItem('userId');
+                        localStorage.removeItem('zoncoin');
+                        window.location.href = 'index.html';
+                    };
+                }
+                if (adminLink && username === 'admin') {
+                    adminLink.style.display = 'inline';
+                }
+            } else {
+                if (display) display.textContent = '👤 Myhman';
+                if (authBtn) {
+                    authBtn.textContent = 'Giriş';
+                    authBtn.href = 'login.html';
+                }
+                if (adminLink) adminLink.style.display = 'none';
+            }
+        }
+
+        // ============================================
+        //  GÖZLEG
+        // ============================================
+
+        function searchGames() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const searchResults = document.getElementById('searchResults');
+            const searchGrid = document.getElementById('searchGrid');
+            const freeSection = document.getElementById('freeSection');
+            const paidSection = document.getElementById('paidSection');
+            
+            if (!query) {
+                searchResults.style.display = 'none';
+                freeSection.style.display = 'block';
+                paidSection.style.display = 'block';
+                displayGames(allGames);
+                return;
+            }
+            
+            const filtered = allGames.filter(g => 
+                g.title.toLowerCase().includes(query) || 
+                g.category.toLowerCase().includes(query)
+            );
+            
+            searchResults.style.display = 'block';
+            freeSection.style.display = 'none';
+            paidSection.style.display = 'none';
+            
+            if (filtered.length > 0) {
+                searchGrid.innerHTML = renderGameCards(filtered);
+            } else {
+                searchGrid.innerHTML = `
+                    <div class="no-results" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                        <div class="icon" style="font-size: 48px;">🔍</div>
+                        <h3>Oýun tapylmady</h3>
+                        <p style="color: #94a9c9;">"${query}" gözlegi üçin hiç zat tapylmady</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================
+        //  OÝUNLARY GÖRKEZ
+        // ============================================
+
+        function displayGames(games) {
+            const freeGames = games.filter(g => g.price === 0);
+            const freeGrid = document.getElementById('freeGamesGrid');
+            if (freeGrid) {
+                freeGrid.innerHTML = freeGames.length > 0 ? renderGameCards(freeGames) : 
+                    '<div class="no-results" style="grid-column: 1 / -1; text-align: center; padding: 30px;"><div class="icon">🎁</div><h3>Mugt oýun ýok</h3></div>';
+            }
+            
+            const paidGames = games.filter(g => g.price > 0);
+            const paidGrid = document.getElementById('paidGamesGrid');
+            if (paidGrid) {
+                paidGrid.innerHTML = paidGames.length > 0 ? renderGameCards(paidGames) : 
+                    '<div class="no-results" style="grid-column: 1 / -1; text-align: center; padding: 30px;"><div class="icon">🪙</div><h3>Pullu oýun ýok</h3></div>';
+            }
+        }
+
+        function renderGameCards(games) {
+            return games.map(game => `
+                <a href="game.html?id=${game.id}" class="game-card">
+                    <div class="game-img" style="background-image: url('${game.image || 'https://picsum.photos/300/200'}');">
+                        <span class="badge ${game.price === 0 ? 'badge-free' : 'badge-paid'}">
+                            ${game.price === 0 ? '🎁 Mugt' : '🪙 ' + game.price + ' ZC'}
+                        </span>
+                    </div>
+                    <div class="info">
+                        <h3>${game.title}</h3>
+                        <div class="category">${game.category}</div>
+                        <div class="price ${game.price === 0 ? 'free' : ''}">
+                            ${game.price === 0 ? 'Mugt' : game.price + ' ZC'}
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // ============================================
+        //  SAHYPA ÝÜKLENDE
+        // ============================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUser();
+            loadGames();
+        });
+    </script>
+</body>
+</html>

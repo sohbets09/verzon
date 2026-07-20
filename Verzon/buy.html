@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZonCoin Satyn Al - Verzon</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">VERZON</div>
+        <nav>
+            <a href="index.html">Dükan</a>
+            <a href="library.html">Kitaphana</a>
+            <a href="profile.html">Profil</a>
+            <a href="login.html" id="authBtn">Giriş</a>
+        </nav>
+        <div class="user-info">
+            <span id="usernameDisplay">👤 Myhman</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="form-container" style="max-width: 500px;">
+            <h2 style="text-align: center; color: #f59e0b;">🪙 ZonCoin Satyn Al</h2>
+            
+            <div style="text-align: center; padding: 20px; background: rgba(245,158,11,0.06); border-radius: 10px; margin: 16px 0;">
+                <p style="color: #94a9c9;">Siziň balansyňyz</p>
+                <p style="font-size: 32px; font-weight: 800; color: #f59e0b;" id="buyUserCoins">0 ZC</p>
+            </div>
+            
+            <div style="text-align: center; margin: 16px 0;">
+                <p style="color: #94a9c9;">Satyn almak isleýän oýnuňyz</p>
+                <h3 id="buyGameTitle" style="color: #00d4ff;"></h3>
+                <p style="font-size: 24px; font-weight: 700; color: #ff2d75;" id="buyGamePrice"></p>
+            </div>
+            
+            <div style="background: #0a1220; border-radius: 10px; padding: 20px; margin: 16px 0;">
+                <h4 style="color: #94a9c9; margin-bottom: 12px;">📞 ZonCoin satyn almak üçin:</h4>
+                <div style="background: #162133; padding: 12px; border-radius: 8px; text-align: center; border: 1px solid #1e3350;">
+                    <p style="color: #94a9c9; font-size: 13px;">Telefon belgisi</p>
+                    <p style="font-size: 24px; font-weight: 700; color: #00d4ff; letter-spacing: 2px;">+993 6X XXX XX XX</p>
+                </div>
+                <div style="margin-top: 12px; padding: 12px; background: rgba(34,211,167,0.06); border-radius: 8px; border-left: 3px solid #22d3a7;">
+                    <p style="color: #94a9c9; font-size: 13px;">🔒 Bu belgi howpsuz we resmi. Töleg geçireniňizde ZonCoin-iňiz awtomatik goşulýar.</p>
+                </div>
+                <div style="margin-top: 12px; padding: 12px; background: rgba(245,158,11,0.06); border-radius: 8px;">
+                    <p style="color: #94a9c9; font-size: 12px;">💡 10 ZonCoin = 5 TMT, 20 ZC = 10 TMT, 50 ZC = 25 TMT</p>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 16px;">
+                <button onclick="window.location.href='game.html?id=' + document.getElementById('buyGameId').value" class="btn btn-primary" style="flex: 1;">← Yza</button>
+                <button onclick="window.location.href='index.html'" class="btn btn-outline" style="flex: 1;">Dükana git</button>
+            </div>
+            <input type="hidden" id="buyGameId">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

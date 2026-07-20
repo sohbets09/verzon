@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasap Aç - Verzon</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">VERZON</div>
+        <nav>
+            <a href="index.html">Dükan</a>
+            <a href="login.html">Giriş</a>
+            <a href="register.html" class="active">Hasap Aç</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="form-container">
+            <h2>🚀 Täze Hasap</h2>
+            <form id="registerForm">
+                <input type="text" id="username" placeholder="Täze ulanyjy ady" required>
+                <input type="password" id="password" placeholder="Açar söz" required>
+                <input type="password" id="confirmPassword" placeholder="Açar sözi tassykla" required>
+                <button type="submit">Hasap Aç</button>
+            </form>
+            <p>Eýýäm hasabyňyz barmy? <a href="login.html">Giriş ediň</a></p>
+            <p><a href="index.html">← Dükana dolan</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const confirm = document.getElementById('confirmPassword').value.trim();
+            
+            if (password !== confirm) {
+                alert('Açar sözler gabat gelmeýär!');
+                return;
+            }
+            
+            if (username.length < 3) {
+                alert('Ulanyjy ady 3 harpdan uzyn bolmaly!');
+                return;
+            }
+            
+            let users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            if (users.find(u => u.username === username)) {
+                alert('Bu ulanyjy ady eýýäm bar!');
+                return;
+            }
+            
+            const newUser = {
+                id: users.length + 1,
+                username: username,
+                password: password,
+                zoncoin: 0
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            alert('✅ Hasap döredildi! Indi giriň.');
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

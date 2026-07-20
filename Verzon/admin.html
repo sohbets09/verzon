@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - ZonCoin Dolandyryş</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-panel {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        
+        .admin-panel h2 {
+            color: var(--accent-cyan);
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 24px;
+        }
+        
+        .admin-panel h2.pink {
+            color: var(--accent-pink);
+        }
+        
+        .user-list {
+            max-height: 250px;
+            overflow-y: auto;
+            background: var(--bg-input);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+        
+        .user-item:last-child {
+            border-bottom: none;
+        }
+        
+        .user-item:hover {
+            background: rgba(0, 212, 255, 0.03);
+        }
+        
+        .user-item .username {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .user-item .coins {
+            color: var(--accent-orange);
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .admin-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .admin-form .row {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .admin-form .row input {
+            flex: 1;
+        }
+        
+        .admin-form input {
+            padding: 10px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .admin-form input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.04);
+        }
+        
+        .admin-form button {
+            padding: 12px;
+            background: linear-gradient(135deg, var(--accent-orange), #b45309);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .admin-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.25);
+        }
+        
+        .admin-form button.pink-btn {
+            background: linear-gradient(135deg, var(--accent-pink), #b3004d);
+            color: white;
+        }
+        
+        .admin-form button.pink-btn:hover {
+            box-shadow: 0 8px 25px rgba(255, 45, 117, 0.25);
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .quick-actions .btn {
+            flex: 1;
+            min-width: 80px;
+        }
+        
+        .empty-users {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+        }
+        
+        .empty-users .icon {
+            font-size: 40px;
+            margin-bottom: 8px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-box {
+            background: var(--bg-input);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        
+        .stat-box .label {
+            color: var(--text-muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .stat-box .value {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent-cyan);
+            margin-top: 2px;
+        }
+        
+        .stat-box .value.orange {
+            color: var(--accent-orange);
+        }
+        
+        .stat-box .value.green {
+            color: var(--accent-green);
+        }
+
+        .access-denied {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .access-denied .icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .access-denied h2 {
+            color: #ef4444;
+            margin-bottom: 8px;
+        }
+
+        .access-denied p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">VERZON</div>
+        <nav>
+            <a href="index.html">Dükan</a>
+            <a href="library.html">Kitaphana</a>
+            <a href="profile.html">Profil</a>
+            <a href="admin.html" class="active">Admin</a>
+            <a href="login.html" id="authBtn">Çykmak</a>
+        </nav>
+        <div class="user-info">
+            <span id="usernameDisplay">👤 Myhman</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Admin bölümi -->
+        <div id="adminContent">
+            <!-- ZonCoin Dolandyryş -->
+            <div class="admin-panel">
+                <h2>🪙 ZonCoin Dolandyryş</h2>
+                
+                <div class="stats" id="stats">
+                    <div class="stat-box">
+                        <div class="label">Ulanyjylar</div>
+                        <div class="value" id="totalUsers">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="label">Jemi ZonCoin</div>
+                        <div class="value orange" id="totalCoins">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="label">Iň köp ZC</div>
+                        <div class="value green" id="maxCoins">0</div>
+                    </div>
+                </div>
+                
+                <div class="user-list" id="userList">
+                    <div class="empty-users">
+                        <div class="icon">📭</div>
+                        <p>Hiç ulanyjy ýok</p>
+                    </div>
+                </div>
+                
+                <form class="admin-form" id="zoncoinForm">
+                    <div class="row">
+                        <input type="text" id="usernameInput" placeholder="Ulanyjy ady" required>
+                        <input type="number" id="amountInput" placeholder="ZonCoin" required min="1">
+                    </div>
+                    <button type="submit">🪙 ZonCoin Goş</button>
+                </form>
+                
+                <div class="quick-actions">
+                    <button onclick="addCoinsToAll(50)" class="btn btn-outline">⚡ Ählisine 50 ZC</button>
+                    <button onclick="resetAllCoins()" class="btn btn-danger">🔄 Hemmesini 0</button>
+                    <button onclick="location.reload()" class="btn btn-outline">🔄 Täzele</button>
+                </div>
+            </div>
+
+            <!-- ========== PAROL ÜÝTGETMEK ========== -->
+            <div class="admin-panel">
+                <h2 class="pink">🔑 Admin Parolyny Üýtget</h2>
+                
+                <form id="passwordForm" class="admin-form">
+                    <input type="password" id="oldPassword" placeholder="Häzirki parol" required>
+                    <input type="password" id="newPassword" placeholder="Täze parol (4+ harp)" required>
+                    <input type="password" id="confirmPassword" placeholder="Täze parol tassykla" required>
+                    <button type="submit" class="pink-btn">🔑 Parol Üýtget</button>
+                </form>
+            </div>
+
+            <div style="text-align: center; margin-top: 10px;">
+                <a href="index.html" class="btn btn-outline">← Dükana dolan</a>
+            </div>
+        </div>
+
+        <!-- Giriş beslenen bölüm -->
+        <div id="accessDenied" style="display: none;">
+            <div class="access-denied">
+                <div class="icon">🚫</div>
+                <h2>Giriş beslenýär!</h2>
+                <p>Bu sahypa diňe administrator üçin.</p>
+                <a href="index.html" class="btn btn-primary">← Dükana dolan</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== ULANYJY DOLANDYRYŞ ==========
+        function checkUser() {
+            const username = localStorage.getItem('username');
+            const display = document.getElementById('usernameDisplay');
+            const authBtn = document.getElementById('authBtn');
+            
+            if (username) {
+                if (display) display.textContent = '👤 ' + username;
+                if (authBtn) {
+                    authBtn.textContent = 'Çykmak';
+                    authBtn.onclick = function(e) {
+                        e.preventDefault();
+                        localStorage.removeItem('username');
+                        localStorage.removeItem('userId');
+                        localStorage.removeItem('zoncoin');
+                        window.location.href = 'index.html';
+                    };
+                }
+                
+                if (username === 'admin') {
+                    document.getElementById('adminContent').style.display = 'block';
+                    document.getElementById('accessDenied').style.display = 'none';
+                    loadUsers();
+                } else {
+                    document.getElementById('adminContent').style.display = 'none';
+                    document.getElementById('accessDenied').style.display = 'block';
+                }
+            } else {
+                window.location.href = 'login.html';
+            }
+        }
+
+        // ========== ULANYJYLAR ==========
+        function getUsers() {
+            return JSON.parse(localStorage.getItem('users') || '[]');
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        function loadUsers() {
+            const users = getUsers();
+            const list = document.getElementById('userList');
+            
+            if (users.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-users">
+                        <div class="icon">📭</div>
+                        <p>Hiç ulanyjy ýok</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            users.sort((a, b) => (b.zoncoin || 0) - (a.zoncoin || 0));
+            
+            list.innerHTML = users.map(u => `
+                <div class="user-item">
+                    <span class="username">👤 ${u.username}</span>
+                    <div>
+                        <span class="coins">🪙 ${u.zoncoin || 0} ZC</span>
+                        <button onclick="removeUser('${u.username}')" style="background: none; border: none; color: #ef4444; cursor: pointer; margin-left: 8px; font-size: 14px;">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            updateStats(users);
+        }
+
+        function updateStats(users) {
+            const total = users.length;
+            const totalCoins = users.reduce((sum, u) => sum + (u.zoncoin || 0), 0);
+            const maxCoins = users.length > 0 ? Math.max(...users.map(u => u.zoncoin || 0)) : 0;
+            
+            document.getElementById('totalUsers').textContent = total;
+            document.getElementById('totalCoins').textContent = totalCoins;
+            document.getElementById('maxCoins').textContent = maxCoins;
+        }
+
+        // ========== ZONCOIN ==========
+        function addZoncoin(username, amount) {
+            let users = getUsers();
+            const userIndex = users.findIndex(u => u.username === username);
+            
+            if (userIndex === -1) {
+                alert(`❌ "${username}" ulanyjysy tapylmady!`);
+                return false;
+            }
+            
+            users[userIndex].zoncoin = (users[userIndex].zoncoin || 0) + amount;
+            saveUsers(users);
+            
+            const currentUser = localStorage.getItem('username');
+            if (currentUser === username) {
+                localStorage.setItem('zoncoin', users[userIndex].zoncoin);
+            }
+            
+            return true;
+        }
+
+        document.getElementById('zoncoinForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('usernameInput').value.trim();
+            const amount = parseInt(document.getElementById('amountInput').value);
+            
+            if (!username || !amount || amount < 1) {
+                alert('Dogry maglumat giriziň!');
+                return;
+            }
+            
+            if (addZoncoin(username, amount)) {
+                const users = getUsers();
+                const user = users.find(u => u.username === username);
+                alert(`✅ ${username} ulanyjysyna ${amount} ZonCoin goşuldy!\n🪙 Täze balans: ${user.zoncoin} ZC`);
+                document.getElementById('usernameInput').value = '';
+                document.getElementById('amountInput').value = '';
+                loadUsers();
+            }
+        });
+
+        function addCoinsToAll(amount) {
+            if (!confirm(`Ähli ulanyjylara ${amount} ZonCoin goşmak isleýärsiňizmi?`)) return;
+            
+            let users = getUsers();
+            users = users.map(u => ({
+                ...u,
+                zoncoin: (u.zoncoin || 0) + amount
+            }));
+            saveUsers(users);
+            
+            const currentUser = localStorage.getItem('username');
+            if (currentUser) {
+                const user = users.find(u => u.username === currentUser);
+                if (user) localStorage.setItem('zoncoin', user.zoncoin);
+            }
+            
+            alert(`✅ Ähli ulanyjylara ${amount} ZonCoin goşuldy!`);
+            loadUsers();
+        }
+
+        function resetAllCoins() {
+            if (!confirm('Ähli ulanyjylaryň ZonCoin-i 0 etmek isleýärsiňizmi?')) return;
+            
+            let users = getUsers();
+            users = users.map(u => ({
+                ...u,
+                zoncoin: 0
+            }));
+            saveUsers(users);
+            
+            const currentUser = localStorage.getItem('username');
+            if (currentUser) localStorage.setItem('zoncoin', '0');
+            
+            alert('✅ Ähli ZonCoin-ler 0 edildi!');
+            loadUsers();
+        }
+
+        function removeUser(username) {
+            if (!confirm(`"${username}" ulanyjysyny pozmak isleýärsiňizmi?`)) return;
+            
+            let users = getUsers();
+            users = users.filter(u => u.username !== username);
+            saveUsers(users);
+            
+            const currentUser = localStorage.getItem('username');
+            if (currentUser === username) {
+                localStorage.removeItem('username');
+                localStorage.removeItem('userId');
+                localStorage.removeItem('zoncoin');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            alert(`✅ "${username}" ulanyjysy pozuldy!`);
+            loadUsers();
+        }
+
+        // ========== PAROL ÜÝTGETMEK ==========
+        document.getElementById('passwordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const oldPassword = document.getElementById('oldPassword').value.trim();
+            const newPassword = document.getElementById('newPassword').value.trim();
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+            
+            if (newPassword.length < 4) {
+                alert('❌ Täze parol 4 harpdan uzyn bolmaly!');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                alert('❌ Parollar gabat gelmeýär!');
+                return;
+            }
+            
+            let users = getUsers();
+            const adminIndex = users.findIndex(u => u.username === 'admin');
+            
+            if (adminIndex === -1) {
+                alert('❌ Admin ulanyjysy tapylmady!');
+                return;
+            }
+            
+            if (users[adminIndex].password !== oldPassword) {
+                alert('❌ Häzirki parol ýalňyş!');
+                return;
+            }
+            
+            users[adminIndex].password = newPassword;
+            saveUsers(users);
+            
+            alert(`✅ Admin paroly üýtgedildi!\n🔑 Täze parol: ${newPassword}`);
+            
+            document.getElementById('oldPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        });
+
+        // ========== SAHYPA ÝÜKLENDE ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUser();
+        });
+    </script>
+</body>
+</html>

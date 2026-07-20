@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş - Verzon</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">VERZON</div>
+        <nav>
+            <a href="index.html">Dükan</a>
+            <a href="login.html" class="active">Giriş</a>
+            <a href="register.html">Hasap Aç</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="form-container">
+            <h2>🔐 Giriş</h2>
+            <form id="loginForm">
+                <input type="text" id="username" placeholder="Ulanyjy ady" required>
+                <input type="password" id="password" placeholder="Açar söz" required>
+                <button type="submit">Giriş Et</button>
+            </form>
+            <p>Hasabyňyz ýokmy? <a href="register.html">Hasap Aç</a></p>
+            <p><a href="index.html">← Dükana dolan</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            let users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Eger users boş bolsa, başlangyç döret
+            if (users.length === 0) {
+                users = [
+                    { id: 1, username: 'admin', password: 'admin123', zoncoin: 9999 },
+                    { id: 2, username: 'test', password: 'test123', zoncoin: 100 }
+                ];
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                localStorage.setItem('username', username);
+                localStorage.setItem('userId', user.id);
+                localStorage.setItem('zoncoin', user.zoncoin);
+                alert('Hos geldiňiz, ' + username + '! 👋');
+                window.location.href = 'index.html';
+            } else {
+                alert('Ýalňyş ulanyjy ady ýa-da açar söz!');
+            }
+        });
+    </script>
+</body>
+</html>

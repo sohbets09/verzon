@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="gameTitle">Oýun - Verzon</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">VERZON</div>
+        <nav>
+            <a href="index.html">Dükan</a>
+            <a href="library.html">Kitaphana</a>
+            <a href="profile.html">Profil</a>
+            <a href="login.html" id="authBtn">Giriş</a>
+        </nav>
+        <div class="user-info">
+            <span id="usernameDisplay">👤 Myhman</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="game-detail" id="gameDetail">
+            <img id="gameImage" src="" alt="Oýun">
+            <h1 class="title" id="gameTitleDisplay"></h1>
+            <p class="category" id="gameCategory"></p>
+            <p class="description" id="gameDescription"></p>
+            <div class="price" id="gamePrice"></div>
+            
+            <div id="coinInfo"></div>
+            
+            <div class="actions" id="gameActions"></div>
+            <input type="hidden" id="gameId">
+            
+            <div style="margin-top: 16px; text-align: center;">
+                <a href="index.html" class="btn btn-outline">← Dükana dolan</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        //  OÝUNLARY DIŇE JSON-DAN ÝÜKLE
+        // ============================================
+        let allGames = [];
+
+        async function loadGames() {
+            try {
+                const response = await fetch('data/games.json');
+                allGames = await response.json();
+                return allGames;
+            } catch (error) {
+                console.error('Oýunlar ýüklenmedi:', error);
+                allGames = [];
+                return allGames;
+            }
+        }
+
+        // ============================================
+        //  ULANYJY DOLANDYRYŞ
+        // ============================================
+
+        function checkUser() {
+            const username = localStorage.getItem('username');
+            const display = document.getElementById('usernameDisplay');
+            const authBtn = document.getElementById('authBtn');
+            
+            if (username) {
+                if (display) display.textContent = '👤 ' + username;
+                if (authBtn) {
+                    authBtn.textContent = 'Çykmak';
+                    authBtn.onclick = function(e) {
+                        e.preventDefault();
+                        localStorage.removeItem('username');
+                        localStorage.removeItem('userId');
+                        localStorage.removeItem('zoncoin');
+                        window.location.href = 'index.html';
+                    };
+                }
+            } else {
+                if (display) display.textContent = '👤 Myhman';
+                if (authBtn) {
+                    authBtn.textContent = 'Giriş';
+                    authBtn.href = 'login.html';
+                }
+            }
+        }
+
+        function getUsers() {
+            let users = JSON.parse(localStorage.getItem('users') || '[]');
+            if (users.length === 0) {
+                users = [
+                    { id: 1, username: 'admin', password: 'admin123', zoncoin: 9999 },
+                    { id: 2, username: 'test', password: 'test123', zoncoin: 100 }
+                ];
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            return users;
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        function showFlash(message, type = 'info') {
+            const existing = document.querySelector('.flash');
+            if (existing) existing.remove();
+            
+            const flash = document.createElement('div');
+            flash.className = 'flash ' + type;
+            flash.textContent = message;
+            
+            const container = document.querySelector('.container');
+            if (container) {
+                container.insertBefore(flash, container.firstChild);
+            }
+            
+            setTimeout(() => flash.remove(), 4000);
+        }
+
+        // ============================================
+        //  OÝUN DETALY
+        // ============================================
+
+        async function displayGame(gameId) {
+            if (allGames.length === 0) {
+                await loadGames();
+            }
+            
+            const game = allGames.find(g => g.id === gameId);
+            
+            if (!game) {
+                document.getElementById('gameTitleDisplay').textContent = 'Oýun tapylmady!';
+                document.getElementById('gameImage').src = 'https://picsum.photos/600/350';
+                document.getElementById('gameDescription').textContent = 'Bu oýun tapylmady ýa-da pozuldy.';
+                document.getElementById('gamePrice').textContent = '❌';
+                return;
+            }
+            
+            document.getElementById('gameTitleDisplay').textContent = game.title;
+            document.getElementById('gameImage').src = game.image || 'https://picsum.photos/600/350';
+            document.getElementById('gameImage').alt = game.title;
+            document.getElementById('gameCategory').textContent = '🏷️ ' + game.category;
+            document.getElementById('gameDescription').textContent = game.description || 'Oýun hakda maglumat ýok.';
+            document.getElementById('gameId').value = game.id;
+            document.title = game.title + ' - Verzon';
+            
+            const priceEl = document.getElementById('gamePrice');
+            if (game.price === 0) {
+                priceEl.textContent = '🎁 Mugt';
+                priceEl.className = 'price free';
+            } else {
+                priceEl.textContent = '🪙 ' + game.price + ' ZC';
+                priceEl.className = 'price paid';
+            }
+            
+            const userId = localStorage.getItem('userId');
+            let inLibrary = false;
+            let userCoins = 0;
+            
+            if (userId) {
+                const library = JSON.parse(localStorage.getItem('library_' + userId) || '[]');
+                inLibrary = library.find(g => g.id === game.id);
+                const users = getUsers();
+                const user = users.find(u => u.id == userId);
+                userCoins = user ? user.zoncoin : 0;
+            }
+            
+            const actionsDiv = document.getElementById('gameActions');
+            
+            if (inLibrary) {
+                actionsDiv.innerHTML = `
+                    <a href="${game.download_url || '#'}" target="_blank" class="btn btn-green">▶ Oýna / Ýükle</a>
+                    <button onclick="removeFromLibrary(${game.id})" class="btn btn-danger">Kitaphanadan aýyr</button>
+                    <a href="index.html" class="btn btn-outline">← Yza</a>
+                `;
+            } else if (game.price === 0) {
+                actionsDiv.innerHTML = `
+                    <button onclick="addToLibrary(${game.id})" class="btn btn-primary">🎮 Kitaphana goş</button>
+                    <a href="${game.download_url || '#'}" target="_blank" class="btn btn-outline">🌐 Resmi sahypa</a>
+                    <a href="index.html" class="btn btn-outline">← Yza</a>
+                `;
+            } else {
+                const enough = userCoins >= game.price;
+                actionsDiv.innerHTML = `
+                    <button onclick="buyGame(${game.id})" class="btn ${enough ? 'btn-primary' : 'btn-warning'}">
+                        ${enough ? '🪙 Satyn al (' + game.price + ' ZC)' : '⚠️ ZonCoin ýok'}
+                    </button>
+                    <a href="buy.html?game=${game.id}" class="btn btn-outline">🪙 ZonCoin satyn al</a>
+                    <a href="${game.download_url || '#'}" target="_blank" class="btn btn-outline">🌐 Resmi sahypa</a>
+                    <a href="index.html" class="btn btn-outline">← Yza</a>
+                `;
+                
+                const coinInfo = document.getElementById('coinInfo');
+                coinInfo.innerHTML = `
+                    <div class="coin-info">
+                        <span class="label">🪙 Siziň balans:</span>
+                        <span class="amount">${userCoins} ZC</span>
+                        ${!enough ? `<span class="insufficient">(${game.price - userCoins} ZC ýeterlik däl!)</span>` : ''}
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================
+        //  KITAPHANA
+        // ============================================
+
+        function addToLibrary(gameId) {
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                showFlash('Iň öň giriň!', 'warning');
+                setTimeout(() => window.location.href = 'login.html', 1000);
+                return;
+            }
+            
+            const game = allGames.find(g => g.id == gameId);
+            if (!game) {
+                showFlash('Oýun tapylmady!', 'error');
+                return;
+            }
+            
+            if (game.price > 0) {
+                const users = getUsers();
+                const user = users.find(u => u.id == userId);
+                
+                if (!user) {
+                    showFlash('Ulanyjy tapylmady!', 'error');
+                    return;
+                }
+                
+                if (user.zoncoin < game.price) {
+                    showFlash(`ZonCoin ýeterlik däl! ${game.price} ZC gerek. Balans: ${user.zoncoin} ZC`, 'warning');
+                    setTimeout(() => {
+                        window.location.href = `buy.html?game=${gameId}`;
+                    }, 1500);
+                    return;
+                }
+                
+                user.zoncoin = user.zoncoin - game.price;
+                saveUsers(users);
+                localStorage.setItem('zoncoin', user.zoncoin);
+                showFlash(`💸 ${game.price} ZonCoin çykaryldy!`, 'info');
+            }
+            
+            let library = JSON.parse(localStorage.getItem('library_' + userId) || '[]');
+            
+            if (library.find(g => g.id == gameId)) {
+                showFlash('Bu oýun eýýäm kitaphanaňyzda bar!', 'info');
+                return;
+            }
+            
+            library.push(game);
+            localStorage.setItem('library_' + userId, JSON.stringify(library));
+            showFlash('Oýun kitaphana goşuldy! ✅', 'success');
+            
+            setTimeout(() => window.location.reload(), 1000);
+        }
+
+        function removeFromLibrary(gameId) {
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                showFlash('Iň öň giriň!', 'warning');
+                return;
+            }
+            
+            let library = JSON.parse(localStorage.getItem('library_' + userId) || '[]');
+            library = library.filter(g => g.id != gameId);
+            localStorage.setItem('library_' + userId, JSON.stringify(library));
+            showFlash('Oýun kitaphanadan aýryldy ❌', 'info');
+            setTimeout(() => window.location.reload(), 500);
+        }
+
+        function buyGame(gameId) {
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                showFlash('Iň öň giriň!', 'warning');
+                setTimeout(() => window.location.href = 'login.html', 1000);
+                return;
+            }
+            
+            const game = allGames.find(g => g.id == gameId);
+            if (!game) {
+                showFlash('Oýun tapylmady!', 'error');
+                return;
+            }
+            
+            if (game.price === 0) {
+                addToLibrary(gameId);
+                return;
+            }
+            
+            const users = getUsers();
+            const user = users.find(u => u.id == userId);
+            
+            if (!user) {
+                showFlash('Ulanyjy tapylmady!', 'error');
+                return;
+            }
+            
+            if (user.zoncoin < game.price) {
+                window.location.href = `buy.html?game=${gameId}`;
+                return;
+            }
+            
+            user.zoncoin = user.zoncoin - game.price;
+            saveUsers(users);
+            localStorage.setItem('zoncoin', user.zoncoin);
+            
+            let library = JSON.parse(localStorage.getItem('library_' + userId) || '[]');
+            if (!library.find(g => g.id == gameId)) {
+                library.push(game);
+                localStorage.setItem('library_' + userId, JSON.stringify(library));
+            }
+            
+            showFlash(`✅ "${game.title}" satyn aldyňyz! ${game.price} ZC çykaryldy.`, 'success');
+            setTimeout(() => window.location.reload(), 1000);
+        }
+
+        // ============================================
+        //  SAHYPA ÝÜKLENDE
+        // ============================================
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            checkUser();
+            await loadGames();
+            
+            const params = new URLSearchParams(window.location.search);
+            const gameId = parseInt(params.get('id'));
+            
+            if (gameId) {
+                displayGame(gameId);
+            } else {
+                document.getElementById('gameTitleDisplay').textContent = 'Oýun saýlanmady!';
+                document.getElementById('gameImage').src = 'https://picsum.photos/600/350';
+                document.getElementById('gameDescription').textContent = 'Oýun görkezmek üçin ID gerek.';
+                document.getElementById('gamePrice').textContent = '❌';
+            }
+        });
+    </script>
+</body>
+</html>

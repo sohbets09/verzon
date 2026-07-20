@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "username": "admin",
+        "password": "admin123",
+        "zoncoin": 9999
+    },
+    {
+        "id": 2,
+        "username": "test",
+        "password": "test123",
+        "zoncoin": 100
+    }
+]

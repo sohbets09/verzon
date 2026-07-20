@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil - Verzon</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">VERZON</div>
+        <nav>
+            <a href="index.html">Dükan</a>
+            <a href="library.html">Kitaphana</a>
+            <a href="profile.html" class="active">Profil</a>
+            <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
+            <a href="login.html" id="authBtn">Giriş</a>
+        </nav>
+        <div class="user-info">
+            <span id="usernameDisplay">👤 Myhman</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="form-container">
+            <h2>👤 Profil</h2>
+            <div style="text-align: center; padding: 20px;">
+                <div style="font-size: 64px; margin-bottom: 16px;">👤</div>
+                <h3 id="profileUsername">Ulanyjy</h3>
+                <p style="color: #94a9c9; margin: 8px 0;">🪙 <span id="profileCoins">0</span> ZonCoin</p>
+                <div style="display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;">
+                    <a href="index.html" class="btn btn-primary" style="flex: 1;">Dükana dolan</a>
+                    <!-- ADMIN BUTTON - DIŇE ADMIN GÖRER! -->
+                    <a href="admin.html" id="profileAdminBtn" class="btn btn-outline" style="flex: 1; border-color: #f59e0b; color: #f59e0b; display: none;">⚙️ Admin Panel</a>
+                    <button onclick="logout()" class="btn btn-danger" style="flex: 1;">Çykmak</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== ULANYJY DOLANDYRYŞ ==========
+        function checkUser() {
+            const username = localStorage.getItem('username');
+            const display = document.getElementById('usernameDisplay');
+            const authBtn = document.getElementById('authBtn');
+            const adminLink = document.getElementById('adminLink');
+            const profileAdminBtn = document.getElementById('profileAdminBtn');
+            
+            if (username) {
+                if (display) display.textContent = '👤 ' + username;
+                if (authBtn) {
+                    authBtn.textContent = 'Çykmak';
+                    authBtn.href = '#';
+                    authBtn.onclick = function(e) {
+                        e.preventDefault();
+                        logout();
+                    };
+                }
+                
+                // DIŇE ADMIN GÖRER!
+                if (username === 'admin') {
+                    if (adminLink) adminLink.style.display = 'inline';
+                    if (profileAdminBtn) profileAdminBtn.style.display = 'inline';
+                } else {
+                    if (adminLink) adminLink.style.display = 'none';
+                    if (profileAdminBtn) profileAdminBtn.style.display = 'none';
+                }
+            } else {
+                if (display) display.textContent = '👤 Myhman';
+                if (authBtn) {
+                    authBtn.textContent = 'Giriş';
+                    authBtn.href = 'login.html';
+                }
+                if (adminLink) adminLink.style.display = 'none';
+                if (profileAdminBtn) profileAdminBtn.style.display = 'none';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('username');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('zoncoin');
+            window.location.href = 'index.html';
+        }
+
+        function loadProfile() {
+            const username = localStorage.getItem('username');
+            const userId = localStorage.getItem('userId');
+            
+            if (!username) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            document.getElementById('profileUsername').textContent = username;
+            
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.id == userId);
+            document.getElementById('profileCoins').textContent = user ? user.zoncoin || 0 : 0;
+        }
+
+        // ========== SAHYPA ÝÜKLENENDE ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUser();
+            loadProfile();
+        });
+    </script>
+</body>
+</html>
