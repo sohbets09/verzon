@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="tm">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin giriş</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Admin Giriş</h1>
+        <form id="adminForm">
+            <input type="password" name="code" placeholder="Admin kody gir" required>
+            <button type="submit">Giriş</button>
+        </form>
+        <a href="index.html"><button>Baş sahypa</button></a>
+    </div>
+
+    <script>
+        document.getElementById("adminForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const code = e.target.code.value;
+            if (code === "sohbets09prosohbets58231") {
+                window.location.href = "panel.html";
+            } else {
+                alert("Nädogry kody! ❌");
+            }
+        });
+    </script>
+</body>
+
+</html>

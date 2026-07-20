@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="tm">
+
+<head>
+    <meta charset="UTF-8">
+    <title>75-nji Dom</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Grup Başlyk saýlawy</h1>
+
+        <form id="voteForm">
+            <label>saýla:</label>
+            <select name="candidate">
+                <option value="Sohbet">Söhbet</option>
+                <option value="Merdan">Merdan</option>
+                <option value="Nazar">Nazar</option>
+                <option value="Omar">Omar</option>
+                <option value="Umyt">Umyt</option>
+            </select>
+            <button type="submit">Oý ber</button>
+        </form>
+
+        <br>
+        <a href="wait.html"><button>Netijäni gör</button></a>
+        <button onclick="document.body.classList.toggle('dark')">Tema Üýtget</button>
+
+        <div class="ad-banner">
+            Biziň GitHub sahypamyza göz aýla.
+            <div>👇</div>
+
+            <div class="profile-footer">
+                <img src="https://github.com/kurbanow09.png" alt="Profil">
+                <a href="https://github.com/kurbanow09" target="_blank">sohbets09</a>
+            </div>
+            <div class="profile-footer">
+                <img src="https://github.com/sohbets09.png" alt="Profil">
+                <a href="https://github.com/sohbets09" target="_blank">sohbets09</a>
+            </div>
+        </div>
+        <footer>
+            <a href="https://www.instagram.com/sohbets09?igsh=MWIzMzY5c2NibWY5cQ==" target="_blank">
+              <img src="png/Instagram.jpg" class="social-icon" alt="Instagram">
+            </a>
+            <a href="https://www.tiktok.com/@sohbets_09?_t=ZS-8wjxbw0Dujo&_r=1" target="_blank">
+              <img src="png/tiktok.png" class="social-icon" alt="TikTok">
+            </a>
+          </footer>
+    </div>
+    </div>
+
+    <script>
+        // Oyları saklamak için localStorage kullanıyoruz
+        document.getElementById("voteForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const selectedCandidate = document.querySelector('select[name="candidate"]').value;
+
+            // localStorage’den mevcut oyları al
+            let votes = JSON.parse(localStorage.getItem("votes") || "{}");
+            votes[selectedCandidate] = (votes[selectedCandidate] || 0) + 1;
+
+            localStorage.setItem("votes", JSON.stringify(votes));
+
+            alert("Siziň oý berşiňiz kabul edildi! 🎉\nSeçilen aday: " + selectedCandidate);
+        });
+    </script>
+
+    <script>
+        const badge = document.getElementById("profileBadge");
+        const popup = document.getElementById("profilePopup");
+
+        badge.addEventListener("click", () => {
+            if (popup.style.display === "block") {
+                popup.style.display = "none";
+            } else {
+                popup.style.display = "block";
+            }
+        });
+
+        // Sayfanın başka bir yerine tıklayınca popup kapanıyor
+        document.addEventListener("click", function (e) {
+            if (!badge.contains(e.target) && !popup.contains(e.target)) {
+                popup.style.display = "none";
+            }
+        });
+    </script>
+
+</body>
+
+</html>

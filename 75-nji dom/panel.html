@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="tm">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Admin Panel</h1>
+
+        <button id="randomSelect">Rastgele Aday Seç</button>
+        <button onclick="localStorage.removeItem('votes'); alert('Oylamalar sıfırlandy ✅');">Oylamany Sıfırla</button>
+        <a href="index.html"><button>Ana sahypa</button></a>
+
+        <div id="selectedCandidate" style="margin-top:20px;font-weight:bold;"></div>
+    </div>
+
+    <script>
+        const candidates = ["Söhbet", "Merdan", "Nazar", "Omar", "Umyt"];
+        // Aday listesi
+        document.getElementById("randomSelect").addEventListener("click", () => {
+            const selected = candidates[Math.floor(Math.random() * candidates.length)];
+
+            // Seçilen adaya oy ekle (localStorage)
+            let votes = JSON.parse(localStorage.getItem("votes") || "{}");
+            votes[selected] = (votes[selected] || 0) + 1;
+            localStorage.setItem("votes", JSON.stringify(votes));
+
+            // Kullanıcıya göster
+            document.getElementById("selectedCandidate").textContent = `Rastgele seçilen aday: ${selected} ✅`;
+            alert(`Rastgele seçim tamamlandı!\nSeçilen aday: ${selected}`);
+        });
+    </script>
+</body>
+
+</html>
