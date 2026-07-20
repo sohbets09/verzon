@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MetaFlow - Motive Sözleri</title>
+  
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      transition: background 0.5s ease-in-out, color 0.5s ease-in-out; 
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start; 
+      overflow-x: hidden;
+      padding-top: 120px;
+      position: relative;
+    }
+
+    header {
+      width: 100%;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.7);
+      box-shadow: 0 4px 10px rgba(0, 230, 230, 0.2); 
+      z-index: 1000;
+      position: fixed; 
+      top: 0;
+      left: 0;
+      transform: translateY(0);
+    }
+
+    .logo {
+      font-size: 2.5rem; 
+      font-weight: bold;
+      color: #00e6e6; 
+      text-shadow: 0 0 8px #00e6e6, 0 0 15px #00e6e6;
+    }
+    
+    .settings-toggle {
+      padding: 14px 25px;
+      background: #00e6e6;
+      color: #0a0a0a;
+      border: none;
+      border-radius: 35px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(0, 230, 230, 0.6); 
+      transition: transform 0.2s, box-shadow 0.2s; 
+    }
+
+    .settings-toggle:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(0, 230, 230, 0.8);
+      background: #00cccc;
+    }
+
+    .settings {
+      position: absolute;
+      top: 100px; 
+      right: 40px;
+      background: rgba(0, 0, 0, 0.8); 
+      backdrop-filter: blur(8px); 
+      padding: 25px; 
+      border-radius: 18px;
+      box-shadow: 0 0 15px rgba(0, 230, 230, 0.4);
+      display: none;
+      z-index: 999;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    
+    .settings.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .settings.hidden {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    .theme-button, .lang-button {
+      display: block;
+      margin: 10px 0; 
+      padding: 12px 22px;
+      border: none;
+      border-radius: 30px;
+      font-size: 1.05rem;
+      cursor: pointer;
+      width: 220px; 
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-weight: 600;
+    }
+
+    .theme-button:hover, .lang-button:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    }
+
+    .theme-girl { background: linear-gradient(to bottom right, #ff7f9e, #f7b9d7); color: #3a000d; }
+    .theme-boy { background: linear-gradient(to bottom right, #00bfff, #87cefa); color: #001f3f; }
+    .theme-simple { background: linear-gradient(to bottom right, #444, #777); color: #eee; }
+    .lang-tk { background: linear-gradient(to bottom right, #00cc99, #66ffcc); color: #000; }
+    .lang-tr { background: linear-gradient(to bottom right, #ff6600, #ffb366); color: #fff; }
+    .lang-en { background: linear-gradient(to bottom right, #3399ff, #99ccff); color: #fff; }
+    .lang-ru { background: linear-gradient(to bottom right, #9933cc, #cc99ff); color: #fff; }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background-image: linear-gradient(to right, rgba(0, 230, 230, 0.2), rgba(0, 230, 230, 0.6), rgba(0, 230, 230, 0.2));
+      margin: 15px 0; 
+    }
+
+    h1 {
+      margin-top: 160px; 
+      font-size: 3.5rem;
+      text-align: center;
+      color: #00e6e6;
+      text-shadow: 0 0 10px #00e6e6, 0 0 20px rgba(0, 230, 230, 0.5);
+      letter-spacing: 3px;
+      transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .quote-box {
+      margin: 80px auto; 
+      padding: 35px; 
+      border: 2px solid #00e6e6; 
+      border-radius: 15px; 
+      max-width: 75%; 
+      min-height: 150px; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem; 
+      font-weight: 600;
+      text-align: center;
+      background-color: rgba(0, 230, 230, 0.05); 
+      backdrop-filter: blur(5px); 
+      box-shadow: 0 0 20px rgba(0, 230, 230, 0.6), 0 0 30px rgba(0, 230, 230, 0.4); 
+      line-height: 1.5;
+      position: relative;
+      transition: all 0.5s ease-in-out; 
+    }
+
+    .quote-content {
+        transition: opacity 0.5s ease-in-out; 
+        width: 100%;
+        text-align: center;
+        opacity: 1; 
+    }
+
+    .quote-box.fade-out .quote-content {
+        opacity: 0; 
+    }
+
+
+    .action-buttons {
+        margin-top: 60px; 
+        margin-bottom: 40px;
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+        z-index: 5;
+    }
+    
+    .next-button {
+      padding: 18px 35px; 
+      border: none;
+      border-radius: 40px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      background: #00e6e6;
+      color: #0a0a0a;
+      box-shadow: 0 0 15px rgba(0, 230, 230, 0.8); 
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .save-button, .share-button {
+        padding: 18px 25px;
+        border-radius: 40px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        background: rgba(0, 230, 230, 0.95); 
+        color: #fff;
+        border: 2px solid rgba(0, 230, 230, 0.95);
+        box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .save-button:hover, .share-button:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 15px rgba(76, 175, 80, 0.7);
+    }
+
+    .next-button:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 0 25px rgba(0, 230, 230, 0.95);
+      background: #00cccc;
+    }
+    
+    .favorites-panel {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(8px);
+        z-index: 2000;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        padding: 50px 20px;
+        color: #e0e0e0;
+        overflow-y: auto;
+        opacity: 0;
+        transition: opacity 0.4s;
+    }
+
+    .favorites-panel.visible {
+        opacity: 1;
+    }
+
+    .favorites-panel h2 {
+        font-size: 2.5rem;
+        color: #00e6e6;
+        margin-bottom: 30px;
+        text-shadow: 0 0 8px rgba(0, 230, 230, 0.4);
+    }
+
+    .favorites-list {
+        list-style: none;
+        padding: 0;
+        width: 90%;
+        max-width: 800px;
+    }
+
+    .favorite-item {
+        background: rgba(0, 230, 230, 0.05);
+        border: 1px solid rgba(0, 230, 230, 0.2);
+        padding: 15px 20px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.2rem;
+        transition: background 0.3s;
+    }
+
+    .delete-btn {
+        background: none;
+        border: none;
+        color: #ff5555;
+        font-size: 1.5rem;
+        cursor: pointer;
+        margin-left: 20px;
+        transition: color 0.2s, transform 0.2s;
+    }
+
+    .close-btn {
+        position: sticky; 
+        bottom: 20px;
+        margin-top: 30px;
+        padding: 15px 40px;
+        background: #00e6e6;
+        color: #0a0a0a;
+        border: none;
+        border-radius: 35px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        font-weight: bold;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .close-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+    }
+
+    footer {
+      margin-top: auto;
+      margin-bottom: 30px;
+      display: flex;
+      gap: 30px; 
+      z-index: 1;
+    }
+
+    .social-icon {
+      width: 48px; 
+      height: 48px;
+      cursor: pointer;
+      filter: drop-shadow(0 0 5px rgba(0, 230, 230, 0.4)); 
+      transition: transform 0.3s, filter 0.3s, opacity 0.3s;
+      opacity: 0.8;
+    }
+
+    .social-icon:hover {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 10px #00e6e6);
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      body { padding-top: 100px; }
+      header { padding: 15px 25px; }
+      .logo { font-size: 2rem; }
+      .settings-toggle { padding: 12px 20px; font-size: 1rem; }
+      .settings { top: 80px; right: 25px; padding: 20px; width: 200px; }
+      .theme-button, .lang-button { width: 100%; font-size: 0.95rem; padding: 10px 20px; }
+      h1 { font-size: 3rem; margin-top: 140px; }
+      .quote-box { font-size: 1.6rem; padding: 30px; max-width: 80%; min-height: 130px; }
+      .action-buttons { margin-top: 55px; gap: 15px; }
+      .next-button, .save-button, .share-button { padding: 14px 25px; font-size: 1.1rem; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding-top: 90px; }
+      header { padding: 10px 15px; }
+      .logo { font-size: 1.7rem; }
+      .settings-toggle { padding: 10px 18px; font-size: 0.9rem; }
+      .settings { top: 70px; right: 15px; width: 180px; padding: 15px; }
+      h1 { font-size: 2.4rem; margin-top: 120px; }
+      .quote-box { font-size: 1.3rem; padding: 25px; min-height: 110px; max-width: 90%; }
+      .action-buttons { margin-top: 50px; gap: 10px; }
+      .next-button, .save-button, .share-button { padding: 12px 20px; font-size: 1rem; }
+      .social-icon { width: 35px; height: 35px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">MetaFlow</div>
+    <button class="settings-toggle" onclick="toggleSettings()">⚙️ Sazlamalar</button>
+  </header>
+
+  <div class="settings" id="settingsPanel">
+    <button class="theme-button theme-girl" onclick="setTheme('girl')">Gyzlar üçin tema</button>
+    <button class="theme-button theme-boy" onclick="setTheme('boy')">Oglanlar üçin tema</button>
+    <button class="theme-button theme-simple" onclick="setTheme('simple')">Ýönekeý tema</button>
+    <hr>
+    <button class="lang-button lang-tk" onclick="setLanguage('tk')">Türkmençe</button>
+    <button class="lang-button lang-tr" onclick="setLanguage('tr')">Türkçe</button>
+    <button class="lang-button lang-en" onclick="setLanguage('en')">English</button>
+    <button class="lang-button lang-ru" onclick="setLanguage('ru')">Русский</button>
+    <hr>
+    <button class="theme-button lang-tk" onclick="loadFavorites()">⭐ Kaydedilenler</button> 
+  </div>
+
+  <h1 id="title">Motive Sözleri</h1>
+  
+  <div class="quote-box" id="quoteBox">
+    <span class="quote-content" id="quoteContent">Başlamak üçin ajaýyp bolmagyň geregi ýok.</span>
+  </div>
+  
+  <div class="action-buttons">
+    <button class="save-button" onclick="saveQuote()" id="saveBtn">⭐ Kaydet</button>
+    <button class="next-button" onclick="nextQuote()" id="nextBtn">Indiki sözi üýtget</button>
+    <button class="share-button" onclick="shareQuote()" id="shareBtn">📤 Paýlaş</button>
+  </div>
+
+
+  <footer>
+    <a href="https://www.instagram.com/sohbets09?igsh=MWIzMzY5c2NibWY5cQ==" target="_blank">
+      <img src="png/Instagram.jpg" class="social-icon" alt="Instagram">
+    </a>
+    <a href="https://www.tiktok.com/@sohbets_09?_t=ZS-8wjxbw0Dujo&_r=1" target="_blank">
+      <img src="png/tiktok.png" class="social-icon" alt="TikTok">
+    </a>
+  </footer>
+  
+  <div class="favorites-panel" id="favoritesPanel">
+    <h2 id="favoritesTitle">Kaydedilen Sözler</h2>
+    <ul class="favorites-list" id="favoritesList">
+    </ul>
+    <button class="close-btn" onclick="closeFavorites()" id="closeFavoritesBtn">Kapat</button>
+  </div>
+
+  <script>
+    const quotes = {
+      tk: [
+        "Başlamak üçin ajaýyp bolmagyň geregi ýok.",
+        "Hiç wagt giç däl.",
+        "Sen başararsyň!",
+        "Yhlas edýän, maksadyna ýetýär.",
+        "Umydyňy ýitirme, ýol dowam edýär.",
+        "Gorkma, başla!",
+        "Her gün täze mümkinçilikdir.",
+        "Maksadyňyzy hiç haçan ýatdan çykarmaň.",
+        "Her bir uly ýeňiş kiçi ädimlerden başlaýar.",
+        "Durmuşda iň uly şöhrat hiç haçan ýykylmazlykda däl-de, her ýykylanda ýaňadan aýaga galmakdadyr.",
+        "Ýeňiş, iň kyn pursatda-da dowam edenlere geler.",
+        "Uly arzuw ediň, sebäbi uly arzuwlar adamlary herekete getirýär.",
+        "Uzak ýolyň ilkinji ädimini ät.",
+        "Öwrenmegi hiç wagt bes etme, sebäbi durmuş öwretmegi hiç wagt bes etmez.",
+        "Mümkin däl diýen zat ýok, diňe başgaça çözgüdi bar.",
+        "Ýeňiş isleýän bolsaň, ilki bilen özüňe ynan.",
+        "Kynçylyklar sizi saklamaga däl, eýsem güýçlendirmäge hyzmat edýär.",
+        "Çagyryşlar sizi duruzmak üçin däl, güýçlendirmek üçindir.",
+        "Her gün bir şansdyr.",
+        "Maksadyňyzdan gözüňizi aýyrmaň.",
+        "Uly işler kiçi başlangyçlardan dogýar.",
+        "Durmuşda iň uly şan-şöhrat hiç wagt ýykylmazlykda däl, gaýtam her gaçanyňda täzeden galmakdadyr.",
+        "Ýeňiş, iň çetin pursatlarda-da dowam edenlere gelýär.",
+        "Uly hyýal ediň, sebäbi uly hyýallar adamlary herekete getirýär.",
+        "Uzak ýoluň ilkinji ädimini ädiň.",
+        "Öwrenmegi hiç wagt goýmaň, sebäbi durmuş öwretmegi hiç wagt goýmaz.",
+        "Mümkin däl diýen zat ýok, diňe başgaça çözüwi bar.",
+        "Eger ýeňmek isleýän bolsaň, ilki özüňe ynan.",
+        "Kynçylyklar sizi duruzmak üçin däl, eýsem güýçlendirmek üçindir.",
+        "Her gün özüňi täzeden döret.",
+        "Maksatlaryňy yzarlamagy hiç wagt goýma.",
+        "Her bir kiçijik ädim, uly bir maksada ýakynlaşdyrýar."
+      ],
+      tr: [
+        "Başlamak için harika olman gerekmez.",
+        "Asla geç değil.",
+        "Başarabilirsin!",
+        "Çalışan kazanır.",
+        "Umut varsa yol vardır.",
+        "Korkma, başla!",
+        "Her gün yeni bir fırsattır.",
+        "Hedeflerinizi asla gözden kaçırmayın.",
+        "Her büyük başarı küçük adımlarla başlar.",
+        "Hayattaki en büyük zafer asla düşmemekte değil, her düştüğümüzde yeniden ayağa kalkmaktır.",
+        "Zafer, en zor anlarda bile devam edenlere gelir.",
+        "Büyük hayal kurun, çünkü büyük hayaller insanları harekete geçirir.",
+        "Uzun bir yolculuğun ilk adımını atın.",
+        "Öğrenmeyi asla bırakmayın, çünkü hayat öğretmeyi asla asla bırakmayacak.",
+        "İmkansız diye bir şey yoktur, sadece farklı bir çözüm vardır.",
+        "Kazanmak istiyorsan, önce kendine inan.",
+        "Zorluklar sizi durdurmak için değil, güçlendirmek için vardır.",
+        "Mücadeleler sizi durdurmak için değil, güçlendirmek içindir.",
+        "Her gün yeni bir şanstır.",
+        "Hedeflerinizden asla şaşmayın.",
+        "Büyük işler küçük başlangıçlardan doğar.",
+        "Hayatta en büyük zafer, asla düşmemekte değil, her düştüğünde yeniden ayağa kalkmaktır.",
+        "Zafer, en zorlu anlarda bile devam edenlere gelir.",
+        "Büyük hayaller kurun, çünkü büyük hayaller insanları harekete geçirir.",
+        "Uzun bir yolculuğun ilk adımını atın.",
+        "Öğrenmeyi asla bırakmayın, çünkü hayat öğretmeyi asla bırakmaz.",
+        "İmkansız diye bir şey yoktur, sadece farklı bir çözümü vardır.",
+        "Eğer kazanmak istiyorsan, önce kendine inan.",
+        "Zorluklar sizi durdurmak için değil, sizi güçlendirmek içindir.",
+        "Her gün kendini yeniden yarat.",
+        "Amaçlarının peşinden gitmeyi asla bırakma.",
+        "Her küçük adım, büyük bir amaca doğru ilerlemedir."
+      ],
+      en: [
+        "You don’t have to be great to start.",
+        "It’s never too late.",
+        "You can do it!",
+        "Hard work pays off.",
+        "Don’t give up. Keep going.",
+        "Start before you’re ready.",
+        "Every day is a new opportunity.",
+        "Never lose sight of your goals.",
+        "Every great achievement begins with a small step.",
+        "The greatest glory in living lies not in never falling, but in rising every time we fall.",
+        "Victory comes to those who persevere, even in the toughest moments.",
+        "Dream big, because big dreams move people.",
+        "Take the first step of a long journey.",
+        "Never stop learning, for life never stops teaching.",
+        "There's no such thing as impossible, only a different solution.",
+        "If you want to win, believe in yourself first.",
+        "Challenges are not meant to stop you, but to strengthen you.",
+        "Obstacles are there to strengthen you, not to stop you.",
+        "Each day is a new chance.",
+        "Never lose sight of your objectives.",
+        "Great deeds are born from small beginnings.",
+        "The greatest glory in life is not in never falling, but in rising every time we fall.",
+        "Victory belongs to those who persist, even in the most difficult times.",
+        "Dream big, because big dreams motivate people.",
+        "Take the first step of a long journey.",
+        "Never stop learning, because life never stops teaching.",
+        "There's no such thing as impossible, only a different solution.",
+        "If you want to win, first believe in yourself.",
+        "Challenges are not meant to stop you, but to strengthen you.",
+        "Reinvent yourself every day.",
+        "Never give up on pursuing your goals.",
+        "Every small step is progress towards a big goal."
+      ],
+      ru: [
+        "Не обязательно быть великим, чтобы начать.",
+        "Никогда не поздно.",
+        "Ты справишься!",
+        "Труд приносит плоды.",
+        "Не сдавайся, продолжай.",
+        "Начни, даже если страшно.",
+        "Каждый день — новый шанс.",
+        "Никогда не теряйте из виду свои цели.",
+        "Каждое великое достижение начинается с маленького шага.",
+        "Величайшая слава в жизни заключается не в том, чтобы никогда не падать, а в том, чтобы подниматься каждый раз, когда падаешь.",
+        "Победа приходит к тем, кто упорствует, даже в самые трудные моменты.",
+        "Мечтайте о большем, потому что большие мечты двигают людей.",
+        "Сделайте первый шаг в долгом путешествии.",
+        "Никогда не прекращайте учиться, потому что жизнь никогда не прекратит учить.",
+        "Нет ничего невозможного, есть только другое решение.",
+        "Если хочешь победить, сначала поверь в себя.",
+        "Трудности существуют не для того, чтобы остановить вас, а для того, чтобы укрепить вас.",
+        "Препятствия существуют, чтобы укрепить вас, а не остановить.",
+        "Каждый день - это новый шанс.",
+        "Никогда не теряйте из виду свои цели.",
+        "Великие дела рождаются из малых начал.",
+        "Самая большая слава в жизни заключается не в том, чтобы никогда не падать, а в том, чтобы подниматься каждый раз, когда падаешь.",
+        "Победа приходит к тем, кто упорствует даже в самые трудные времена.",
+        "Мечтайте о великом, потому что великие мечты движут людьми.",
+        "Сделайте первый шаг долгого пути.",
+        "Никогда не переставайте учиться, потому что жизнь никогда не перестанет учить.",
+        "Нет ничего невозможного, есть только другое решение.",
+        "Если вы хотите победить, сначала поверьте в себя.",
+        "Трудности предназначены не для того, чтобы остановить вас, а для того, чтобы укрепить.",
+        "Пересоздавайте себя каждый день.",
+        "Никогда не отказывайтесь от своих целей.",
+        "Каждый маленький шаг — это движение к большой цели."
+      ]
+    };
+
+    let current = 0;
+    let currentLang = localStorage.getItem('metaflow_lang') || 'tk';
+    const titleElement = document.getElementById("title");
+    const quoteBoxElement = document.getElementById("quoteBox");
+    const quoteContentElement = document.getElementById("quoteContent");
+    const favoritesPanelElement = document.getElementById("favoritesPanel");
+    const favoritesListElement = document.getElementById("favoritesList");
+    
+    let lastUsedIndices = [];
+    const REPETITION_LIMIT = 5; 
+    
+    const textMap = {
+        tk: {
+            title: "Motivasion Sözleri",
+            nextBtn: "Indiki sözi üýtget",
+            saveBtn: "⭐ Kaydet",
+            shareBtn: "📤 Paýlaş",
+            settingsToggle: "⚙️ Sazlamalar",
+            favoritesTitle: "Kaydedilen Sözler",
+            closeFavoritesBtn: "Kapat",
+            favoritesBtn: "⭐ Kaydedilenler",
+            noFavorites: "Heniz hiç söz kaydedilmedi.",
+            saveSuccess: "Söz Kaydedildi!",
+            saveDuplicate: "Bu söz eýýäm kaydedildi."
+        },
+        tr: {
+            title: "Motivasyon Sözleri",
+            nextBtn: "Sonraki sözü değiştir",
+            saveBtn: "⭐ Kaydet",
+            shareBtn: "📤 Paylaş",
+            settingsToggle: "⚙️ Ayarlar",
+            favoritesTitle: "Kaydedilen Sözler",
+            closeFavoritesBtn: "Kapat",
+            favoritesBtn: "⭐ Kaydedilenler",
+            noFavorites: "Henüz hiç söz kaydedilmedi.",
+            saveSuccess: "Söz Başarıyla Kaydedildi!",
+            saveDuplicate: "Bu söz zaten kaydedilmiş."
+        },
+        en: {
+            title: "Motivational Quotes",
+            nextBtn: "Next quote",
+            saveBtn: "⭐ Save",
+            shareBtn: "📤 Share",
+            settingsToggle: "⚙️ Settings",
+            favoritesTitle: "Saved Quotes",
+            closeFavoritesBtn: "Close",
+            favoritesBtn: "⭐ Saved Items",
+            noFavorites: "No quotes saved yet.",
+            saveSuccess: "Quote Saved Successfully!",
+            saveDuplicate: "This quote is already saved."
+        },
+        ru: {
+            title: "Мотивационные Цитаты",
+            nextBtn: "Следующая цитата",
+            saveBtn: "⭐ Сохранить",
+            shareBtn: "📤 Поделиться",
+            settingsToggle: "⚙️ Настройки",
+            favoritesTitle: "Сохраненные Цитаты",
+            closeFavoritesBtn: "Закрыть",
+            favoritesBtn: "⭐ Сохраненные",
+            noFavorites: "Еще не сохранено ни одной цитаты.",
+            saveSuccess: "Цитата сохранена!",
+            saveDuplicate: "Эта цитата уже сохранена."
+        }
+    };
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('metaflow_lang') || 'tk';
+      const savedTheme = localStorage.getItem('metaflow_theme') || 'simple';
+      
+      setTheme(savedTheme);
+      setLanguage(savedLang, true); 
+    });
+
+    function nextQuote() {
+      const availableQuotes = quotes[currentLang];
+      
+      quoteBoxElement.classList.add('fade-out'); 
+
+      setTimeout(() => {
+        let newIndex;
+        let attempts = 0;
+        
+        do {
+          newIndex = Math.floor(Math.random() * availableQuotes.length);
+          attempts++;
+          if (availableQuotes.length <= REPETITION_LIMIT && attempts > availableQuotes.length) break; 
+        } while (lastUsedIndices.includes(newIndex) && attempts < availableQuotes.length * 2);
+
+        current = newIndex;
+        
+        lastUsedIndices.push(current);
+        if (lastUsedIndices.length > REPETITION_LIMIT) {
+          lastUsedIndices.shift(); 
+        }
+        
+        quoteContentElement.textContent = availableQuotes[current];
+        
+        quoteBoxElement.classList.remove('fade-out');
+
+      }, 500); 
+    }
+
+    function saveQuote() {
+        const quoteText = quoteContentElement.textContent.trim();
+        const key = `favorites_${currentLang}`; 
+        let favorites = JSON.parse(localStorage.getItem(key)) || [];
+
+        if (favorites.includes(quoteText)) {
+            alert(textMap[currentLang].saveDuplicate);
+            return;
+        }
+
+        favorites.push(quoteText); 
+        localStorage.setItem(key, JSON.stringify(favorites)); 
+        alert(textMap[currentLang].saveSuccess);
+    }
+    
+    function shareQuote() {
+        const quoteText = quoteContentElement.textContent.trim();
+        const shareTitle = textMap[currentLang].title;
+        const shareUrl = window.location.href.split('?')[0]; 
+        
+        if (navigator.share) {
+            navigator.share({
+                title: shareTitle,
+                text: `${quoteText}\n\nMetaFlow Motivasyon Sözleri Uygulamasından.`,
+                url: shareUrl,
+            }).catch(error => console.log('Sharing failed', error));
+        } else {
+            const textToCopy = `${quoteText} — MetaFlow\n(Bağlantı: ${shareUrl})`;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("Söz panoya kopyalandı:\n" + quoteText);
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    }
+    
+    function loadFavorites() {
+        toggleSettings(); 
+        favoritesPanelElement.style.display = 'flex';
+        favoritesPanelElement.classList.add('visible');
+        
+        const key = `favorites_${currentLang}`;
+        let favorites = JSON.parse(localStorage.getItem(key)) || [];
+        
+        favoritesListElement.innerHTML = '';
+        
+        if (favorites.length === 0) {
+            favoritesListElement.innerHTML = `<p class="no-favorites">${textMap[currentLang].noFavorites}</p>`;
+            return;
+        }
+
+        favorites.forEach((quote, index) => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('favorite-item');
+            listItem.innerHTML = `
+                <span>${quote}</span>
+                <button class="delete-btn" onclick="deleteQuote('${quote.replace(/'/g, "\\'")}')">✖</button>
+            `;
+            favoritesListElement.appendChild(listItem);
+        });
+    }
+
+    function deleteQuote(quoteText) {
+        const key = `favorites_${currentLang}`;
+        let favorites = JSON.parse(localStorage.getItem(key)) || [];
+        
+        favorites = favorites.filter(q => q !== quoteText);
+        
+        localStorage.setItem(key, JSON.stringify(favorites));
+        
+        loadFavorites(); 
+    }
+    
+    function closeFavorites() {
+        favoritesPanelElement.classList.remove('visible');
+        setTimeout(() => {
+            favoritesPanelElement.style.display = 'none';
+        }, 400); 
+    }
+
+    function setTheme(type) {
+      const body = document.body;
+      let newBackground;
+      let newColor;
+
+      if (type === 'girl') {
+        newBackground = 'linear-gradient(135deg, #ffe6f0, #ffc0cb, #ffe6f0)';
+        newColor = '#3a000d';
+      } else if (type === 'boy') {
+        newBackground = 'linear-gradient(135deg, #001f3f, #005f9f, #001f3f)';
+        newColor = '#fff';
+      } else { 
+        newBackground = '#0a0a0a';
+        newColor = '#e0e0e0';
+      }
+
+      body.style.background = newBackground;
+      body.style.color = newColor;
+      localStorage.setItem('metaflow_theme', type); 
+    }
+
+    function setLanguage(lang, initialLoad = false) {
+      currentLang = lang;
+      localStorage.setItem('metaflow_lang', lang); 
+      
+      let randomIndex = Math.floor(Math.random() * quotes[lang].length);
+      quoteContentElement.textContent = quotes[lang][randomIndex]; 
+      
+      document.getElementById("title").textContent = textMap[lang].title;
+      document.getElementById("nextBtn").textContent = textMap[lang].nextBtn;
+      document.getElementById("saveBtn").textContent = textMap[lang].saveBtn;
+      document.getElementById("shareBtn").textContent = textMap[lang].shareBtn;
+      document.querySelector(".settings-toggle").textContent = textMap[lang].settingsToggle;
+      
+      const favoritesBtnInSettings = document.querySelector('.settings button[onclick="loadFavorites()"]');
+      if (favoritesBtnInSettings) {
+        favoritesBtnInSettings.textContent = textMap[lang].favoritesBtn;
+      }
+      
+      if (!initialLoad) {
+        nextQuote();
+      }
+    }
+    
+    function toggleSettings() {
+      const panel = document.getElementById("settingsPanel");
+      if (panel.style.display === 'block') {
+        panel.classList.add('hidden');
+        panel.classList.remove('visible');
+        setTimeout(() => {
+            panel.style.display = 'none';
+            panel.classList.remove('hidden');
+        }, 300); 
+      } else {
+        panel.style.display = 'block';
+        setTimeout(() => {
+            panel.classList.add('visible');
+        }, 10); 
+      }
+    }
+  </script>
+</body>
+</html>
