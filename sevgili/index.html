@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Sevgiliye Mektup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>💌 Sevgiline Mekdup Ýaz</h1>
+
+  <input type="text" id="name" placeholder="Sevgilinin ismi">
+  <br>
+  <select id="language">
+    <option value="tr">Türkçe</option>
+    <option value="en">English</option>
+    <option value="ru">Русский</option>
+    <option value="tm">Türkmençe</option>
+  </select>
+
+  <br>
+  <button onclick="createPoem()">Şiiri Yaz</button>
+
+  <div id="poem-box"></div>
+
+  <h2>📸 Anılarımız</h2>
+  <div class="gallery">
+    <img src="images/photo1.jpg" alt="Anı 1">
+    <img src="images/photo2.jpg" alt="Anı 2">
+    <img src="images/photo3.jpg" alt="Anı 3">
+  </div>
+</div>
+
+<audio autoplay loop>
+  <source src="media/romantic.mp3" type="audio/mpeg">
+  Tarayıcınız ses dosyasını desteklemiyor.
+</audio>
+
+<script src="script.js"></script>
+</body>
+</html>

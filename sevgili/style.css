@@ -1,0 +1,66 @@
+body {
+  font-family: 'Georgia', serif;
+  background: #fff0f5;
+  color: #660033;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.5s ease;
+}
+
+.container {
+  max-width: 700px;
+  margin: auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s ease;
+}
+
+input, select, button {
+  padding: 10px 15px;
+  margin: 10px 5px;
+  border-radius: 8px;
+  font-size: 1rem;
+  border: 1px solid #d63384;
+}
+
+button {
+  background: #d63384;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #a10e50;
+}
+
+#poem-box {
+  margin-top: 25px;
+  display: none;
+  text-align: left;
+  animation: openLetter 0.8s ease forwards;
+  white-space: pre-wrap;
+  background: #fefefe;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+@keyframes openLetter {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.gallery img {
+  width: 30%;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
