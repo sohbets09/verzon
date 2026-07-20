@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buz ve Ateşin Şarkısı - Krallar, Ejderhalar ve Hanedanlar</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --gold: #c9a84c;
+            --fire: #d43d1a;
+            --ice: #7eb8da;
+            --text: #d4c5a9;
+            --modal-bg: rgba(0, 0, 0, 0.98);
+            --card-bg: rgba(3, 3, 8, 0.96);
+            --stark: #4a4a4a;
+            --lannister: #b8860b;
+            --targaryen: #8b0000;
+            --baratheon: #2d2d2d;
+            --greyjoy: #1a1a1a;
+            --arryn: #3b5998;
+            --tully: #2d5a8e;
+            --martell: #c4601e;
+            --tyrell: #4a7c2e;
+            --bolton: #8b0000;
+            --frey: #5a5a8a;
+            --umber: #6a4a2a;
+            --mormont: #2a4a2a;
+            --tarly: #5a3a1a;
+            --dayne: #8a5a8a;
+            --velaryon: #2a8a8a;
+            --hightower: #8a8a4a;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Cinzel', 'Georgia', 'Times New Roman', serif;
+            background: #000;
+            color: var(--text);
+            overflow-x: hidden;
+            user-select: none;
+            min-height: 100vh;
+            width: 100vw;
+            cursor: default;
+        }
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #c9a84c, #8b6914);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #d4b85c, #a07818);
+        }
+
+        /* ============ LOADING SCREEN - ULTRA DETAYLI ============ */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, #0a0000 0%, #000000 70%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 2s ease-out, visibility 2s;
+        }
+        #loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .loading-fire-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .loading-fire-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 5px solid transparent;
+            border-top-color: #d43d1a;
+            border-right-color: #c9a84c;
+            border-radius: 50%;
+            animation: fireSpin 2s linear infinite;
+        }
+        .loading-fire-ring:nth-child(2) {
+            width: 82%;
+            height: 82%;
+            border-top-color: #c9a84c;
+            border-right-color: #ff4500;
+            animation-direction: reverse;
+            animation-duration: 1.5s;
+        }
+        .loading-fire-ring:nth-child(3) {
+            width: 62%;
+            height: 62%;
+            border-top-color: #ff4500;
+            border-right-color: #ffd700;
+            animation-duration: 1s;
+        }
+        .loading-fire-ring:nth-child(4) {
+            width: 42%;
+            height: 42%;
+            border-top-color: #ffd700;
+            border-right-color: #fff;
+            animation-duration: 0.7s;
+            animation-direction: reverse;
+        }
+        .loading-fire-ring:nth-child(5) {
+            width: 22%;
+            height: 22%;
+            border-top-color: #fff;
+            border-right-color: #ff4500;
+            animation-duration: 0.5s;
+        }
+        @keyframes fireSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        .loading-center {
+            font-size: 70px;
+            animation: dragonPulse 1.5s ease-in-out infinite;
+            z-index: 2;
+        }
+        @keyframes dragonPulse {
+            0%,
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 40px #d43d1a);
+            }
+            50% {
+                transform: scale(1.5);
+                filter: drop-shadow(0 0 80px #ff4500) drop-shadow(0 0 130px #ffd700);
+            }
+        }
+        .loading-title-main {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 10px;
+            color: #c9a84c;
+            margin-top: 50px;
+            text-align: center;
+            animation: titleGlow 2s ease-in-out infinite;
+            text-shadow: 0 0 50px rgba(201, 168, 76, 0.7);
+        }
+        @keyframes titleGlow {
+            0%,
+            100% {
+                text-shadow: 0 0 50px rgba(201, 168, 76, 0.7);
+            }
+            50% {
+                text-shadow: 0 0 70px rgba(212, 61, 26, 0.9), 0 0 140px rgba(201, 168, 76, 0.8), 0 0 200px rgba(255, 69, 0, 0.6);
+            }
+        }
+        .loading-subtitle {
+            color: #a89060;
+            letter-spacing: 8px;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+        @keyframes fadeInOut {
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+        .loading-bar-container {
+            width: 600px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            margin-top: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid rgba(201, 168, 76, 0.25);
+        }
+        .loading-bar-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #c9a84c, #d43d1a, #ff4500, #ffd700, #fff, #ffd700, #ff4500, #d43d1a, #c9a84c);
+            background-size: 500% 100%;
+            animation: barProgress 4s ease-in-out forwards, barShimmer 1.5s linear infinite;
+            border-radius: 8px;
+        }
+        @keyframes barProgress {
+            from {
+                width: 0%;
+            }
+            to {
+                width: 100%;
+            }
+        }
+        @keyframes barShimmer {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 500% 50%;
+            }
+        }
+        .loading-swords {
+            display: flex;
+            gap: 30px;
+            margin-top: 30px;
+            font-size: 40px;
+        }
+        .loading-swords span {
+            animation: swordClash 1s ease-in-out infinite;
+        }
+        .loading-swords span:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+        .loading-swords span:nth-child(3) {
+            animation-delay: 0.25s;
+            animation-duration: 0.8s;
+        }
+        @keyframes swordClash {
+            0%,
+            100% {
+                transform: rotate(0deg) scale(1);
+            }
+            25% {
+                transform: rotate(-35deg) scale(1.2);
+            }
+            75% {
+                transform: rotate(35deg) scale(1.2);
+            }
+        }
+        .loading-quote {
+            color: #5a4a3a;
+            font-style: italic;
+            margin-top: 30px;
+            font-size: 1rem;
+            letter-spacing: 5px;
+        }
+        .loading-dragon-names {
+            display: flex;
+            gap: 25px;
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: #8a6a4a;
+            letter-spacing: 3px;
+            animation: fadeInOut 3s ease-in-out infinite;
+        }
+        .loading-dragon-names span {
+            animation: dragonNameGlow 2s ease-in-out infinite;
+        }
+        .loading-dragon-names span:nth-child(1) {
+            color: #d43d1a;
+            animation-delay: 0s;
+        }
+        .loading-dragon-names span:nth-child(2) {
+            color: #c9a84c;
+            animation-delay: 0.7s;
+        }
+        .loading-dragon-names span:nth-child(3) {
+            color: #4a7c2e;
+            animation-delay: 1.4s;
+        }
+        @keyframes dragonNameGlow {
+            0%,
+            100% {
+                text-shadow: 0 0 5px currentColor;
+            }
+            50% {
+                text-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
+            }
+        }
+
+        /* ============ TOP NAVIGATION - KRAL TAHTI STILI ============ */
+        #top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 35px;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.99), rgba(0, 0, 0, 0.5), transparent);
+            flex-wrap: wrap;
+            gap: 20px;
+            pointer-events: none;
+            transition: all 0.5s ease;
+            border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+        }
+        #top-nav>* {
+            pointer-events: auto;
+        }
+        #logo-section {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+        .logo-dragon-icon {
+            font-size: 50px;
+            animation: logoBob 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 25px rgba(201, 168, 76, 0.7));
+        }
+        @keyframes logoBob {
+            0%,
+            100% {
+                transform: translateY(0) rotateY(0deg);
+            }
+            20% {
+                transform: translateY(-10px) rotateY(18deg);
+            }
+            40% {
+                transform: translateY(2px) rotateY(-5deg);
+            }
+            60% {
+                transform: translateY(-6px) rotateY(-18deg);
+            }
+            80% {
+                transform: translateY(4px) rotateY(5deg);
+            }
+        }
+        .logo-text-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+        .logo-main-text {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 5px;
+            color: #c9a84c;
+            text-shadow: 0 0 30px rgba(201, 168, 76, 0.6);
+            line-height: 1;
+        }
+        .logo-sub-text {
+            font-size: 0.7rem;
+            letter-spacing: 6px;
+            color: #a89060;
+            opacity: 0.9;
+        }
+        #nav-controls-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+        #home-button {
+            padding: 14px 32px;
+            border: 2px solid rgba(201, 168, 76, 0.6);
+            background: rgba(0, 0, 0, 0.9);
+            color: #c9a84c;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.95rem;
+            letter-spacing: 3px;
+            border-radius: 35px;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(20px);
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            display: none;
+        }
+        #home-button.visible {
+            display: block;
+            animation: btnAppear 0.7s ease-out;
+        }
+        @keyframes btnAppear {
+            from {
+                opacity: 0;
+                transform: translateX(-40px) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+        #home-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.4), transparent);
+            transition: left 0.7s ease;
+        }
+        #home-button:hover::before {
+            left: 100%;
+        }
+        #home-button:hover {
+            background: rgba(201, 168, 76, 0.35);
+            border-color: #ffd700;
+            box-shadow: 0 0 50px rgba(201, 168, 76, 0.6), 0 0 100px rgba(201, 168, 76, 0.4);
+            transform: translateY(-5px);
+            letter-spacing: 5px;
+            color: #ffd700;
+        }
+        #lang-selector-container {
+            display: flex;
+            gap: 7px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 32px;
+            padding: 6px;
+            border: 1px solid rgba(201, 168, 76, 0.4);
+            backdrop-filter: blur(20px);
+        }
+        .lang-button {
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            color: #a89060;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.82rem;
+            letter-spacing: 2px;
+            border-radius: 28px;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        .lang-button:hover {
+            color: #c9a84c;
+            text-shadow: 0 0 15px rgba(201, 168, 76, 0.6);
+        }
+        .lang-button.active {
+            background: rgba(201, 168, 76, 0.3);
+            color: #ffd700;
+            box-shadow: 0 0 25px rgba(201, 168, 76, 0.5);
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+        #color-mode-container {
+            display: flex;
+            gap: 7px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 32px;
+            padding: 6px;
+            border: 1px solid rgba(201, 168, 76, 0.4);
+            backdrop-filter: blur(20px);
+        }
+        .color-mode-button {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        .color-mode-button:hover {
+            transform: scale(1.2);
+        }
+        .color-mode-button.active-mode {
+            border-color: #ffd700;
+            box-shadow: 0 0 30px rgba(201, 168, 76, 0.8), inset 0 0 15px rgba(201, 168, 76, 0.4);
+            transform: scale(1.25);
+        }
+        .color-mode-button.active-mode::after {
+            content: '👑';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+        }
+        #mode-bw {
+            background: conic-gradient(#f5f5f5 0deg 180deg, #1a1a1a 180deg 360deg);
+        }
+        #mode-houses {
+            background: conic-gradient(#8b0000 0deg 30deg, #b8860b 30deg 60deg, #4a4a4a 60deg 90deg, #2d5a8e 90deg 120deg, #c4601e 120deg 150deg, #4a7c2e 150deg 180deg, #3b5998 180deg 210deg, #1a1a1a 210deg 240deg, #2d2d2d 240deg 270deg, #8a5a8a 270deg 300deg, #2a8a8a 300deg 330deg, #8a8a4a 330deg 360deg);
+        }
+
+        /* ============ MAIN CONTAINER ============ */
+        #main-container {
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            perspective: 2500px;
+            padding: 120px 30px 50px;
+            background: radial-gradient(ellipse at center, #0a0a0a 0%, #000 70%);
+        }
+        #continents-grid {
+            display: flex;
+            gap: 60px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            transform-style: preserve-3d;
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            max-width: 1500px;
+            width: 100%;
+        }
+        .continent-square {
+            width: 400px;
+            height: 550px;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+            border: 4px solid rgba(201, 168, 76, 0.35);
+        }
+        .continent-square:hover {
+            transform: translateZ(100px) scale(1.1);
+            box-shadow: 0 40px 120px rgba(201, 168, 76, 0.5), 0 0 200px rgba(201, 168, 76, 0.2);
+            z-index: 30;
+            border-color: #ffd700;
+        }
+        .continent-square.westeros {
+            background: linear-gradient(135deg, #0a1a0a 0%, #1a3a1a 25%, #0d2a0d 50%, #1a2a0a 75%, #0a1a0a 100%);
+            animation: floatWesteros 8s ease-in-out infinite;
+        }
+        @keyframes floatWesteros {
+            0%,
+            100% {
+                transform: translateY(0) rotateX(3deg) rotateY(-4deg);
+            }
+            25% {
+                transform: translateY(-22px) rotateX(1deg) rotateY(3deg);
+            }
+            50% {
+                transform: translateY(-10px) rotateX(4deg) rotateY(-3deg);
+            }
+            75% {
+                transform: translateY(-28px) rotateX(0deg) rotateY(4deg);
+            }
+        }
+        .continent-square.essos {
+            background: linear-gradient(135deg, #1a0a00 0%, #3a1a0a 25%, #2a0d00 50%, #4a2a0a 75%, #1a0a00 100%);
+            animation: floatEssos 8s ease-in-out 2.5s infinite;
+        }
+        @keyframes floatEssos {
+            0%,
+            100% {
+                transform: translateY(0) rotateX(-3deg) rotateY(4deg);
+            }
+            25% {
+                transform: translateY(-24px) rotateX(2deg) rotateY(-3deg);
+            }
+            50% {
+                transform: translateY(-8px) rotateX(-2deg) rotateY(2deg);
+            }
+            75% {
+                transform: translateY(-30px) rotateX(3deg) rotateY(-4deg);
+            }
+        }
+        .continent-square.sothoryos {
+            background: linear-gradient(135deg, #0a1a0a 0%, #1a4a1a 25%, #0a2a0a 50%, #2a5a2a 75%, #0a1a0a 100%);
+            animation: floatSothoryos 8s ease-in-out 5s infinite;
+            width: 340px;
+            height: 450px;
+        }
+        @keyframes floatSothoryos {
+            0%,
+            100% {
+                transform: translateY(0) rotateX(2deg) rotateY(3deg);
+            }
+            50% {
+                transform: translateY(-18px) rotateX(-3deg) rotateY(-2deg);
+            }
+        }
+        .continent-square.ulthos {
+            background: linear-gradient(135deg, #00001a 0%, #0a0a2a 25%, #00001a 50%, #1a1a3a 75%, #00001a 100%);
+            animation: floatUlthos 8s ease-in-out 7.5s infinite;
+            width: 310px;
+            height: 400px;
+        }
+        @keyframes floatUlthos {
+            0%,
+            100% {
+                transform: translateY(0) rotateX(-2deg) rotateY(-3deg);
+            }
+            50% {
+                transform: translateY(-14px) rotateX(3deg) rotateY(2deg);
+            }
+        }
+        .continent-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 35px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(5px);
+        }
+        .continent-icon {
+            font-size: 120px;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 40px rgba(201, 168, 76, 0.6));
+            animation: iconPulse 3s ease-in-out infinite;
+        }
+        @keyframes iconPulse {
+            0%,
+            100% {
+                filter: drop-shadow(0 0 40px rgba(201, 168, 76, 0.6));
+                transform: scale(1);
+            }
+            50% {
+                filter: drop-shadow(0 0 80px rgba(255, 215, 0, 1));
+                transform: scale(1.15);
+            }
+        }
+        .continent-name {
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: 8px;
+            color: #c9a84c;
+            text-shadow: 0 0 50px rgba(201, 168, 76, 0.6);
+            margin-bottom: 18px;
+        }
+        .continent-subtitle {
+            font-size: 1.2rem;
+            color: #d4c5a9;
+            letter-spacing: 4px;
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+        .continent-house-count {
+            font-size: 0.9rem;
+            color: #a89060;
+            letter-spacing: 3px;
+            border: 2px solid rgba(201, 168, 76, 0.4);
+            padding: 10px 25px;
+            border-radius: 25px;
+            background: rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+        .continent-square:hover .continent-house-count {
+            border-color: #ffd700;
+            background: rgba(201, 168, 76, 0.2);
+            color: #ffd700;
+        }
+
+        /* ============ HOUSES OVERLAY ============ */
+        #houses-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2000;
+            display: none;
+            background: rgba(0, 0, 0, 0.93);
+            backdrop-filter: blur(20px);
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow-y: auto;
+            padding: 130px 30px 60px;
+        }
+        #houses-overlay.active {
+            display: flex;
+            animation: overlayFadeIn 0.6s ease-out;
+        }
+        @keyframes overlayFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        #houses-back-button {
+            position: fixed;
+            top: 120px;
+            left: 35px;
+            padding: 16px 35px;
+            background: rgba(201, 168, 76, 0.25);
+            border: 3px solid #c9a84c;
+            color: #ffd700;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            border-radius: 40px;
+            transition: all 0.5s ease;
+            z-index: 2100;
+            backdrop-filter: blur(15px);
+            font-weight: bold;
+        }
+        #houses-back-button:hover {
+            background: rgba(201, 168, 76, 0.6);
+            box-shadow: 0 0 50px rgba(201, 168, 76, 0.8);
+            transform: scale(1.1);
+            letter-spacing: 6px;
+        }
+        #houses-overlay-title {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 8px;
+            color: #c9a84c;
+            text-align: center;
+            margin-bottom: 12px;
+            text-shadow: 0 0 50px rgba(201, 168, 76, 0.6);
+        }
+        #houses-overlay-subtitle {
+            font-size: 1.1rem;
+            color: #a89060;
+            letter-spacing: 5px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        #houses-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 35px;
+            justify-content: center;
+            align-items: stretch;
+            max-width: 1500px;
+            width: 100%;
+            perspective: 1800px;
+        }
+        .house-card {
+            width: 270px;
+            min-height: 380px;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-radius: 24px;
+            position: relative;
+        }
+        .house-card:hover {
+            transform: translateZ(60px) rotateY(12deg) scale(1.15);
+            z-index: 40;
+        }
+        .house-card-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 24px;
+            padding: 30px 22px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: 3px solid rgba(201, 168, 76, 0.45);
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            transition: all 0.5s ease;
+            min-height: 380px;
+        }
+        .house-card:hover .house-card-inner {
+            border-color: #ffd700;
+            box-shadow: 0 0 60px rgba(201, 168, 76, 0.5);
+        }
+        .house-sigil-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #c9a84c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            margin-bottom: 20px;
+            background: radial-gradient(circle, #1a1a1a, #0a0a0a);
+            transition: all 0.5s ease;
+            position: relative;
+        }
+        .house-card:hover .house-sigil-circle {
+            box-shadow: 0 0 50px currentColor;
+            transform: scale(1.15);
+            border-color: currentColor;
+        }
+        .house-name-display {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: #c9a84c;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(201, 168, 76, 0.5);
+        }
+        .house-motto-display {
+            font-size: 0.85rem;
+            font-style: italic;
+            color: #d4c5a9;
+            opacity: 0.85;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+        .house-seat-display {
+            font-size: 0.8rem;
+            color: #a89060;
+            letter-spacing: 2px;
+        }
+        .house-region-display {
+            font-size: 0.75rem;
+            color: #8a7a5a;
+            margin-top: 6px;
+            letter-spacing: 2px;
+        }
+        .house-king-badge {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            font-size: 30px;
+            animation: kingBadgeGlow 2s ease-in-out infinite;
+            z-index: 5;
+        }
+        @keyframes kingBadgeGlow {
+            0%,
+            100% {
+                filter: drop-shadow(0 0 5px #ffd700);
+            }
+            50% {
+                filter: drop-shadow(0 0 20px #ffd700);
+            }
+        }
+
+        /* ============ DETAIL MODAL ============ */
+        #detail-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3000;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+        #detail-modal-overlay.active {
+            display: flex;
+        }
+        #detail-modal {
+            position: relative;
+            z-index: 3100;
+            background: var(--modal-bg);
+            border: 4px solid #c9a84c;
+            border-radius: 32px;
+            padding: 55px 45px 45px;
+            max-width: 700px;
+            width: 94%;
+            max-height: 88vh;
+            overflow-y: auto;
+            text-align: center;
+            cursor: default;
+            box-shadow: 0 0 150px rgba(201, 168, 76, 0.35);
+            backdrop-filter: blur(35px);
+            transform: scale(0.6);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #detail-modal.active {
+            transform: scale(1);
+            opacity: 1;
+        }
+        #detail-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 38px;
+            cursor: pointer;
+            color: #c9a84c;
+            transition: all 0.5s ease;
+            z-index: 10;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 3px solid rgba(201, 168, 76, 0.4);
+            background: rgba(0, 0, 0, 0.7);
+        }
+        #detail-modal-close:hover {
+            color: #fff;
+            background: rgba(212, 61, 26, 0.5);
+            border-color: #d43d1a;
+            transform: scale(1.2) rotate(90deg);
+            box-shadow: 0 0 40px rgba(212, 61, 26, 0.7);
+        }
+        #detail-modal-sigil {
+            font-size: 100px;
+            margin-bottom: 18px;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+        @keyframes iconFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+        #detail-modal-name {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #c9a84c;
+            letter-spacing: 6px;
+            margin-bottom: 12px;
+            text-shadow: 0 0 40px rgba(201, 168, 76, 0.6);
+        }
+        #detail-modal-motto {
+            font-style: italic;
+            color: #d4c5a9;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            letter-spacing: 3px;
+        }
+        #detail-modal-seat {
+            color: #a89060;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+            letter-spacing: 2px;
+        }
+        #detail-modal-region {
+            color: #8a7a5a;
+            font-size: 1rem;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+        }
+        #detail-modal-history {
+            color: #d4c5a9;
+            line-height: 2.2;
+            font-size: 0.95rem;
+            text-align: left;
+            letter-spacing: 0.5px;
+        }
+        #detail-modal-history h3 {
+            color: #c9a84c;
+            font-size: 1.3rem;
+            letter-spacing: 3px;
+            margin: 20px 0 10px;
+            text-align: center;
+        }
+        #detail-modal-history .ev-date {
+            color: #c9a84c;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        #detail-modal-history .ev-name {
+            color: #d43d1a;
+            font-weight: bold;
+            font-size: 1.05rem;
+        }
+        #detail-modal-history .ev-king {
+            color: #ffd700;
+            font-weight: bold;
+        }
+        #detail-modal-history .ev-dragon {
+            color: #ff4500;
+            font-weight: bold;
+        }
+        #detail-modal-history .quote-block {
+            border-left: 4px solid #c9a84c;
+            padding: 12px 18px;
+            margin: 18px 0;
+            background: rgba(201, 168, 76, 0.06);
+            font-style: italic;
+            color: #c9a84c;
+            letter-spacing: 1.5px;
+        }
+
+        /* ============ PARTICLES ============ */
+        .floating-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 5000;
+            animation: particleFloatUp linear infinite;
+            opacity: 0.3;
+        }
+        @keyframes particleFloatUp {
+            0% {
+                transform: translateY(130vh) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            20% {
+                transform: translateY(80vh) rotate(120deg) scale(1.3);
+                opacity: 0.5;
+            }
+            80% {
+                opacity: 0.4;
+                transform: translateY(15vh) rotate(600deg) scale(0.7);
+            }
+            100% {
+                transform: translateY(-25vh) rotate(720deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .continent-square {
+                width: 300px;
+                height: 420px;
+            }
+            .continent-square.sothoryos {
+                width: 260px;
+                height: 350px;
+            }
+            .continent-square.ulthos {
+                width: 240px;
+                height: 310px;
+            }
+            .continent-name {
+                font-size: 2rem;
+            }
+            .continent-icon {
+                font-size: 80px;
+            }
+            .house-card {
+                width: 200px;
+                min-height: 300px;
+            }
+            #top-nav {
+                padding: 10px 15px;
+            }
+            .logo-main-text {
+                font-size: 1.1rem;
+            }
+            #houses-back-button {
+                top: 110px;
+                left: 15px;
+                padding: 12px 24px;
+                font-size: 0.9rem;
+            }
+            #detail-modal {
+                padding: 35px 20px;
+            }
+            #detail-modal-name {
+                font-size: 2rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- LOADING SCREEN -->
+    <div id="loading-screen">
+        <div class="loading-fire-container">
+            <div class="loading-fire-ring"></div>
+            <div class="loading-fire-ring"></div>
+            <div class="loading-fire-ring"></div>
+            <div class="loading-fire-ring"></div>
+            <div class="loading-fire-ring"></div>
+            <div class="loading-center">🐉</div>
+        </div>
+        <div class="loading-title-main">BUZ VE ATEŞİN ŞARKISI</div>
+        <div class="loading-subtitle">KRALLAR • EJDERHALAR • HANEDANLAR</div>
+        <div class="loading-bar-container"><div class="loading-bar-progress"></div></div>
+        <div class="loading-swords"><span>⚔️</span><span>👑</span><span>⚔️</span></div>
+        <div class="loading-dragon-names">
+            <span>BALERION</span> <span>VHAGAR</span> <span>MERAXES</span>
+        </div>
+        <div class="loading-quote">"Valar Morghulis — Valar Dohaeris"</div>
+    </div>
+
+    <!-- TOP NAVIGATION -->
+    <div id="top-nav">
+        <div id="logo-section">
+            <span class="logo-dragon-icon">🐉</span>
+            <div class="logo-text-wrapper">
+                <span class="logo-main-text">A SONG OF ICE AND FIRE</span>
+            </div>
+        </div>
+        <div id="nav-controls-wrapper">
+            <button id="home-button">👑 ANA SAYFA</button>
+            <div id="lang-selector-container">
+                <button class="lang-button active" data-lang="tr">🇹🇷 TR</button>
+                <button class="lang-button" data-lang="ru">🇷🇺 RU</button>
+                <button class="lang-button" data-lang="en">🇬🇧 EN</button>
+                <button class="lang-button" data-lang="tk">🇹🇲 TK</button>
+            </div>
+            <div id="color-mode-container">
+                <div class="color-mode-button active-mode" id="mode-bw" data-mode="bw" title="Klasik"></div>
+                <div class="color-mode-button" id="mode-houses" data-mode="houses" title="Hanedan"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div id="main-container">
+        <div id="continents-grid">
+            <div class="continent-square westeros" data-continent="westeros">
+                <div class="continent-inner">
+                    <div class="continent-icon">🐺</div>
+                    <div class="continent-name" data-i18n="westeros-name">WESTEROS</div>
+                    <div class="continent-subtitle" data-i18n="westeros-sub">Demir Taht'ın Ev Sahibi</div>
+                    <div class="continent-house-count" data-i18n="westeros-houses">15 Büyük Hanedan & 20 Kral</div>
+                </div>
+            </div>
+            <div class="continent-square essos" data-continent="essos">
+                <div class="continent-inner">
+                    <div class="continent-icon">🐉</div>
+                    <div class="continent-name" data-i18n="essos-name">ESSOS</div>
+                    <div class="continent-subtitle" data-i18n="essos-sub">Ejderhaların Anavatanı</div>
+                    <div class="continent-house-count" data-i18n="essos-houses">10 Bölge & Valyria İmparatorluğu</div>
+                </div>
+            </div>
+            <div class="continent-square sothoryos" data-continent="sothoryos">
+                <div class="continent-inner">
+                    <div class="continent-icon">🐍</div>
+                    <div class="continent-name" data-i18n="sothoryos-name">SOTHORYOS</div>
+                    <div class="continent-subtitle" data-i18n="sothoryos-sub">Vahşi Güney</div>
+                    <div class="continent-house-count" data-i18n="sothoryos-houses">Keşfedilmemiş Topraklar</div>
+                </div>
+            </div>
+            <div class="continent-square ulthos" data-continent="ulthos">
+                <div class="continent-inner">
+                    <div class="continent-icon">🌑</div>
+                    <div class="continent-name" data-i18n="ulthos-name">ULTHOS</div>
+                    <div class="continent-subtitle" data-i18n="ulthos-sub">Gölgelerin Ötesi</div>
+                    <div class="continent-house-count" data-i18n="ulthos-houses">Tamamen Bilinmiyor</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HOUSES OVERLAY -->
+    <div id="houses-overlay">
+        <button id="houses-back-button">⬅ GERİ DÖN</button>
+        <div id="houses-overlay-title"></div>
+        <div id="houses-overlay-subtitle"></div>
+        <div id="houses-grid"></div>
+    </div>
+
+    <!-- DETAIL MODAL -->
+    <div id="detail-modal-overlay">
+        <div id="detail-modal">
+            <div id="detail-modal-close">✕</div>
+            <div id="detail-modal-sigil"></div>
+            <div id="detail-modal-name"></div>
+            <div id="detail-modal-motto"></div>
+            <div id="detail-modal-seat"></div>
+            <div id="detail-modal-region"></div>
+            <div id="detail-modal-history"></div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            "use strict";
+            const i18nData = {
+                tr: {
+                    'westeros-name': 'WESTEROS',
+                    'westeros-sub': 'Demir Taht\'ın Ev Sahibi',
+                    'westeros-houses': '15 Büyük Hanedan & 20 Kral',
+                    'essos-name': 'ESSOS',
+                    'essos-sub': 'Ejderhaların Anavatanı',
+                    'essos-houses': '10 Bölge & Valyria İmparatorluğu',
+                    'sothoryos-name': 'SOTHORYOS',
+                    'sothoryos-sub': 'Vahşi Güney',
+                    'sothoryos-houses': 'Keşfedilmemiş Topraklar',
+                    'ulthos-name': 'ULTHOS',
+                    'ulthos-sub': 'Gölgelerin Ötesi',
+                    'ulthos-houses': 'Tamamen Bilinmiyor',
+                    'back': '⬅ GERİ DÖN',
+                    'home': '👑 ANA SAYFA',
+                    'stark-name': 'Stark Hanedanı',
+                    'stark-motto': '"Kış Geliyor"',
+                    'stark-seat': '🏰 Kışyarı (Winterfell)',
+                    'stark-region': '📍 Kuzey',
+                    'stark-history': '<h3>🐺 STARK HANEDANI - Kuzeyin Kralları</h3><p><span class="ev-date">📜 Kuruluş (MÖ 8.000):</span> <span class="ev-king">Brandon Stark "Duvarı İnşa Eden"</span> tarafından kuruldu. Uzun Gece\'den sonra Duvar\'ı inşa etti ve <span class="ev-name">Gece Nöbeti</span>\'ni kurdu.</p><p><span class="ev-date">👑 Önemli Krallar:</span> <span class="ev-king">Torrhen Stark "Diz Çöken Kral"</span> - 30.000 askeriyle Aegon\'a diz çöktü. <span class="ev-king">Robb Stark "Genç Kurt"</span> - Kuzey\'in Bağımsızlık Kralı ilan edildi, Kırmızı Düğün\'de öldürüldü.</p><p><span class="ev-date">⚔️ Önemli Olaylar:</span> <span class="ev-name">Uzun Gece</span> - Ak Gezenler yenildi. <span class="ev-name">Kırmızı Düğün (299 AC)</span> - Robb Stark ve Catelyn Stark katledildi. <span class="ev-name">Piçlerin Savaşı (300 AC)</span> - Jon Snow ve Sansa Stark Winterfell\'i geri aldı.</p><div class="quote-block">"Yalnız kurt ölür, ama sürü hayatta kalır." - Eddard Stark</div>',
+                    'lannister-name': 'Lannister Hanedanı',
+                    'lannister-motto': '"Duy Beni Kükreyişimi!"',
+                    'lannister-seat': '🏰 Casterly Kayası',
+                    'lannister-region': '📍 Batı Toprakları',
+                    'lannister-history': '<h3>🦁 LANNISTER HANEDANI - Altın Lordlar</h3><p><span class="ev-date">📜 Kuruluş:</span> <span class="ev-king">Lann the Clever</span> Casterly Kayası\'nı zekasıyla aldı.</p><p><span class="ev-date">👑 Önemli Kişiler:</span> <span class="ev-king">Tywin Lannister</span> - 20 yıl Kral Eli, en zengin ve en güçlü lord. <span class="ev-king">Cersei Lannister</span> - Yedi Krallığın ilk kraliçesi. <span class="ev-king">Jaime Lannister "Kral Katili"</span> - Deli Kral Aerys\'i öldürdü. <span class="ev-king">Tyrion Lannister "Yarım Adam"</span> - En zeki Lannister.</p><p><span class="ev-date">💰 Güç Kaynağı:</span> Casterly Kayası\'nın altın madenleri - Westeros\'un en zengin hanedanı.</p><div class="quote-block">"Bir Lannister her zaman borcunu öder."</div>',
+                    'targaryen-name': 'Targaryen Hanedanı',
+                    'targaryen-motto': '"Ateş ve Kan"',
+                    'targaryen-seat': '🏰 King\'s Landing / Dragonstone',
+                    'targaryen-region': '📍 Taç Toprakları & Valyria',
+                    'targaryen-history': '<h3>🐉 TARGARYEN HANEDANI - Ejderha Lordları</h3><p><span class="ev-date">🔥 Valyria\'dan Kaçış (MÖ 114):</span> <span class="ev-king">Daenys "Rüya Gören"</span> Valyria\'nın Kıyameti\'ni öngördü. Aenar Targaryen aileyi Dragonstone\'a taşıdı.</p><p><span class="ev-date">⚔️ Aegon\'un Fethi (MÖ 1):</span> <span class="ev-king">Aegon I Targaryen "Fatih"</span> 3 ejderhayla (<span class="ev-dragon">Balerion Kara Dehşet</span>, <span class="ev-dragon">Vhagar</span>, <span class="ev-dragon">Meraxes</span>) Westeros\'u fethetti. 1.000 düşman kılıcından Demir Taht\'ı dövdü.</p><p><span class="ev-date">🐉 EJDERHALARIN DANSI (129-131 AC):</span> <span class="ev-king">Rhaenyra Targaryen</span> ve <span class="ev-king">Aegon II Targaryen</span> arasında taht savaşı. 20+ ejderha öldü. <span class="ev-dragon">Vhagar</span>, <span class="ev-dragon">Caraxes</span>\'i öldürdü ama ikisi de düştü. <span class="ev-dragon">Sunfyre</span> Rhaenyra\'yı canlı canlı yedi.</p><p><span class="ev-date">👑 Tüm Targaryen Kralları:</span> Aegon I, Aenys I, Maegor I (Zalim), Jaehaerys I (Uzlaştırıcı), Viserys I, Aegon II, Aegon III (Ejderha Felaketi), Daeron I (Genç Ejderha), Baelor I (Kutsanmış), Viserys II, Aegon IV (Değersiz), Daeron II, Aerys I, Maekar I, Aegon V (Yumurta), Jaehaerys II, Aerys II (Deli Kral).</p><div class="quote-block">"Ateş ve Kan." - Targaryen Sözleri</div>',
+                    'baratheon-name': 'Baratheon Hanedanı',
+                    'baratheon-motto': '"Bizimki Öfke"',
+                    'baratheon-seat': '🏰 Fırtına Burnu',
+                    'baratheon-region': '📍 Fırtına Toprakları',
+                    'baratheon-history': '<h3>🦌 BARATHEON HANEDANI - Fırtına Lordları</h3><p><span class="ev-date">👑 Krallar:</span> <span class="ev-king">Robert I Baratheon</span> - İsyanla tahta çıktı, Demir Taht\'ı kazandı. <span class="ev-king">Joffrey I Baratheon</span> (aslında Lannister) - Zalim çocuk kral. <span class="ev-king">Tommen I Baratheon</span> - Nazik kral. <span class="ev-king">Stannis Baratheon</span> - Haklı kral, Kara Su Savaşı\'nda yenildi. <span class="ev-king">Renly Baratheon</span> - Gölge tarafından öldürüldü.</p><p><span class="ev-date">⚔️ Robert\'ın İsyanı (283 AC):</span> Deli Kral Aerys\'e karşı isyan. Trident Savaşı\'nda Prens Rhaegar öldürüldü.</p>',
+                    'greyjoy-name': 'Greyjoy Hanedanı',
+                    'greyjoy-motto': '"Biz Ekmeyiz"',
+                    'greyjoy-seat': '🏰 Pyke',
+                    'greyjoy-region': '📍 Demir Adalar',
+                    'greyjoy-history': '<h3>🐙 GREYJOY HANEDANI - Deniz Lordları</h3><p><span class="ev-king">Balon Greyjoy</span> - İki kez isyan etti. <span class="ev-king">Theon Greyjoy</span> - Winterfell\'i işgal etti, Ramsay tarafından işkence gördü. <span class="ev-king">Euron Greyjoy "Karga Göz"</span> - Denizlerin en korkulan korsanı.</p>',
+                    'arryn-name': 'Arryn Hanedanı',
+                    'arryn-motto': '"Şeref Kadar Yüksek"',
+                    'arryn-seat': '🏰 Kartal Yuvası',
+                    'arryn-region': '📍 Vadi',
+                    'arryn-history': '<h3>🦅 ARRYN HANEDANI - Dağ Lordları</h3><p><span class="ev-king">Jon Arryn</span> - Robert\'ın İsyanı\'nı başlattı, Kral Eli oldu. <span class="ev-king">Lysa Arryn</span> - Oğlu Robert için Vadi\'yi tarafsız tuttu.</p>',
+                    'tully-name': 'Tully Hanedanı',
+                    'tully-motto': '"Aile, Vazife, Onur"',
+                    'tully-seat': '🏰 Nehirova',
+                    'tully-region': '📍 Nehir Toprakları',
+                    'tully-history': '<h3>🐟 TULLY HANEDANI - Nehir Lordları</h3><p><span class="ev-king">Hoster Tully</span> - Robert\'ın İsyanı\'na katıldı. <span class="ev-king">Edmure Tully</span> - Kırmızı Düğün\'de esir alındı. <span class="ev-name">Kırmızı Düğün</span> bu hanedanın topraklarında yaşandı.</p>',
+                    'martell-name': 'Martell Hanedanı',
+                    'martell-motto': '"Boyun Eğmez, Diz Çökmez, Kırılmaz"',
+                    'martell-seat': '🏰 Sunspear',
+                    'martell-region': '📍 Dorne',
+                    'martell-history': '<h3>☀️ MARTELL HANEDANI - Çöl Prensleri</h3><p><span class="ev-king">Prenses Nymeria</span> - 10.000 gemiyle Rhoynar\'ı Dorne\'a getirdi. <span class="ev-king">Oberyn Martell "Kırmızı Yılan"</span> - Dağ ile dövüşte öldü. <span class="ev-king">Doran Martell</span> - Sabırlı stratejist. Dorne, Targaryen ejderhalarına asla boyun eğmedi.</p>',
+                    'tyrell-name': 'Tyrell Hanedanı',
+                    'tyrell-motto': '"Büyüyen Güç"',
+                    'tyrell-seat': '🏰 Yüksek Bahçe',
+                    'tyrell-region': '📍 Menzil',
+                    'tyrell-history': '<h3>🌹 TYRELL HANEDANI - Bahçe Lordları</h3><p><span class="ev-king">Mace Tyrell</span> - Robert\'ın İsyanı\'nda Fırtına Burnu\'nu kuşattı. <span class="ev-king">Olenna Tyrell "Diken Kraliçesi"</span> - Kral Joffrey\'i zehirledi. <span class="ev-king">Margaery Tyrell</span> - Üç kral ile evlendi.</p>',
+                    'bolton-name': 'Bolton Hanedanı',
+                    'bolton-motto': '"Bıçaklarımız Keskin"',
+                    'bolton-seat': '🏰 Dreadfort',
+                    'bolton-region': '📍 Kuzey',
+                    'bolton-history': '<h3>🚩 BOLTON HANEDANI - Deri Yüzücüler</h3><p><span class="ev-king">Roose Bolton</span> - Kırmızı Düğün\'de Starklara ihanet etti. <span class="ev-king">Ramsay Bolton</span> - Tarihin en zalim lordlarından, Piçlerin Savaşı\'nda yenildi.</p>',
+                    'frey-name': 'Frey Hanedanı',
+                    'frey-motto': '"Geçiş Ücreti"',
+                    'frey-seat': '🏰 İkizler',
+                    'frey-region': '📍 Nehir Toprakları',
+                    'frey-history': '<h3>🏰 FREY HANEDANI - Köprü Lordları</h3><p><span class="ev-king">Walder Frey</span> - 90+ yaşında, 100+ çocuğu var. <span class="ev-name">Kırmızı Düğün</span>\'ü düzenledi, konuk hakkını ihlal etti. Arya Stark tarafından öldürüldü.</p>',
+                    'umber-name': 'Umber Hanedanı',
+                    'umber-motto': '"Devlerin Gücü"',
+                    'umber-seat': '🏰 Last Hearth',
+                    'umber-region': '📍 Kuzey',
+                    'umber-history': '<h3>🦾 UMBER HANEDANI - Dev Savaşçılar</h3><p>Kuzey\'in en sadık Stark destekçilerinden. <span class="ev-king">Büyük Jon Umber</span> - Robb Stark\'ın en güçlü savaşçısı.</p>',
+                    'mormont-name': 'Mormont Hanedanı',
+                    'mormont-motto': '"Burada Duruyoruz"',
+                    'mormont-seat': '🏰 Ayı Adası',
+                    'mormont-region': '📍 Kuzey',
+                    'mormont-history': '<h3>🐻 MORMONT HANEDANI - Ayı Savaşçıları</h3><p><span class="ev-king">Jeor Mormont "Yaşlı Ayı"</span> - Gece Nöbeti Lord Kumandanı. <span class="ev-king">Jorah Mormont</span> - Daenerys\'in en sadık şövalyesi. <span class="ev-king">Lyanna Mormont</span> - 10 yaşında Ayı Adası Leydisi, Piçlerin Savaşı\'nda kahramanca öldü.</p>',
+                    'tarly-name': 'Tarly Hanedanı',
+                    'tarly-motto': '"Savaşta İlk"',
+                    'tarly-seat': '🏰 Boynuz Tepe',
+                    'tarly-region': '📍 Menzil',
+                    'tarly-history': '<h3>⚔️ TARLY HANEDANI - En İyi Askerler</h3><p><span class="ev-king">Randyll Tarly</span> - Westeros\'un en iyi askeri komutanı. <span class="ev-king">Samwell Tarly</span> - Gece Nöbeti üyesi, Üstat oldu.</p>',
+                    'braavos-name': 'Braavos',
+                    'braavos-motto': '"Demir Banka Her Zaman Tahsil Eder"',
+                    'braavos-seat': '🏰 Braavos',
+                    'braavos-region': '📍 Kuzey Essos',
+                    'braavos-history': '<h3>🗡️ BRAAVOS - Gizli Şehir</h3><p>800 yıl önce Valyria\'dan kaçan köleler tarafından kuruldu. <span class="ev-name">Yüzsüz Adamlar</span> ve <span class="ev-name">Demir Banka</span> burada. <span class="ev-king">Arya Stark</span> burada eğitim gördü.</p>',
+                    'pentos-name': 'Pentos',
+                    'pentos-motto': '"Ticaretin Kalbi"',
+                    'pentos-seat': '🏰 Pentos',
+                    'pentos-region': '📍 Batı Essos',
+                    'pentos-history': '<h3>🏛️ PENTOS - Ticaret Şehri</h3><p><span class="ev-king">Illyrio Mopatis</span> - Daenerys ve Viserys\'i korudu. Daenerys burada Khal Drogo ile evlendi ve <span class="ev-dragon">3 taşlaşmış ejderha yumurtası</span> hediye aldı.</p>',
+                    'dothraki-name': 'Dothraki Khalasarı',
+                    'dothraki-motto': '"At Lordları"',
+                    'dothraki-seat': '🏰 Vaes Dothrak',
+                    'dothraki-region': '📍 Dothraki Denizi',
+                    'dothraki-history': '<h3>🐴 DOTHRAKI - At Savaşçıları</h3><p><span class="ev-king">Khal Drogo</span> - En büyük khal, Daenerys\'in kocası. Ölümünden sonra cenaze ateşinde <span class="ev-dragon">Drogon, Viserion ve Rhaegal</span> doğdu. <span class="ev-name">Ejderhaların Doğuşu (299 AC)</span> - Yüzyıllar sonra ilk kez ejderhalar dünyaya geldi.</p>',
+                    'slaverbay-name': 'Köle Körfezi',
+                    'slaverbay-motto': '"Zincirleri Kıran"',
+                    'slaverbay-seat': '🏰 Meereen',
+                    'slaverbay-region': '📍 Köle Körfezi',
+                    'slaverbay-history': '<h3>⛓️ KÖLE KÖRFEZI - Özgürlük Savaşı</h3><p><span class="ev-king">Daenerys Targaryen</span> - Astapor\'u fethetti, <span class="ev-name">Lekesizler</span> ordusunu (8.000 asker) serbest bıraktı. Yunkai ve Meereen\'i özgürleştirdi. <span class="ev-dragon">Drogon</span> ile şehirleri yaktı.</p>',
+                    'valyria-name': 'Eski Valyria',
+                    'valyria-motto': '"Ateş ve Yıkım"',
+                    'valyria-seat': '🏰 Valyria (Yok Oldu)',
+                    'valyria-region': '📍 Valyria Yarımadası',
+                    'valyria-history': '<h3>🔥 ESKI VALYRIA - Kayıp İmparatorluk</h3><p><span class="ev-date">MÖ 5.000:</span> Çobanlar <span class="ev-dragon">ejderha yumurtaları</span> buldu, ejderhaları evcilleştirdi. 40 büyük aile 5.000 yıl hükmetti.</p><p><span class="ev-date">💥 KIYAMET (MÖ 114):</span> <span class="ev-name">14 Ateş Yanardağı</span> aynı anda patladı. 300.000+ insan öldü. <span class="ev-dragon">Ejderhaların %90\'ı</span> yok oldu. Sadece Targaryenler hayatta kaldı.</p>',
+                    'qarth-name': 'Qarth',
+                    'qarth-motto': '"Dünyanın Merkezi"',
+                    'qarth-seat': '🏰 Qarth',
+                    'qarth-region': '📍 Yeşim Denizi',
+                    'qarth-history': '<h3>🐪 QARTH - En Zengin Şehir</h3><p><span class="ev-king">Daenerys Targaryen</span> burada <span class="ev-name">Ölümsüzler Evi</span>\'ne girdi. Kehanetler gördü: "Üç ihanet bileceksin, üç ateş yakacaksın, üç bineğe bineceksin."</p>',
+                    'sothoryos-name': 'Sothoryos',
+                    'sothoryos-motto': '"Keşfedilmemiş Vahşi Doğa"',
+                    'sothoryos-seat': '🏰 Bilinmiyor',
+                    'sothoryos-region': '📍 Güney Kıtası',
+                    'sothoryos-history': '<h3>🐍 SOTHORYOS - Vahşi Kıta</h3><p>Ölümcül hastalıklar, dev yılanlar, wyvernler ve diğer canavarlarla dolu. Kuzey kıyıları dışında hiçbir yerleşim kalıcı olmadı. <span class="ev-name">Yaz Denizi\'nin güneyinde</span> uzanır.</p>',
+                    'ulthos-name': 'Ulthos',
+                    'ulthos-motto': '"Tamamen Bilinmiyor"',
+                    'ulthos-seat': '🏰 Bilinmiyor',
+                    'ulthos-region': '📍 Gölgeler Diyarı\'nın Ötesi',
+                    'ulthos-history': '<h3>🌑 ULTHOS - En Gizemli Kıta</h3><p>Essos\'un doğusunda, <span class="ev-name">Gölgeler Diyarı</span>\'nın ötesinde. Haritalarda sadece adı geçer. Kimse oraya gitmedi, hakkında hiçbir şey bilinmiyor.</p>',
+                },
+                en: {
+                    'westeros-name': 'WESTEROS',
+                    'westeros-sub': 'Home of the Iron Throne',
+                    'westeros-houses': '15 Great Houses & 20 Kings',
+                    'essos-name': 'ESSOS',
+                    'essos-sub': 'Birthplace of Dragons',
+                    'essos-houses': '10 Regions & Valyrian Empire',
+                    'sothoryos-name': 'SOTHORYOS',
+                    'sothoryos-sub': 'Wild South',
+                    'sothoryos-houses': 'Unexplored Lands',
+                    'ulthos-name': 'ULTHOS',
+                    'ulthos-sub': 'Beyond the Shadows',
+                    'ulthos-houses': 'Completely Unknown',
+                    'back': '⬅ GO BACK',
+                    'home': '👑 HOME',
+                    'stark-name': 'House Stark',
+                    'stark-motto': '"Winter Is Coming"',
+                    'stark-seat': '🏰 Winterfell',
+                    'stark-region': '📍 The North',
+                    'stark-history': '<h3>🐺 HOUSE STARK - Kings of Winter</h3><p><span class="ev-king">Brandon Stark "The Builder"</span> built The Wall. <span class="ev-king">Torrhen Stark</span> bent the knee. <span class="ev-name">Red Wedding</span> - Robb Stark murdered.</p>',
+                    'lannister-name': 'House Lannister',
+                    'lannister-motto': '"Hear Me Roar!"',
+                    'lannister-seat': '🏰 Casterly Rock',
+                    'lannister-region': '📍 The Westerlands',
+                    'lannister-history': '<h3>🦁 HOUSE LANNISTER</h3><p><span class="ev-king">Tywin Lannister</span> - Most powerful lord. <span class="ev-king">Tyrion Lannister</span> - The cleverest.</p>',
+                    'targaryen-name': 'House Targaryen',
+                    'targaryen-motto': '"Fire and Blood"',
+                    'targaryen-seat': '🏰 King\'s Landing',
+                    'targaryen-region': '📍 Crownlands & Valyria',
+                    'targaryen-history': '<h3>🐉 HOUSE TARGARYEN</h3><p><span class="ev-king">Aegon I</span> conquered with <span class="ev-dragon">Balerion</span>. <span class="ev-name">Dance of Dragons (129-131 AC)</span> - 20+ dragons died. <span class="ev-king">Daenerys</span> birthed 3 dragons.</p>',
+                    'baratheon-name': 'House Baratheon',
+                    'baratheon-motto': '"Ours Is the Fury"',
+                    'baratheon-seat': '🏰 Storm\'s End',
+                    'baratheon-region': '📍 The Stormlands',
+                    'baratheon-history': '<h3>🦌 HOUSE BARATHEON</h3><p><span class="ev-king">Robert I</span> won the throne. <span class="ev-king">Stannis</span> the rightful king.</p>',
+                    'greyjoy-name': 'House Greyjoy',
+                    'greyjoy-motto': '"We Do Not Sow"',
+                    'greyjoy-seat': '🏰 Pyke',
+                    'greyjoy-region': '📍 Iron Islands',
+                    'greyjoy-history': '<h3>🐙 HOUSE GREYJOY</h3><p><span class="ev-king">Euron "Crow\'s Eye"</span> - Most feared pirate.</p>',
+                    'arryn-name': 'House Arryn',
+                    'arryn-motto': '"As High As Honor"',
+                    'arryn-seat': '🏰 The Eyrie',
+                    'arryn-region': '📍 The Vale',
+                    'arryn-history': '<h3>🦅 HOUSE ARRYN</h3><p><span class="ev-king">Jon Arryn</span> started the Rebellion.</p>',
+                    'tully-name': 'House Tully',
+                    'tully-motto': '"Family, Duty, Honor"',
+                    'tully-seat': '🏰 Riverrun',
+                    'tully-region': '📍 The Riverlands',
+                    'tully-history': '<h3>🐟 HOUSE TULLY</h3><p><span class="ev-name">Red Wedding</span> on their lands.</p>',
+                    'martell-name': 'House Martell',
+                    'martell-motto': '"Unbowed, Unbent, Unbroken"',
+                    'martell-seat': '🏰 Sunspear',
+                    'martell-region': '📍 Dorne',
+                    'martell-history': '<h3>☀️ HOUSE MARTELL</h3><p>Never conquered by dragons.</p>',
+                    'tyrell-name': 'House Tyrell',
+                    'tyrell-motto': '"Growing Strong"',
+                    'tyrell-seat': '🏰 Highgarden',
+                    'tyrell-region': '📍 The Reach',
+                    'tyrell-history': '<h3>🌹 HOUSE TYRELL</h3><p><span class="ev-king">Olenna</span> poisoned Joffrey.</p>',
+                    'bolton-name': 'House Bolton',
+                    'bolton-motto': '"Our Blades Are Sharp"',
+                    'bolton-seat': '🏰 Dreadfort',
+                    'bolton-region': '📍 The North',
+                    'bolton-history': '<h3>🚩 HOUSE BOLTON</h3><p>Flayers. Betrayed Starks at Red Wedding.</p>',
+                    'frey-name': 'House Frey',
+                    'frey-motto': '"The Toll"',
+                    'frey-seat': '🏰 The Twins',
+                    'frey-region': '📍 The Riverlands',
+                    'frey-history': '<h3>🏰 HOUSE FREY</h3><p><span class="ev-king">Walder Frey</span> violated guest right.</p>',
+                    'umber-name': 'House Umber',
+                    'umber-motto': '"Strength of Giants"',
+                    'umber-seat': '🏰 Last Hearth',
+                    'umber-region': '📍 The North',
+                    'umber-history': '<h3>🦾 HOUSE UMBER</h3><p>Loyal Stark bannermen.</p>',
+                    'mormont-name': 'House Mormont',
+                    'mormont-motto': '"Here We Stand"',
+                    'mormont-seat': '🏰 Bear Island',
+                    'mormont-region': '📍 The North',
+                    'mormont-history': '<h3>🐻 HOUSE MORMONT</h3><p><span class="ev-king">Lyanna Mormont</span> died heroically.</p>',
+                    'tarly-name': 'House Tarly',
+                    'tarly-motto': '"First in Battle"',
+                    'tarly-seat': '🏰 Horn Hill',
+                    'tarly-region': '📍 The Reach',
+                    'tarly-history': '<h3>⚔️ HOUSE TARLY</h3><p>Best soldiers in Westeros.</p>',
+                    'braavos-name': 'Braavos',
+                    'braavos-motto': '"Iron Bank Always Collects"',
+                    'braavos-seat': '🏰 Braavos',
+                    'braavos-region': '📍 Northern Essos',
+                    'braavos-history': '<h3>🗡️ BRAAVOS</h3><p>Founded by escaped slaves. Faceless Men.</p>',
+                    'pentos-name': 'Pentos',
+                    'pentos-motto': '"Heart of Trade"',
+                    'pentos-seat': '🏰 Pentos',
+                    'pentos-region': '📍 Western Essos',
+                    'pentos-history': '<h3>🏛️ PENTOS</h3><p>Daenerys married Khal Drogo here.</p>',
+                    'dothraki-name': 'Dothraki',
+                    'dothraki-motto': '"Horse Lords"',
+                    'dothraki-seat': '🏰 Vaes Dothrak',
+                    'dothraki-region': '📍 Dothraki Sea',
+                    'dothraki-history': '<h3>🐴 DOTHRAKI</h3><p><span class="ev-dragon">3 dragons</span> born on Drogo\'s pyre.</p>',
+                    'slaverbay-name': 'Slaver\'s Bay',
+                    'slaverbay-motto': '"Breaker of Chains"',
+                    'slaverbay-seat': '🏰 Meereen',
+                    'slaverbay-region': '📍 Slaver\'s Bay',
+                    'slaverbay-history': '<h3>⛓️ SLAVER\'S BAY</h3><p>Daenerys freed the Unsullied.</p>',
+                    'valyria-name': 'Old Valyria',
+                    'valyria-motto': '"Fire and Destruction"',
+                    'valyria-seat': '🏰 Valyria (Destroyed)',
+                    'valyria-region': '📍 Valyrian Peninsula',
+                    'valyria-history': '<h3>🔥 OLD VALYRIA</h3><p><span class="ev-name">The Doom</span> - 14 volcanoes erupted.</p>',
+                    'qarth-name': 'Qarth',
+                    'qarth-motto': '"Center of the World"',
+                    'qarth-seat': '🏰 Qarth',
+                    'qarth-region': '📍 Jade Sea',
+                    'qarth-history': '<h3>🐪 QARTH</h3><p>House of the Undying prophecies.</p>',
+                    'sothoryos-name': 'Sothoryos',
+                    'sothoryos-motto': '"Unexplored Wilderness"',
+                    'sothoryos-seat': '🏰 Unknown',
+                    'sothoryos-region': '📍 Southern Continent',
+                    'sothoryos-history': '<h3>🐍 SOTHORYOS</h3><p>Deadly diseases and creatures.</p>',
+                    'ulthos-name': 'Ulthos',
+                    'ulthos-motto': '"Completely Unknown"',
+                    'ulthos-seat': '🏰 Unknown',
+                    'ulthos-region': '📍 Beyond Shadow Lands',
+                    'ulthos-history': '<h3>🌑 ULTHOS</h3><p>Nothing is known.</p>',
+                },
+                ru: {
+                    'westeros-name': 'ВЕСТЕРОС',
+                    'westeros-sub': 'Дом Железного Трона',
+                    'westeros-houses': '15 Великих Домов и 20 Королей',
+                    'essos-name': 'ЭССОС',
+                    'essos-sub': 'Родина Драконов',
+                    'essos-houses': '10 Регионов и Валирийская Империя',
+                    'sothoryos-name': 'СОТОРИОС',
+                    'sothoryos-sub': 'Дикий Юг',
+                    'sothoryos-houses': 'Неисследованные Земли',
+                    'ulthos-name': 'УЛЬТОС',
+                    'ulthos-sub': 'За Тенями',
+                    'ulthos-houses': 'Совершенно Неизвестно',
+                    'back': '⬅ НАЗАД',
+                    'home': '👑 ГЛАВНАЯ',
+                    'stark-name': 'Дом Старков',
+                    'stark-motto': '"Зима Близко"',
+                    'stark-seat': '🏰 Винтерфелл',
+                    'stark-region': '📍 Север',
+                    'stark-history': '<h3>🐺 ДОМ СТАРКОВ</h3><p><span class="ev-king">Брандон Строитель</span> построил Стену. <span class="ev-name">Красная Свадьба</span>.</p>',
+                    'lannister-name': 'Дом Ланнистеров',
+                    'lannister-motto': '"Услышь Мой Рёв!"',
+                    'lannister-seat': '🏰 Утёс Кастерли',
+                    'lannister-region': '📍 Западные Земли',
+                    'lannister-history': '<h3>🦁 ДОМ ЛАННИСТЕРОВ</h3><p><span class="ev-king">Тайвин</span> - самый могущественный лорд.</p>',
+                    'targaryen-name': 'Дом Таргариенов',
+                    'targaryen-motto': '"Пламя и Кровь"',
+                    'targaryen-seat': '🏰 Королевская Гавань',
+                    'targaryen-region': '📍 Королевские Земли',
+                    'targaryen-history': '<h3>🐉 ДОМ ТАРГАРИЕНОВ</h3><p><span class="ev-king">Эйгон I</span> завоевал с <span class="ev-dragon">Балерионом</span>. <span class="ev-name">Танец Драконов</span>.</p>',
+                    'baratheon-name': 'Дом Баратеонов',
+                    'baratheon-motto': '"Нам Ярость"',
+                    'baratheon-seat': '🏰 Штормовой Предел',
+                    'baratheon-region': '📍 Штормовые Земли',
+                    'baratheon-history': '<h3>🦌 ДОМ БАРАТЕОНОВ</h3><p><span class="ev-king">Роберт I</span> завоевал трон.</p>',
+                    'greyjoy-name': 'Дом Грейджоев',
+                    'greyjoy-motto': '"Мы Не Сеем"',
+                    'greyjoy-seat': '🏰 Пайк',
+                    'greyjoy-region': '📍 Железные Острова',
+                    'greyjoy-history': '<h3>🐙 ДОМ ГРЕЙДЖОЕВ</h3><p><span class="ev-king">Эурон</span> - пират.</p>',
+                    'arryn-name': 'Дом Арренов',
+                    'arryn-motto': '"Высок Как Честь"',
+                    'arryn-seat': '🏰 Орлиное Гнездо',
+                    'arryn-region': '📍 Долина',
+                    'arryn-history': '<h3>🦅 ДОМ АРРЕНОВ</h3><p><span class="ev-king">Джон Аррен</span>.</p>',
+                    'tully-name': 'Дом Талли',
+                    'tully-motto': '"Семья, Долг, Честь"',
+                    'tully-seat': '🏰 Риверран',
+                    'tully-region': '📍 Речные Земли',
+                    'tully-history': '<h3>🐟 ДОМ ТАЛЛИ</h3><p>Красная Свадьба.</p>',
+                    'martell-name': 'Дом Мартеллов',
+                    'martell-motto': '"Непреклонные"',
+                    'martell-seat': '🏰 Санспир',
+                    'martell-region': '📍 Дорн',
+                    'martell-history': '<h3>☀️ ДОМ МАРТЕЛЛОВ</h3><p>Никогда не завоёван.</p>',
+                    'tyrell-name': 'Дом Тиреллов',
+                    'tyrell-motto': '"Растущая Сила"',
+                    'tyrell-seat': '🏰 Хайгарден',
+                    'tyrell-region': '📍 Простор',
+                    'tyrell-history': '<h3>🌹 ДОМ ТИРЕЛЛОВ</h3><p><span class="ev-king">Оленна</span> отравила Джоффри.</p>',
+                    'bolton-name': 'Дом Болтонов',
+                    'bolton-motto': '"Наши Ножи Остры"',
+                    'bolton-seat': '🏰 Дредфорт',
+                    'bolton-region': '📍 Север',
+                    'bolton-history': '<h3>🚩 ДОМ БОЛТОНОВ</h3><p>Предали Старков.</p>',
+                    'frey-name': 'Дом Фреев',
+                    'frey-motto': '"Плата за Переправу"',
+                    'frey-seat': '🏰 Близнецы',
+                    'frey-region': '📍 Речные Земли',
+                    'frey-history': '<h3>🏰 ДОМ ФРЕЕВ</h3><p>Нарушили право гостя.</p>',
+                    'umber-name': 'Дом Амберов',
+                    'umber-motto': '"Сила Гигантов"',
+                    'umber-seat': '🏰 Последний Очаг',
+                    'umber-region': '📍 Север',
+                    'umber-history': '<h3>🦾 ДОМ АМБЕРОВ</h3><p>Верные Старкам.</p>',
+                    'mormont-name': 'Дом Мормонтов',
+                    'mormont-motto': '"Здесь Мы Стоим"',
+                    'mormont-seat': '🏰 Медвежий Остров',
+                    'mormont-region': '📍 Север',
+                    'mormont-history': '<h3>🐻 ДОМ МОРМОНТОВ</h3><p><span class="ev-king">Лианна</span> героически погибла.</p>',
+                    'tarly-name': 'Дом Тарли',
+                    'tarly-motto': '"Первые в Бою"',
+                    'tarly-seat': '🏰 Хорн Хилл',
+                    'tarly-region': '📍 Простор',
+                    'tarly-history': '<h3>⚔️ ДОМ ТАРЛИ</h3><p>Лучшие солдаты.</p>',
+                    'braavos-name': 'Браавос',
+                    'braavos-motto': '"Железный Банк"',
+                    'braavos-seat': '🏰 Браавос',
+                    'braavos-region': '📍 Северный Эссос',
+                    'braavos-history': '<h3>🗡️ БРААВОС</h3><p>Основан рабами.</p>',
+                    'pentos-name': 'Пентос',
+                    'pentos-motto': '"Сердце Торговли"',
+                    'pentos-seat': '🏰 Пентос',
+                    'pentos-region': '📍 Западный Эссос',
+                    'pentos-history': '<h3>🏛️ ПЕНТОС</h3><p>Дейнерис вышла замуж.</p>',
+                    'dothraki-name': 'Дотракийцы',
+                    'dothraki-motto': '"Конные Лорды"',
+                    'dothraki-seat': '🏰 Вейес Дотрак',
+                    'dothraki-region': '📍 Дотракийское Море',
+                    'dothraki-history': '<h3>🐴 ДОТРАКИЙЦЫ</h3><p>Рождение <span class="ev-dragon">3 драконов</span>.</p>',
+                    'slaverbay-name': 'Залив Работорговцев',
+                    'slaverbay-motto': '"Разбивающая Цепи"',
+                    'slaverbay-seat': '🏰 Миэрин',
+                    'slaverbay-region': '📍 Залив Работорговцев',
+                    'slaverbay-history': '<h3>⛓️ ЗАЛИВ РАБОТОРГОВЦЕВ</h3><p>Освобождение Безупречных.</p>',
+                    'valyria-name': 'Древняя Валирия',
+                    'valyria-motto': '"Огонь и Разрушение"',
+                    'valyria-seat': '🏰 Валирия (Уничтожена)',
+                    'valyria-region': '📍 Полуостров Валирия',
+                    'valyria-history': '<h3>🔥 ДРЕВНЯЯ ВАЛИРИЯ</h3><p><span class="ev-name">Гибель</span> - 14 вулканов.</p>',
+                    'qarth-name': 'Кварт',
+                    'qarth-motto': '"Центр Мира"',
+                    'qarth-seat': '🏰 Кварт',
+                    'qarth-region': '📍 Нефритовое Море',
+                    'qarth-history': '<h3>🐪 КВАРТ</h3><p>Дом Бессмертных.</p>',
+                    'sothoryos-name': 'Соториос',
+                    'sothoryos-motto': '"Неисследованная Глушь"',
+                    'sothoryos-seat': '🏰 Неизвестно',
+                    'sothoryos-region': '📍 Южный Континент',
+                    'sothoryos-history': '<h3>🐍 СОТОРИОС</h3><p>Смертельные болезни.</p>',
+                    'ulthos-name': 'Ультос',
+                    'ulthos-motto': '"Совершенно Неизвестно"',
+                    'ulthos-seat': '🏰 Неизвестно',
+                    'ulthos-region': '📍 За Землями Теней',
+                    'ulthos-history': '<h3>🌑 УЛЬТОС</h3><p>Ничего не известно.</p>',
+                },
+                tk: {
+                    'westeros-name': 'WESTEROS',
+                    'westeros-sub': 'Demir Tagtyň Öýi',
+                    'westeros-houses': '15 Beýik Öý we 20 Patyşa',
+                    'essos-name': 'ESSOS',
+                    'essos-sub': 'Aždarhalaryň Watany',
+                    'essos-houses': '10 Sebit we Walýriýa Imperiýasy',
+                    'sothoryos-name': 'SOTHORYOS',
+                    'sothoryos-sub': 'Ýabany Günorta',
+                    'sothoryos-houses': 'Öwrenilmedik Topraklar',
+                    'ulthos-name': 'ULTHOS',
+                    'ulthos-sub': 'Kölegeleriň Aňyrsynda',
+                    'ulthos-houses': 'Düýbünden Näbelli',
+                    'back': '⬅ YZA GAÝT',
+                    'home': '👑 BAŞ SAHYPA',
+                    'stark-name': 'Stark Öýi',
+                    'stark-motto': '"Gyş Gelýär"',
+                    'stark-seat': '🏰 Winterfell',
+                    'stark-region': '📍 Demirgazyk',
+                    'stark-history': '<h3>🐺 STARK ÖÝI</h3><p><span class="ev-king">Brandon Gurluşykçy</span> Diwary gurdy. <span class="ev-name">Gyzyl Toý</span>.</p>',
+                    'lannister-name': 'Lannister Öýi',
+                    'lannister-motto': '"Meni Eşit!"',
+                    'lannister-seat': '🏰 Casterly Gaýasy',
+                    'lannister-region': '📍 Günbatar Topraklar',
+                    'lannister-history': '<h3>🦁 LANNISTER ÖÝI</h3><p><span class="ev-king">Taýwin</span> - iň güýçli lord.</p>',
+                    'targaryen-name': 'Targaryen Öýi',
+                    'targaryen-motto': '"Ot we Gan"',
+                    'targaryen-seat': '🏰 Patyşa Lendingi',
+                    'targaryen-region': '📍 Täç Topraklary',
+                    'targaryen-history': '<h3>🐉 TARGARYEN ÖÝI</h3><p><span class="ev-king">Aegon I</span> <span class="ev-dragon">Balerion</span> bilen basyp aldy. <span class="ev-name">Aždarhalaryň Tansy</span>.</p>',
+                    'baratheon-name': 'Baratheon Öýi',
+                    'baratheon-motto': '"Biziňki Gazap"',
+                    'baratheon-seat': '🏰 Tupan Burun',
+                    'baratheon-region': '📍 Tupan Topraklary',
+                    'baratheon-history': '<h3>🦌 BARATHEON ÖÝI</h3><p><span class="ev-king">Robert I</span> tagty aldy.</p>',
+                    'greyjoy-name': 'Greýjoý Öýi',
+                    'greyjoy-motto': '"Biz Ekmeýäris"',
+                    'greyjoy-seat': '🏰 Paýk',
+                    'greyjoy-region': '📍 Demir Adalar',
+                    'greyjoy-history': '<h3>🐙 GREÝJOÝ ÖÝI</h3><p><span class="ev-king">Euron</span> - garakçy.</p>',
+                    'arryn-name': 'Arryn Öýi',
+                    'arryn-motto': '"Namys Ýaly Beýik"',
+                    'arryn-seat': '🏰 Bürgüt Höwürtgesi',
+                    'arryn-region': '📍 Jülge',
+                    'arryn-history': '<h3>🦅 ARRYN ÖÝI</h3><p><span class="ev-king">Jon Arryn</span>.</p>',
+                    'tully-name': 'Tully Öýi',
+                    'tully-motto': '"Maşgala, Borç, Namys"',
+                    'tully-seat': '🏰 Derýaakym',
+                    'tully-region': '📍 Derýa Topraklary',
+                    'tully-history': '<h3>🐟 TULLY ÖÝI</h3><p>Gyzyl Toý.</p>',
+                    'martell-name': 'Martell Öýi',
+                    'martell-motto': '"Eglimez, Epilmez"',
+                    'martell-seat': '🏰 Gün Naýzasy',
+                    'martell-region': '📍 Dorn',
+                    'martell-history': '<h3>☀️ MARTELL ÖÝI</h3><p>Hiç haçan basylmady.</p>',
+                    'tyrell-name': 'Taýrell Öýi',
+                    'tyrell-motto': '"Ösýän Güýç"',
+                    'tyrell-seat': '🏰 Ýokary Bag',
+                    'tyrell-region': '📍 Uzaklyk',
+                    'tyrell-history': '<h3>🌹 TAÝRELL ÖÝI</h3><p><span class="ev-king">Olenna</span> Joffrini zäherledi.</p>',
+                    'bolton-name': 'Bolton Öýi',
+                    'bolton-motto': '"Bıçaklarymyz Ýiti"',
+                    'bolton-seat': '🏰 Dreadfort',
+                    'bolton-region': '📍 Demirgazyk',
+                    'bolton-history': '<h3>🚩 BOLTON ÖÝI</h3><p>Starklara dönüklik etdi.</p>',
+                    'frey-name': 'Freý Öýi',
+                    'frey-motto': '"Geçiş Tölegi"',
+                    'frey-seat': '🏰 Ekizler',
+                    'frey-region': '📍 Derýa Topraklary',
+                    'frey-history': '<h3>🏰 FREÝ ÖÝI</h3><p>Myhman hukugyny bozdy.</p>',
+                    'umber-name': 'Umber Öýi',
+                    'umber-motto': '"Äpetleriň Güýji"',
+                    'umber-seat': '🏰 Soňky Ojak',
+                    'umber-region': '📍 Demirgazyk',
+                    'umber-history': '<h3>🦾 UMBER ÖÝI</h3><p>Starklara wepaly.</p>',
+                    'mormont-name': 'Mormont Öýi',
+                    'mormont-motto': '"Ine Biz Durus"',
+                    'mormont-seat': '🏰 Aýy Adasy',
+                    'mormont-region': '📍 Demirgazyk',
+                    'mormont-history': '<h3>🐻 MORMONT ÖÝI</h3><p><span class="ev-king">Lýanna</span> gahrymanlarça öldi.</p>',
+                    'tarly-name': 'Tarly Öýi',
+                    'tarly-motto': '"Söweşde Ilkinji"',
+                    'tarly-seat': '🏰 Şah Depesi',
+                    'tarly-region': '📍 Uzaklyk',
+                    'tarly-history': '<h3>⚔️ TARLY ÖÝI</h3><p>Iň gowy esgerler.</p>',
+                    'braavos-name': 'Braavos',
+                    'braavos-motto': '"Demir Bank Hemişe Alýar"',
+                    'braavos-seat': '🏰 Braavos',
+                    'braavos-region': '📍 Demirgazyk Essos',
+                    'braavos-history': '<h3>🗡️ BRAAVOS</h3><p>Gaçan gullar tarapyndan guruldy.</p>',
+                    'pentos-name': 'Pentos',
+                    'pentos-motto': '"Söwdanyň Ýüregi"',
+                    'pentos-seat': '🏰 Pentos',
+                    'pentos-region': '📍 Günbatar Essos',
+                    'pentos-history': '<h3>🏛️ PENTOS</h3><p>Daenerys öýlendi.</p>',
+                    'dothraki-name': 'Dothraki',
+                    'dothraki-motto': '"At Lordlary"',
+                    'dothraki-seat': '🏰 Vaes Dothrak',
+                    'dothraki-region': '📍 Dothraki Deňzi',
+                    'dothraki-history': '<h3>🐴 DOTHRAKI</h3><p><span class="ev-dragon">3 aždarha</span> doguldy.</p>',
+                    'slaverbay-name': 'Gul Aýlagy',
+                    'slaverbay-motto': '"Zynjyrlary Döwüji"',
+                    'slaverbay-seat': '🏰 Meereen',
+                    'slaverbay-region': '📍 Gul Aýlagy',
+                    'slaverbay-history': '<h3>⛓️ GUL AÝLAGY</h3><p>Lekesizler azat edildi.</p>',
+                    'valyria-name': 'Köne Walýriýa',
+                    'valyria-motto': '"Ot we Weýrançylyk"',
+                    'valyria-seat': '🏰 Walýriýa (Ýok Edildi)',
+                    'valyria-region': '📍 Walýriýa Ýarymadasy',
+                    'valyria-history': '<h3>🔥 KÖNE WALÝRIÝA</h3><p><span class="ev-name">Kyýamat</span> - 14 wulkan.</p>',
+                    'qarth-name': 'Kart',
+                    'qarth-motto': '"Dünýäniň Merkezi"',
+                    'qarth-seat': '🏰 Kart',
+                    'qarth-region': '📍 Ýeşim Deňzi',
+                    'qarth-history': '<h3>🐪 KART</h3><p>Ölmezler Öýi.</p>',
+                    'sothoryos-name': 'Sotorios',
+                    'sothoryos-motto': '"Öwrenilmedik Ýabany"',
+                    'sothoryos-seat': '🏰 Näbelli',
+                    'sothoryos-region': '📍 Günorta Kontinent',
+                    'sothoryos-history': '<h3>🐍 SOTORIOS</h3><p>Ölüm howply keseller.</p>',
+                    'ulthos-name': 'Ultos',
+                    'ulthos-motto': '"Düýbünden Näbelli"',
+                    'ulthos-seat': '🏰 Näbelli',
+                    'ulthos-region': '📍 Kölegeler Diýarynyň Aňyrsynda',
+                    'ulthos-history': '<h3>🌑 ULTOS</h3><p>Hiç zat belli däl.</p>',
+                }
+            };
+            const continentHouses = {
+                westeros: [{ id: 'stark', sigil: '🐺', color: '#4a4a4a', isKing: true }, { id: 'lannister',
+                        sigil: '🦁', color: '#b8860b', isKing: true }, { id: 'targaryen', sigil: '🐉',
+                        color: '#8b0000', isKing: true }, { id: 'baratheon', sigil: '🦌', color: '#2d2d2d',
+                        isKing: true }, { id: 'greyjoy', sigil: '🐙', color: '#1a1a1a', isKing: true }, { id: 'arryn',
+                        sigil: '🦅', color: '#3b5998' }, { id: 'tully', sigil: '🐟', color: '#2d5a8e' },
+                    { id: 'martell', sigil: '☀️', color: '#c4601e', isKing: true }, { id: 'tyrell', sigil: '🌹',
+                        color: '#4a7c2e' }, { id: 'bolton', sigil: '🚩', color: '#8b0000' }, { id: 'frey',
+                        sigil: '🏰', color: '#5a5a8a' }, { id: 'umber', sigil: '🦾', color: '#6a4a2a' },
+                    { id: 'mormont', sigil: '🐻', color: '#2a4a2a' }, { id: 'tarly', sigil: '⚔️',
+                    color: '#5a3a1a' }
+                ],
+                essos: [{ id: 'braavos', sigil: '🗡️', color: '#7eb8da' }, { id: 'pentos', sigil: '🏛️',
+                    color: '#c9a84c' }, { id: 'dothraki', sigil: '🐴', color: '#8b6914' }, { id: 'slaverbay',
+                    sigil: '⛓️', color: '#d43d1a' }, { id: 'valyria', sigil: '🔥', color: '#ff4500' },
+                    { id: 'qarth', sigil: '🐪', color: '#c9a84c' }, { id: 'targaryen', sigil: '🐉',
+                    color: '#8b0000', isKing: true }
+                ],
+                sothoryos: [{ id: 'sothoryos', sigil: '🐍', color: '#4a7c2e' }],
+                ulthos: [{ id: 'ulthos', sigil: '🌑', color: '#1a1a2a' }]
+            };
+            let currentLang = 'tr',
+                currentColorMode = 'bw',
+                currentContinent = null;
+            const loadingScreen = document.getElementById('loading-screen');
+            const housesOverlay = document.getElementById('houses-overlay');
+            const housesGrid = document.getElementById('houses-grid');
+            const detailModalOverlay = document.getElementById('detail-modal-overlay');
+            const detailModal = document.getElementById('detail-modal');
+            const homeButton = document.getElementById('home-button');
+
+            function init() {
+                setTimeout(() => { loadingScreen.classList.add('hidden');
+                    setTimeout(() => { if (loadingScreen.parentNode) loadingScreen.remove(); }, 2000); }, 4000);
+                document.querySelectorAll('.lang-button').forEach(b => b.addEventListener('click', function() {
+                    currentLang = this.dataset.lang;
+                    document.querySelectorAll('.lang-button').forEach(x => x.classList.remove('active'));
+                    this.classList.add('active');
+                    document.querySelectorAll('[data-i18n]').forEach(e => { if (i18nData[currentLang] && i18nData[
+                            currentLang
+                        ][e.dataset.i18n]) e.textContent = i18nData[currentLang][e.dataset.i18n]; });
+                    homeButton.textContent = i18nData[currentLang]['home'];
+                    document.getElementById('houses-back-button').textContent = i18nData[currentLang]['back'];
+                    if (currentContinent) renderHouses(currentContinent);
+                }));
+                document.querySelectorAll('.color-mode-button').forEach(b => b.addEventListener('click', function() {
+                    currentColorMode = this.dataset.mode;
+                    document.querySelectorAll('.color-mode-button').forEach(x => x.classList.remove(
+                        'active-mode'));
+                    this.classList.add('active-mode');
+                    if (currentContinent) renderHouses(currentContinent);
+                }));
+                document.querySelectorAll('.continent-square').forEach(s => s.addEventListener('click', function() {
+                    openHousesOverlay(this.dataset.continent);
+                }));
+                document.getElementById('houses-back-button').addEventListener('click', closeHousesOverlay);
+                homeButton.addEventListener('click', closeHousesOverlay);
+                document.getElementById('detail-modal-close').addEventListener('click', closeDetailModal);
+                detailModalOverlay.addEventListener('click', function(e) { if (e.target === detailModalOverlay)
+                        closeDetailModal(); });
+                document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { if (detailModalOverlay
+                            .classList.contains('active')) closeDetailModal();
+                        else if (housesOverlay.classList.contains('active')) closeHousesOverlay(); } });
+                updateLanguage('tr');
+                createParticles();
+            }
+
+            function openHousesOverlay(c) {
+                currentContinent = c;
+                homeButton.classList.add('visible');
+                housesOverlay.classList.add('active');
+                document.getElementById('houses-overlay-title').textContent = i18nData[currentLang][c + '-name'] || c
+                    .toUpperCase();
+                document.getElementById('houses-overlay-subtitle').textContent = i18nData[currentLang][c + '-sub'] || '';
+                renderHouses(c);
+                housesOverlay.scrollTop = 0;
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeHousesOverlay() { currentContinent = null;
+                homeButton.classList.remove('visible');
+                housesOverlay.classList.remove('active');
+                document.body.style.overflow = ''; }
+
+            function renderHouses(c) {
+                housesGrid.innerHTML = '';
+                (continentHouses[c] || []).forEach(h => {
+                    const card = document.createElement('div');
+                    card.className = 'house-card';
+                    const inner = document.createElement('div');
+                    inner.className = 'house-card-inner';
+                    if (currentColorMode === 'houses') { inner.style.borderColor = h.color;
+                        inner.style.boxShadow = `0 15px 50px ${h.color}44`; }
+                    const sigil = document.createElement('div');
+                    sigil.className = 'house-sigil-circle';
+                    sigil.textContent = h.sigil;
+                    if (currentColorMode === 'houses') { sigil.style.borderColor = h.color;
+                        sigil.style.color = h.color; }
+                    if (h.isKing) { const badge = document.createElement('span');
+                        badge.className = 'house-king-badge';
+                        badge.textContent = '👑';
+                        badge.title = 'Kraliyet Hanedanı';
+                        card.appendChild(badge); }
+                    inner.appendChild(sigil);
+                    ['name', 'motto', 'seat', 'region'].forEach(k => { const d = document.createElement('div');
+                        d.className = 'house-' + (k === 'name' ? 'name' : k === 'motto' ? 'motto' : k ===
+                            'seat' ? 'seat' : 'region') + '-display';
+                        d.textContent = i18nData[currentLang][h.id + '-' + k] || '';
+                        inner.appendChild(d); });
+                    card.appendChild(inner);
+                    card.addEventListener('click', function(e) { e.stopPropagation();
+                        showDetailModal(h); });
+                    housesGrid.appendChild(card);
+                });
+            }
+
+            function showDetailModal(h) {
+                document.getElementById('detail-modal-sigil').textContent = h.sigil;
+                ['name', 'motto', 'seat', 'region', 'history'].forEach(k => {
+                    document.getElementById('detail-modal-' + (k === 'history' ? 'history' : k)).textContent =
+                        k === 'history' ? '' : i18nData[currentLang][h.id + '-' + k] || '';
+                });
+                document.getElementById('detail-modal-history').innerHTML = i18nData[currentLang][h.id + '-history'] ||
+                    '<p>Detaylı tarih bilgisi yakında eklenecek.</p>';
+                if (currentColorMode === 'houses') { detailModal.style.borderColor = h.color;
+                    detailModal.style.boxShadow = `0 0 180px ${h.color}55`;
+                    document.getElementById('detail-modal-name').style.color = h.color; } else { detailModal.style
+                        .borderColor = '#c9a84c';
+                    detailModal.style.boxShadow = '0 0 180px rgba(201,168,76,0.4)';
+                    document.getElementById('detail-modal-name').style.color = '#c9a84c'; }
+                detailModalOverlay.classList.add('active');
+                setTimeout(() => detailModal.classList.add('active'), 50);
+                detailModal.scrollTop = 0;
+            }
+
+            function closeDetailModal() { detailModal.classList.remove('active');
+                setTimeout(() => detailModalOverlay.classList.remove('active'), 350); }
+
+            function updateLanguage(l) {
+                currentLang = l;
+                document.querySelectorAll('[data-i18n]').forEach(e => { if (i18nData[l] && i18nData[l][e.dataset.i18n]) e
+                        .textContent = i18nData[l][e.dataset.i18n]; });
+                homeButton.textContent = i18nData[l]['home'];
+                document.getElementById('houses-back-button').textContent = i18nData[l]['back'];
+            }
+
+            function createParticles() {
+                const s = ['❄️', '🔥', '🐉', '🐺', '⚔️', '👑', '🏰', '⭐', '🛡️', '💀', '🦁', '🐙', '🦅', '🐟', '🦌', '☀️', '🌹',
+                    '🐍', '🌑', '🐻', '⛓️', '🐴', '🐪'
+                ];
+
+                function sp() { const p = document.createElement('div');
+                    p.className = 'floating-particle';
+                    p.textContent = s[Math.floor(Math.random() * s.length)];
+                    p.style.left = Math.random() * 100 + '%';
+                    p.style.fontSize = (Math.random() * 24 + 12) + 'px';
+                    p.style.animationDuration = (Math.random() * 30 + 15) + 's';
+                    document.body.appendChild(p);
+                    setTimeout(() => { if (p.parentNode) p.remove(); }, 50000); }
+                for (let i = 0; i < 40; i++) setTimeout(sp, i * 300);
+                setInterval(() => { if (document.querySelectorAll('.floating-particle').length < 20) { for (let i = 0; i <
+                            8; i++) setTimeout(sp, i * 200); } }, 20000);
+            }
+            init();
+            console.log('%c👑 BUZ VE ATEŞİN ŞARKISI %c| %cKRALLAR • EJDERHALAR • HANEDANLAR %c🔥',
+                'font-size:22px;color:#ffd700;', '', 'font-size:16px;color:#d43d1a;', '');
+            console.log('%c🐉 17 Targaryen Kralı • Ejderhaların Dansı • Valyria\'nın Kıyameti %c📜',
+            'color:#c9a84c;', '');
+            window.GOTMap = { open: openHousesOverlay, close: closeHousesOverlay, lang: updateLanguage };
+        })();
+    </script>
+</body>
+</html>
