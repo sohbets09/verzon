@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="tk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sohbets</title>
+    <style>
+        :root {
+            --bg-primary: #050805;
+            --bg-secondary: #0a100a;
+            --bg-card: #0f180f;
+            --bg-card-hover: #152015;
+            --bg-input: #0d140d;
+            --accent: #00ff88;
+            --accent-bright: #00ff88;
+            --accent-dark: #00cc6a;
+            --accent-dim: #00994d;
+            --accent-glow: rgba(0, 255, 136, 0.2);
+            --accent-glow-strong: rgba(0, 255, 136, 0.35);
+            --text-primary: #e8f5e8;
+            --text-secondary: #a0c0a0;
+            --text-muted: #608060;
+            --text-bright: #ffffff;
+            --border: #1a2a1a;
+            --border-hover: #00ff88;
+            --border-light: #203020;
+            --glass-bg: rgba(10, 20, 10, 0.85);
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+            --hover-shadow: 0 12px 48px rgba(0, 255, 136, 0.15);
+            --radius-sm: 10px;
+            --radius: 16px;
+            --radius-lg: 20px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 30px 20px 60px;
+            background-image:
+                radial-gradient(ellipse at 15% 10%, rgba(0, 255, 136, 0.04) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 90%, rgba(0, 255, 136, 0.05) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.9) 0%, var(--bg-primary) 100%);
+            line-height: 1.6;
+        }
+
+        /* Zarýadly bölejikler */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+            box-shadow: 0 0 6px var(--accent-glow);
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(105vh) scale(0);
+                opacity: 0;
+            }
+
+            5% {
+                opacity: 0.8;
+            }
+
+            85% {
+                opacity: 0.4;
+            }
+
+            100% {
+                transform: translateY(-5vh) scale(1.8);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes borderGlow {
+
+            0%,
+            100% {
+                border-color: var(--accent);
+                box-shadow: 0 0 20px var(--accent-glow);
+            }
+
+            50% {
+                border-color: var(--accent-dim);
+                box-shadow: 0 0 35px var(--accent-glow-strong);
+            }
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 48px 40px;
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.8),
+                0 0 0 1px var(--border),
+                inset 0 1px 0 rgba(255, 255, 255, 0.015);
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(8px);
+            animation: slideInUp 0.8s ease;
+        }
+
+        /* Üst çyzyk */
+        .top-glow {
+            position: absolute;
+            top: -1px;
+            left: 40px;
+            right: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.7;
+            border-radius: 2px;
+        }
+
+        /* ============ PROFIL BÖLÜMI ============ */
+        .profile-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 22px;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent);
+            border: 3px solid var(--border);
+            position: relative;
+            z-index: 1;
+            transition: all var(--transition);
+            cursor: default;
+            overflow: hidden;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .avatar-ring {
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            width: 136px;
+            height: 136px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: var(--accent);
+            border-right-color: var(--accent-dim);
+            animation: spin 6s linear infinite;
+            opacity: 0.7;
+        }
+
+        .avatar-ring-2 {
+            position: absolute;
+            top: -14px;
+            left: -14px;
+            width: 148px;
+            height: 148px;
+            border-radius: 50%;
+            border: 1.5px solid transparent;
+            border-bottom-color: var(--accent);
+            border-left-color: var(--accent-dark);
+            animation: spin 10s linear infinite reverse;
+            opacity: 0.4;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .avatar:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 40px var(--accent-glow-strong);
+            transform: scale(1.03);
+        }
+
+        .avatar:hover~.avatar-ring,
+        .avatar-wrapper:hover .avatar-ring {
+            animation-duration: 3s;
+            opacity: 1;
+        }
+
+        .status-dot {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid var(--bg-secondary);
+            z-index: 2;
+            animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 10px var(--accent-glow-strong);
+        }
+
+        h1 {
+            font-size: 2.6em;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, #ffffff 0%, #00ff88 40%, #00cc6a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-badge {
+            display: inline-block;
+            padding: 7px 18px;
+            background: var(--bg-card);
+            border: 1px solid var(--accent);
+            border-radius: 25px;
+            font-size: 0.85em;
+            color: var(--accent);
+            letter-spacing: 1.5px;
+            margin-bottom: 18px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .bio-box {
+            max-width: 580px;
+            margin: 0 auto;
+            padding: 20px 26px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 0.95em;
+            transition: all var(--transition);
+        }
+
+        .bio-box:hover {
+            border-color: var(--accent-dim);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.05);
+        }
+
+        .bio-box strong {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .bio-box .emoji {
+            font-size: 1.2em;
+        }
+
+        /* ============ STATISTIKALAR ============ */
+        .stats-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            text-align: center;
+            min-width: 130px;
+            flex: 1;
+            max-width: 200px;
+            transition: all var(--transition);
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .stat-number {
+            font-size: 2.2em;
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* ============ BÖLÜM BAŞLYKLARY ============ */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+            margin-top: 50px;
+        }
+
+        .section-header:first-of-type {
+            margin-top: 0;
+        }
+
+        .icon-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            transition: all var(--transition);
+            flex-shrink: 0;
+        }
+
+        .section-header:hover .icon-circle {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .section-header h3 {
+            font-size: 1.1em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: var(--text-primary);
+        }
+
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border), transparent);
+            margin-left: 8px;
+        }
+
+        /* ============ GÖZLEG INPUTY ============ */
+        .search-wrapper {
+            position: relative;
+            max-width: 480px;
+            margin: 0 auto 30px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 22px 15px 50px;
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: 30px;
+            color: var(--text-primary);
+            font-size: 0.95em;
+            outline: none;
+            transition: all var(--transition);
+            font-family: inherit;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 5px var(--accent-glow), 0 0 30px var(--accent-glow-strong);
+            background: #0f180f;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.2em;
+            transition: all var(--transition);
+        }
+
+        .search-input:focus~.search-icon,
+        .search-wrapper:focus-within .search-icon {
+            color: var(--accent);
+        }
+
+        .search-clear {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2em;
+            padding: 6px 10px;
+            border-radius: 50%;
+            transition: all var(--transition);
+            display: none;
+        }
+
+        .search-clear.visible {
+            display: block;
+        }
+
+        .search-clear:hover {
+            color: var(--text-primary);
+            background: var(--border);
+        }
+
+        .no-results {
+            display: none;
+            text-align: center;
+            color: var(--text-muted);
+            margin: 16px 0;
+            padding: 14px 20px;
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            font-size: 0.9em;
+        }
+
+        .no-results.visible {
+            display: block;
+        }
+
+        .results-count {
+            text-align: center;
+            font-size: 0.8em;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .results-count.visible {
+            display: block;
+        }
+
+        /* ============ WEBSAHYPA KARTLARY ============ */
+        .website-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 14px;
+        }
+
+        .website-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 22px 16px;
+            text-decoration: none;
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            transition: all var(--transition);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .website-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+            transform: scaleX(0);
+            transition: transform var(--transition);
+        }
+
+        .website-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+            background: var(--bg-card-hover);
+        }
+
+        .website-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .website-card .card-icon {
+            font-size: 2.2em;
+            transition: all var(--transition);
+            position: relative;
+        }
+
+        .website-card:hover .card-icon {
+            transform: scale(1.2) rotate(-5deg);
+            filter: drop-shadow(0 0 8px var(--accent-glow));
+        }
+
+        .website-card .card-name {
+            font-weight: 600;
+            font-size: 0.9em;
+            line-height: 1.3;
+            transition: color var(--transition);
+        }
+
+        .website-card:hover .card-name {
+            color: var(--accent);
+        }
+
+        .website-card .card-url {
+            font-size: 0.7em;
+            color: var(--text-muted);
+            word-break: break-all;
+            transition: all var(--transition);
+        }
+
+        .website-card:hover .card-url {
+            color: var(--text-secondary);
+        }
+
+        .website-card .card-tag {
+            font-size: 0.7em;
+            padding: 3px 10px;
+            border-radius: 12px;
+            background: rgba(0, 255, 136, 0.08);
+            color: var(--accent);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            margin-top: 2px;
+        }
+
+        .website-card.hidden {
+            display: none;
+        }
+
+        .website-card.highlight {
+            animation: borderGlow 1.5s ease-in-out 3;
+            border-color: var(--accent);
+            box-shadow: 0 0 25px var(--accent-glow-strong);
+        }
+
+        /* ============ BAŞARNYKLAR ============ */
+        .skills-section {
+            margin-bottom: 30px;
+        }
+
+        .skill-item {
+            margin-bottom: 18px;
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 0.88em;
+        }
+
+        .skill-name {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .skill-percent {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background: var(--bg-card);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+            border-radius: 10px;
+            transition: width 1.5s ease;
+            width: 0;
+        }
+
+        /* ============ SOSIAL MEDIA ============ */
+        .social-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .social-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 13px 22px;
+            text-decoration: none;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-weight: 500;
+            font-size: 0.88em;
+            transition: all var(--transition);
+            cursor: pointer;
+        }
+
+        .social-btn:hover {
+            border-color: var(--accent);
+            background: #0f1f0f;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.12);
+            color: var(--accent);
+        }
+
+        .social-btn .s-icon {
+            font-size: 1.3em;
+            transition: transform var(--transition);
+        }
+
+        .social-btn:hover .s-icon {
+            transform: scale(1.2);
+        }
+
+        /* ============ PROÝEKTLER ============ */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .project-card .project-icon {
+            font-size: 2.5em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .project-card h4 {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .project-card p {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+
+        .project-card .project-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85em;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all var(--transition);
+        }
+
+        .project-card .project-link:hover {
+            gap: 10px;
+            color: var(--accent-bright);
+        }
+
+        .project-card .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .tech-tag {
+            font-size: 0.7em;
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: rgba(0, 255, 136, 0.06);
+            color: var(--accent);
+            border: 1px solid rgba(0, 255, 136, 0.15);
+        }
+
+        /* ============ WATTPAD KITAPLARY ============ */
+        .books-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .book-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 22px;
+            text-decoration: none;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            transition: all var(--transition);
+            position: relative;
+        }
+
+        .book-card:hover {
+            border-color: var(--accent);
+            background: #0f1f0f;
+            transform: translateX(6px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .book-icon {
+            font-size: 2.2em;
+            min-width: 50px;
+            text-align: center;
+            transition: all var(--transition);
+        }
+
+        .book-card:hover .book-icon {
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 8px var(--accent-glow));
+        }
+
+        .book-info {
+            flex: 1;
+        }
+
+        .book-info h4 {
+            font-size: 1em;
+            font-weight: 600;
+            margin-bottom: 4px;
+            transition: color var(--transition);
+        }
+
+        .book-card:hover .book-info h4 {
+            color: var(--accent);
+        }
+
+        .book-info p {
+            font-size: 0.8em;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .book-card .arrow-icon {
+            color: var(--text-muted);
+            font-size: 1.4em;
+            transition: all var(--transition);
+        }
+
+        .book-card:hover .arrow-icon {
+            color: var(--accent);
+            transform: translateX(6px);
+        }
+
+        /* ============ HABARLAŞMAK FORMASY ============ */
+        .contact-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.82em;
+            color: var(--text-secondary);
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 12px 16px;
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.93em;
+            outline: none;
+            transition: all var(--transition);
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+            background: #0f180f;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            padding: 14px 32px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #000;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all var(--transition);
+            align-self: flex-start;
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--accent-glow-strong);
+            background: linear-gradient(135deg, #33ff99, var(--accent));
+        }
+
+        .submit-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* ============ FOOTER ============ */
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 28px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.82em;
+            letter-spacing: 1px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .footer .dot {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color var(--transition);
+            font-size: 0.85em;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+                border-radius: var(--radius);
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .website-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 10px;
+            }
+
+            .website-card {
+                padding: 16px 10px;
+                gap: 8px;
+            }
+
+            .website-card .card-name {
+                font-size: 0.8em;
+            }
+
+            .website-card .card-icon {
+                font-size: 1.8em;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-row {
+                gap: 10px;
+            }
+
+            .stat-card {
+                min-width: 100px;
+                padding: 14px 16px;
+            }
+
+            .stat-number {
+                font-size: 1.6em;
+            }
+
+            .social-btn {
+                padding: 10px 16px;
+                font-size: 0.8em;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .book-card {
+                padding: 14px 16px;
+                gap: 12px;
+            }
+
+            .book-icon {
+                font-size: 1.6em;
+                min-width: 36px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .website-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .website-card {
+                padding: 12px 8px;
+                border-radius: var(--radius-sm);
+            }
+
+            .website-card .card-name {
+                font-size: 0.73em;
+            }
+
+            .website-card .card-url {
+                font-size: 0.65em;
+            }
+
+            .bio-box {
+                padding: 14px 16px;
+                font-size: 0.85em;
+            }
+
+            h1 {
+                font-size: 1.7em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Zarýadly bölejikler -->
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <div class="top-glow"></div>
+
+        <!-- ============ PROFIL ============ -->
+        <div class="profile-section">
+            <div class="avatar-wrapper">
+                <div class="avatar-ring"></div>
+                <div class="avatar-ring-2"></div>
+                <div class="avatar">
+                    <img src="photo/profile.jpg" alt="Verzon">
+                    <div class="status-dot" title="Onlaýn"></div>
+                </div>
+            </div>
+            <h1>ColdXoz</h1>
+            <div class="title-badge">✦ Full-Stack Developer & Ýazyjy ✦</div>
+            <div class="bio-box">
+                <p><span class="emoji">👋</span> Salam! Men — <strong>ColdXoz</strong>. Web dizaýn, programma
+                    üpjünçiligi we döredijilik bilen meşgullanýaryn. Aşakda ähli <strong>websahypalarym</strong>,
+                    <strong>sosial hasaplarym</strong>, <strong>proýektlerim</strong> we <strong>Wattpad
+                        kitaplarym</strong> ýerleşýär. Gözleg arkaly islän zadyňyzy tapyp bilersiňiz. <span
+                        class="emoji">🚀</span></p>
+            </div>
+        </div>
+
+        <!-- ============ STATISTIKALAR ============ -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-number" data-count="5">0</div>
+                <div class="stat-label">Websahypa</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-count="6"></div>
+                <div class="stat-label">Sosial Hasap</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-count="2">0</div>
+                <div class="stat-label">Wattpad Kitap</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-count="2">0</div>
+                <div class="stat-label">Ýyl Tejribe</div>
+            </div>
+        </div>
+
+        <!-- ============ WEBSAHYPALAR ============ -->
+        <div class="section-header">
+            <div class="icon-circle">🌐</div>
+            <h3>Websahypalarym</h3>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="websiteSearch" placeholder="Websahypa adyny ýa-da URL ýazyň..."
+                oninput="searchWebsites()">
+            <button class="search-clear" id="searchClear" onclick="clearSearch()" title="Arassala">✕</button>
+        </div>
+        <div class="results-count" id="resultsCount"></div>
+        <div class="no-results" id="noResults">⚠️ Gözleg boýunça hiç hili websahypa tapylmady.</div>
+
+        <div class="website-grid" id="websiteGrid">
+            <a href="https://sohbets09.github.io/verzon/A_Song_of_Ice_and_Fire/" target="_blank" class="website-card" data-name="Şahsy Portfolio">
+                <span class="card-icon">🌐</span>
+                <span class="card-name">A song of ice and fire</span>
+                <span class="card-url">A song of ice and fire</span>
+                <span class="card-tag">Gir</span>
+            </a>
+            <a href="https://sohbets09.github.io/verzon/Verzon/" target="_blank" class="website-card" data-name="Şahsy Portfolio">
+                <span class="card-icon">🌐</span>
+                <span class="card-name">Verzon</span>
+                <span class="card-url">Verzon</span>
+                <span class="card-tag">Gir</span>
+            </a>
+            <a href="https://sohbets09.github.io/verzon/Motivasyon/" target="_blank" class="website-card" data-name="Şahsy Portfolio">
+                <span class="card-icon">🌐</span>
+                <span class="card-name">Motivasyon</span>
+                <span class="card-url">Motivasyon</span>
+                <span class="card-tag">Gir</span>
+            </a>
+            <a href="https://sohbets09.github.io/verzon/75-nji%20dom/" target="_blank" class="website-card" data-name="Şahsy Portfolio">
+                <span class="card-icon">🌐</span>
+                <span class="card-name">75-nji dom</span>
+                <span class="card-url">75-nji dom</span>
+                <span class="card-tag">Gir</span>
+            </a>
+            <a href="https://sohbets09.github.io/verzon/sevgili/" target="_blank" class="website-card" data-name="Şahsy Portfolio">
+                <span class="card-icon">🌐</span>
+                <span class="card-name">sevgili</span>
+                <span class="card-url">sevgili</span>
+                <span class="card-tag">Gir</span>
+            </a>
+        </div>
+
+        
+
+        <!-- ============ SOSIAL MEDIA ============ -->
+        <div class="section-header">
+            <div class="icon-circle">🔗</div>
+            <h3>Sosial Hasabym</h3>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="social-grid">
+            <a href="https://github.com/kurbanow09" target="_blank" class="social-btn">
+                <span class="s-icon">💻</span> GitHub 1
+            </a>
+            <a href="https://github.com/sohbets09" target="_blank" class="social-btn">
+                <span class="s-icon">💻</span> GitHub 2
+            </a>
+            <a href="https://instagram.com/coldxoz" target="_blank" class="social-btn">
+                <span class="s-icon">📸</span> Instagram
+            </a>
+            <a href="https://tiktok.com/@coldxoz" target="_blank" class="social-btn">
+                <span class="s-icon">🎵</span> TikTok
+            </a>
+            <a href="https://youtube.com/@coldxoz" target="_blank" class="social-btn">
+                <span class="s-icon">▶️</span> YouTube
+            </a>
+            <a href="https://wattpad.com/zeron_v7" target="_blank" class="social-btn">
+                <span class="s-icon">📖</span> Wattpad
+            </a>
+        </div>
+
+        <!-- ============ WATTPAD KITAPLARY ============ -->
+        <div class="section-header">
+            <div class="icon-circle">📖</div>
+            <h3>Wattpad Kitaplarym</h3>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="books-list">
+            <a href="https://www.wattpad.com/story/412057555-g%C3%B6lgedeki-taht-nyxos-a%C3%BDaz" target="_blank" class="book-card">
+                <span class="book-icon">📕</span>
+                <div class="book-info">
+                    <h4>Gölgedeki Taht Nyxos | AÝAZ</h4>
+                </div>
+                <span class="arrow-icon">→</span>
+            </a>
+            <a href="https://www.wattpad.com/story/409037252-k%C3%BCllerin-%C5%9F%C3%B6valyesi-a%C3%BDaz" target="_blank" class="book-card">
+                <span class="book-icon">📗</span>
+                <div class="book-info">
+                    <h4>Küllerin Şövalyesi | AÝAZ</h4>
+                </div>
+                <span class="arrow-icon">→</span>
+            </a>
+        </div>
+    </div>
+        
+    <script>
+        // ============ ZARÝADLY BÖLEJIKLER ============
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const count = 40;
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 12 + 8) + 's';
+                particle.style.animationDelay = (Math.random() * 10) + 's';
+                const size = Math.random() * 2.5 + 1;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // ============ STATISTIKA SANLARY ANIMASIÝA ============
+        function animateStats() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(el => {
+                const target = parseInt(el.getAttribute('data-count'));
+                const duration = 2000;
+                const startTime = performance.now();
+                function update(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    el.textContent = Math.floor(eased * target);
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    } else {
+                        el.textContent = target;
+                    }
+                }
+                requestAnimationFrame(update);
+            });
+        }
+
+        // ============ BAŞARNYK BARLARY ANIMASIÝA ============
+        function animateSkills() {
+            const fills = document.querySelectorAll('.skill-fill');
+            fills.forEach(fill => {
+                const width = fill.getAttribute('data-width');
+                setTimeout(() => {
+                    fill.style.width = width + '%';
+                }, 300);
+            });
+        }
+
+        // ============ GÖZLEG FUNKSIÝASY ============
+        function searchWebsites() {
+            const input = document.getElementById('websiteSearch');
+            const filter = input.value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.website-card');
+            const noResults = document.getElementById('noResults');
+            const clearBtn = document.getElementById('searchClear');
+            const resultsCount = document.getElementById('resultsCount');
+            let visibleCount = 0;
+
+            if (filter.length > 0) {
+                clearBtn.classList.add('visible');
+            } else {
+                clearBtn.classList.remove('visible');
+                resultsCount.classList.remove('visible');
+            }
+
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                const url = card.querySelector('.card-url')?.textContent.toLowerCase() || '';
+                const tag = card.querySelector('.card-tag')?.textContent.toLowerCase() || '';
+
+                if (filter === '' || name.includes(filter) || url.includes(filter) || tag.includes(filter)) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            if (filter.length > 0) {
+                resultsCount.classList.add('visible');
+                resultsCount.textContent = visibleCount + ' websahypa tapyldy';
+            }
+
+            if (visibleCount === 0 && filter.length > 0) {
+                noResults.classList.add('visible');
+                resultsCount.classList.remove('visible');
+            } else {
+                noResults.classList.remove('visible');
+            }
+        }
+
+        function clearSearch() {
+            const input = document.getElementById('websiteSearch');
+            const clearBtn = document.getElementById('searchClear');
+            const noResults = document.getElementById('noResults');
+            const resultsCount = document.getElementById('resultsCount');
+            const cards = document.querySelectorAll('.website-card');
+
+            input.value = '';
+            clearBtn.classList.remove('visible');
+            noResults.classList.remove('visible');
+            resultsCount.classList.remove('visible');
+            cards.forEach(card => card.classList.remove('hidden'));
+            input.focus();
+        }
+
+        // Enter bilen
+        document.getElementById('websiteSearch').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                const visibleCards = document.querySelectorAll('.website-card:not(.hidden)');
+                if (visibleCards.length === 1) {
+                    visibleCards[0].click();
+                } else if (visibleCards.length > 0) {
+                    visibleCards[0].classList.add('highlight');
+                    visibleCards[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setTimeout(() => visibleCards[0].classList.remove('highlight'), 2000);
+                }
+            }
+        });
+
+        // ============ HABARLAŞMAK FORMASY ============
+        function handleContact(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('.submit-btn');
+            const originalText = btn.textContent;
+            btn.textContent = '✅ Iberildi!';
+            btn.style.background = 'linear-gradient(135deg, #00ff88, #00cc6a)';
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '';
+                e.target.reset();
+            }, 2500);
+        }
+
+        // ============ SCROLL ANIMASIÝALAR ============
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.closest('.stats-row')) animateStats();
+                    if (entry.target.closest('.skills-section')) animateSkills();
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.stats-row, .skills-section').forEach(el => observer.observe(el));
+
+        // ============ BAŞDA ÝÜKLENENDE ============
+        window.addEventListener('load', () => {
+            setTimeout(animateStats, 300);
+            setTimeout(animateSkills, 600);
+        });
+    </script>
+</body>
+
+</html>
