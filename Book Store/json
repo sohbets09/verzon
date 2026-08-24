@@ -1,0 +1,13 @@
+{
+  "id": 1,                                                    // #Kitap belgi nomeri (her kitap üçin täze)
+  "title": "Täze Kitap",                                     // #Kitabyň ady
+  "author": "Awtor",                                         // #Kitabyň awtory (ýazyjysy)
+  "category": "roman",                                       // #Kategoriýasy: roman, fantasy, science, history, poetry
+  "cover": "https://example.com/cover.jpg",                 // #FOTORAF ÜÇIN - Kitap kapağynyň suraty (jpg, png)
+  "description": "Kitap barada maglumat",                   // #Kitap barada gysgaça maglumat
+  "downloadLink": "https://example.com/download.pdf",       // #GÖÇÜRIP ALMAK ÜÇIN - PDF faýlyň linki
+  "readLink": "https://example.com/read",                   // #OKAMAK ÜÇIN - Online okamak üçin link
+  "pages": 200,                                             // #Kitabyň sahypa sany
+  "year": 2024,                                             // #Kitabyň çap edilen ýyly
+  "language": "Türkmençe"                                   // #Kitabyň dili
+}

@@ -1,0 +1,34 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "title": "Buz veAtesin Sarkisi 1 Taht-Oyunlar",
+      "author": "George R. R. Martin",
+      "category": "roman",
+      "cover": "covers/buz-ve-atesin-sarkisi-1-taht-oyunlari.PNG",
+      "description": "Türkmen roman klasykasy",
+      "downloadLink": "books/george-r-r-martin-ejderhalarc4b1n-dansc4b1-kc4b1sc4b1m-i-ii_kopyası.pdf",
+      "readLink": "books/george-r-r-martin-ejderhalarc4b1n-dansc4b1-kc4b1sc4b1m-i-ii_kopyası.pdf",
+      "pages": 505,
+      "year": 1996,
+      "language": "Türkçe",
+      "rating": 4.5,
+      "tags": ["fantesi", "Siyasi Kurgu", "Gizem"]
+    },
+    {
+      "id": 2,
+      "title": "Ak Öý",
+      "author": "Berdi Kerbabayew",
+      "category": "roman",
+      "cover": "https://picsum.photos/seed/book2/300/400",
+      "description": "Türkmen edebiýatynyň altyn hazynasy",
+      "downloadLink": "https://example.com/books/ak-oy.pdf",
+      "readLink": "https://example.com/read/ak-oy",
+      "pages": 300,
+      "year": 1940,
+      "language": "Türkmençe",
+      "rating": 4.8,
+      "tags": ["roman", "klasik", "milli"]
+    }
+  ]
+}
