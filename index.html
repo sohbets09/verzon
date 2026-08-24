@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sohbets</title>
-    <style>
+<style>
         :root {
             --bg-primary: #050805;
             --bg-secondary: #0a100a;
@@ -58,6 +58,7 @@
                 radial-gradient(ellipse at 85% 90%, rgba(0, 255, 136, 0.05) 0%, transparent 55%),
                 radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.9) 0%, var(--bg-primary) 100%);
             line-height: 1.6;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* Zarýadly bölejikler */
@@ -953,73 +954,142 @@
             color: var(--accent);
         }
 
-        /* ============ RESPONSIVE ============ */
+        /* ============ RESPONSIVE - TELEFON OPTİMİZASYONU ============ */
         @media (max-width: 768px) {
+            body {
+                padding: 10px 8px 40px;
+                font-size: 14px;
+            }
+
             .container {
-                padding: 30px 20px;
-                border-radius: var(--radius);
+                padding: 20px 12px;
+                border-radius: 12px;
+                margin: 0;
+                width: 100%;
+            }
+
+            .top-glow {
+                left: 20px;
+                right: 20px;
+            }
+
+            /* Profil bölümü */
+            .profile-section {
+                margin-bottom: 30px;
+            }
+
+            .avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 32px;
+            }
+
+            .avatar-ring {
+                width: 92px;
+                height: 92px;
+                top: -6px;
+                left: -6px;
+            }
+
+            .avatar-ring-2 {
+                width: 100px;
+                height: 100px;
+                top: -10px;
+                left: -10px;
+            }
+
+            .status-dot {
+                width: 12px;
+                height: 12px;
+                bottom: 4px;
+                right: 4px;
+                border-width: 2px;
             }
 
             h1 {
-                font-size: 2em;
-            }
-
-            .website-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 10px;
-            }
-
-            .website-card {
-                padding: 16px 10px;
-                gap: 8px;
-            }
-
-            .website-card .card-name {
-                font-size: 0.8em;
-            }
-
-            .website-card .card-icon {
                 font-size: 1.8em;
+                letter-spacing: -0.5px;
             }
 
-            .projects-grid {
-                grid-template-columns: 1fr;
+            .title-badge {
+                font-size: 0.7em;
+                padding: 5px 12px;
+                letter-spacing: 1px;
+                margin-bottom: 12px;
             }
 
+            .bio-box {
+                padding: 12px 14px;
+                font-size: 0.85em;
+                line-height: 1.6;
+                margin: 0 4px;
+            }
+
+            /* İstatistikler */
             .stats-row {
-                gap: 10px;
+                gap: 6px;
+                margin-bottom: 30px;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .stat-card {
-                min-width: 100px;
-                padding: 14px 16px;
+                min-width: auto;
+                max-width: none;
+                padding: 12px 8px;
+                border-radius: 10px;
             }
 
             .stat-number {
-                font-size: 1.6em;
+                font-size: 1.5em;
             }
 
-            .social-btn {
-                padding: 10px 16px;
-                font-size: 0.8em;
+            .stat-label {
+                font-size: 0.7em;
+                letter-spacing: 1px;
             }
 
-            .form-row {
-                flex-direction: column;
+            /* Bölüm başlıkları */
+            .section-header {
+                gap: 10px;
+                margin-bottom: 16px;
+                margin-top: 30px;
             }
 
-            .book-card {
-                padding: 14px 16px;
-                gap: 12px;
+            .icon-circle {
+                width: 36px;
+                height: 36px;
+                font-size: 1em;
             }
 
-            .book-icon {
-                font-size: 1.6em;
-                min-width: 36px;
+            .section-header h3 {
+                font-size: 0.9em;
+                letter-spacing: 1.5px;
             }
-        }
 
-        @media (max-width: 420px) {
+            /* Arama */
+            .search-wrapper {
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .search-input {
+                padding: 12px 40px 12px 40px;
+                font-size: 0.85em;
+                border-radius: 25px;
+            }
+
+            .search-icon {
+                left: 14px;
+                font-size: 1em;
+            }
+
+            .search-clear {
+                right: 8px;
+                padding: 4px 8px;
+            }
+
+            /* Website kartları */
             .website-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 8px;
@@ -1027,24 +1097,285 @@
 
             .website-card {
                 padding: 12px 8px;
-                border-radius: var(--radius-sm);
+                gap: 6px;
+                border-radius: 10px;
+            }
+
+            .website-card .card-icon {
+                font-size: 1.5em;
             }
 
             .website-card .card-name {
-                font-size: 0.73em;
+                font-size: 0.75em;
+                line-height: 1.2;
             }
 
             .website-card .card-url {
-                font-size: 0.65em;
+                display: none;
             }
 
-            .bio-box {
-                padding: 14px 16px;
+            .website-card .card-tag {
+                font-size: 0.6em;
+                padding: 2px 8px;
+            }
+
+            /* Sosyal medya */
+            .social-grid {
+                gap: 6px;
+            }
+
+            .social-btn {
+                padding: 8px 12px;
+                font-size: 0.75em;
+                border-radius: 20px;
+                gap: 6px;
+            }
+
+            .social-btn .s-icon {
+                font-size: 1.1em;
+            }
+
+            /* Wattpad kitapları */
+            .books-list {
+                gap: 8px;
+            }
+
+            .book-card {
+                padding: 12px;
+                gap: 10px;
+                border-radius: 10px;
+            }
+
+            .book-icon {
+                font-size: 1.4em;
+                min-width: 30px;
+            }
+
+            .book-info h4 {
                 font-size: 0.85em;
             }
 
+            .book-info p {
+                font-size: 0.7em;
+            }
+
+            .book-card .arrow-icon {
+                font-size: 1.1em;
+            }
+
+            /* Projeler */
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .project-card {
+                padding: 16px;
+                border-radius: 10px;
+            }
+
+            .project-card .project-icon {
+                font-size: 1.8em;
+                margin-bottom: 8px;
+            }
+
+            .project-card h4 {
+                font-size: 1em;
+            }
+
+            .project-card p {
+                font-size: 0.8em;
+            }
+
+            /* İletişim formu */
+            .contact-form {
+                padding: 16px;
+                gap: 12px;
+                border-radius: 10px;
+            }
+
+            .form-group label {
+                font-size: 0.75em;
+            }
+
+            .form-group input,
+            .form-group textarea {
+                padding: 10px 12px;
+                font-size: 0.85em;
+                border-radius: 8px;
+            }
+
+            .submit-btn {
+                padding: 12px 24px;
+                font-size: 0.85em;
+                border-radius: 25px;
+                width: 100%;
+                text-align: center;
+            }
+
+            /* Footer */
+            .footer {
+                margin-top: 30px;
+                padding-top: 20px;
+                font-size: 0.75em;
+                gap: 6px;
+            }
+
+            .footer-links {
+                gap: 12px;
+                font-size: 0.75em;
+            }
+
+            .results-count {
+                font-size: 0.75em;
+                margin-bottom: 10px;
+            }
+
+            .no-results {
+                font-size: 0.8em;
+                padding: 10px 14px;
+                margin: 10px 0;
+            }
+        }
+
+        /* Çok küçük ekranlar için */
+        @media (max-width: 360px) {
+            .website-grid {
+                gap: 6px;
+            }
+
+            .website-card {
+                padding: 10px 6px;
+                border-radius: 8px;
+            }
+
+            .website-card .card-name {
+                font-size: 0.7em;
+            }
+
+            .website-card .card-icon {
+                font-size: 1.3em;
+            }
+
             h1 {
-                font-size: 1.7em;
+                font-size: 1.5em;
+            }
+
+            .avatar {
+                width: 70px;
+                height: 70px;
+                font-size: 28px;
+            }
+
+            .avatar-ring {
+                width: 80px;
+                height: 80px;
+            }
+
+            .avatar-ring-2 {
+                width: 86px;
+                height: 86px;
+            }
+
+            .social-btn {
+                padding: 6px 10px;
+                font-size: 0.7em;
+            }
+
+            .stat-number {
+                font-size: 1.3em;
+            }
+
+            .stat-label {
+                font-size: 0.65em;
+            }
+        }
+
+        /* Telefon için dokunma optimizasyonu */
+        @media (hover: none) and (pointer: coarse) {
+            .website-card:hover {
+                transform: none;
+                box-shadow: none;
+                border-color: var(--border);
+            }
+
+            .website-card:active {
+                transform: scale(0.95);
+                border-color: var(--accent);
+                box-shadow: var(--hover-shadow);
+                transition: all 0.15s ease;
+            }
+
+            .social-btn:hover {
+                transform: none;
+                box-shadow: none;
+                border-color: var(--border);
+                color: var(--text-primary);
+            }
+
+            .social-btn:active {
+                transform: scale(0.95);
+                border-color: var(--accent);
+                color: var(--accent);
+                box-shadow: 0 4px 15px rgba(0, 255, 136, 0.15);
+                transition: all 0.15s ease;
+            }
+
+            .book-card:hover {
+                transform: none;
+                box-shadow: none;
+                border-color: var(--border);
+                background: var(--bg-card);
+            }
+
+            .book-card:active {
+                transform: scale(0.98);
+                border-color: var(--accent);
+                background: #0f1f0f;
+                transition: all 0.15s ease;
+            }
+
+            .stat-card:hover {
+                transform: none;
+                box-shadow: none;
+                border-color: var(--border);
+            }
+
+            .stat-card:active {
+                transform: scale(0.97);
+                border-color: var(--accent);
+                transition: all 0.15s ease;
+            }
+        }
+
+        /* Yatay mod için */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .website-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .stats-row {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+
+            .avatar-ring {
+                width: 70px;
+                height: 70px;
+            }
+
+            .avatar-ring-2 {
+                width: 76px;
+                height: 76px;
+            }
+
+            h1 {
+                font-size: 1.5em;
             }
         }
     </style>
@@ -1082,7 +1413,7 @@
         <!-- ============ STATISTIKALAR ============ -->
         <div class="stats-row">
             <div class="stat-card">
-                <div class="stat-number" data-count="6">0</div>
+                <div class="stat-number" data-count="7">0</div>
                 <div class="stat-label">Websahypa</div>
             </div>
             <div class="stat-card">
@@ -1150,6 +1481,12 @@
                 <span class="card-icon">🌐</span>
                 <span class="card-name">Minecraft Group</span>
                 <span class="card-url">Minecraft Group</span>
+                <span class="card-tag">Gir</span>
+            </a>
+            <a href="https://sohbets09.github.io/verzon/Book%20Store/" target="_blank" class="website-card" data-name="Şahsy Portfolio">
+                <span class="card-icon">🌐</span>
+                <span class="card-name">Book Store</span>
+                <span class="card-url">Book Store</span>
                 <span class="card-tag">Gir</span>
             </a>
         </div>
