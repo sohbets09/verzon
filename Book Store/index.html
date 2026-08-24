@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kitap Älemi - Kitap Dünýäsi</title>
     <style>
-        /* Önceki CSS'ler aynen buraya gelecek */
         :root {
             --bg: #1a1a2e;
             --bg2: #16213e;
@@ -69,6 +68,8 @@
             --accent: #ff7597;
             --shadow: rgba(0,0,0,0.5);
             --hover: #2a2a2a;
+            --danger: #ff4757;
+            --success: #2ed573;
         }
 
         * {
@@ -878,8 +879,114 @@
     </style>
 </head>
 <body>
-    <!-- NAVBAR, CONTENT, MODAL, FOOTER aynı kalacak -->
-    <!-- ... (önceki HTML yapısı aynen) ... -->
+    <!-- TOP NAVBAR -->
+    <nav class="navbar">
+        <div class="logo" id="siteLogo">📚 Kitap Älemi</div>
+        <div class="desktop-nav">
+            <button class="active" data-section="home" id="navHome">🏠 Ana Sayfa</button>
+            <button data-section="favorites" id="navFavorites">❤️ Favorilerim</button>
+            <button data-section="collections" id="navCollections">📁 Koleksiyonlar</button>
+            <button data-section="profile" id="navProfile">👤 Profil</button>
+            <div class="language-select">
+                <button class="active" data-lang="tk">TKM</button>
+                <button data-lang="tr">TR</button>
+                <button data-lang="en">EN</button>
+                <button data-lang="ru">RU</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MOBILE LANGUAGE BAR -->
+    <div class="mobile-language-bar" id="mobileLangBar">
+        <button class="active" data-lang="tk">TKM</button>
+        <button data-lang="tr">TR</button>
+        <button data-lang="en">EN</button>
+        <button data-lang="ru">RU</button>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content" id="mainContent">
+        <!-- SEARCH SECTION -->
+        <div class="search-section" id="searchSection">
+            <h1 id="titleMain">Kitap Dünýäsi</h1>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Kitap gözle...">
+                <button id="searchBtn">🔍</button>
+            </div>
+            <div class="categories" id="categoriesContainer">
+                <button class="category-btn active" data-category="all">Ähli</button>
+                <button class="category-btn" data-category="roman">Roman</button>
+                <button class="category-btn" data-category="fantasy">Fantasy</button>
+                <button class="category-btn" data-category="science">Ylym</button>
+                <button class="category-btn" data-category="history">Taryh</button>
+                <button class="category-btn" data-category="poetry">Şygyr</button>
+            </div>
+        </div>
+
+        <!-- BOOKS GRID -->
+        <div class="books-grid" id="booksGrid"></div>
+    </div>
+
+    <!-- PROFILE MODAL -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="profileTitle">👤 Profil</h2>
+                <button class="close-btn" id="closeProfileBtn">✕</button>
+            </div>
+            <div class="profile-avatar" id="profileAvatar" title="Fotoraf üýtgetmek üçin basyň">
+                <span id="avatarPlaceholder">📷</span>
+                <img id="avatarImage" style="display:none;" alt="Profil fotorafy">
+            </div>
+            <input type="file" id="avatarInput" accept="image/*" style="display:none;">
+            <div class="profile-form">
+                <input type="text" id="profileName" placeholder="Adyňyzy ýazyň">
+                <div class="settings-section">
+                    <h3 id="themeTitle">🎨 Tema</h3>
+                    <div class="theme-options">
+                        <button class="theme-btn active" data-theme="dark">⚫ Gara</button>
+                        <button class="theme-btn" data-theme="light">⚪ Ak</button>
+                        <button class="theme-btn" data-theme="blue">🔵 Mawy</button>
+                        <button class="theme-btn" data-theme="pink">🌸 Gülgüne</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MOBILE BOTTOM NAV -->
+    <nav class="mobile-bottom-nav" id="mobileBottomNav">
+        <div class="mobile-nav-buttons">
+            <button class="mobile-nav-btn active" data-section="home">
+                <span class="icon">🏠</span>
+                <span class="label" id="mobileHomeLabel">Ana Sayfa</span>
+            </button>
+            <button class="mobile-nav-btn" data-section="favorites">
+                <span class="icon">❤️</span>
+                <span class="label" id="mobileFavLabel">Favoriler</span>
+            </button>
+            <button class="mobile-nav-btn" data-section="collections">
+                <span class="icon">📁</span>
+                <span class="label" id="mobileCollLabel">Koleksiyon</span>
+            </button>
+            <button class="mobile-nav-btn" data-section="profile">
+                <span class="icon">👤</span>
+                <span class="label" id="mobileProfLabel">Profil</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-social">
+            <a href="https://tiktok.com" target="_blank" class="social-btn">🎵 TikTok</a>
+            <a href="https://youtube.com" target="_blank" class="social-btn">📺 YouTube</a>
+            <a href="https://github.com" target="_blank" class="social-btn">🐙 GitHub</a>
+            <a href="https://github.com" target="_blank" class="social-btn">💻 GitHub 2</a>
+            <a href="https://wattpad.com" target="_blank" class="social-btn">📖 Wattpad</a>
+        </div>
+        <p id="footerText">© 2024 Kitap Älemi - Ähli hukuklar goralandyr</p>
+    </footer>
 
     <script>
         // ============ LANGUAGE TRANSLATIONS ============
@@ -906,9 +1013,7 @@
                 collection: 'Kolleksiýa',
                 removeCollection: 'Aýyr',
                 read: 'Oka',
-                download: 'Göçürip al',
-                loading: 'Ýüklenýär...',
-                error: 'Ýalňyşlyk ýüze çykdy'
+                download: 'Göçürip al'
             },
             tr: {
                 title: 'Kitap Alemi',
@@ -932,9 +1037,7 @@
                 collection: 'Koleksiyon',
                 removeCollection: 'Kaldır',
                 read: 'Oku',
-                download: 'İndir',
-                loading: 'Yükleniyor...',
-                error: 'Bir hata oluştu'
+                download: 'İndir'
             },
             en: {
                 title: 'Book World',
@@ -958,9 +1061,7 @@
                 collection: 'Collection',
                 removeCollection: 'Remove',
                 read: 'Read',
-                download: 'Download',
-                loading: 'Loading...',
-                error: 'An error occurred'
+                download: 'Download'
             },
             ru: {
                 title: 'Книжный Мир',
@@ -984,11 +1085,145 @@
                 collection: 'Коллекция',
                 removeCollection: 'Убрать',
                 read: 'Читать',
-                download: 'Скачать',
-                loading: 'Загрузка...',
-                error: 'Произошла ошибка'
+                download: 'Скачать'
             }
         };
+
+        // Kitapları doğrudan tanımla (JSON dosyası yoksa bile çalışır)
+        let booksData = [
+            {
+              "id": 1,
+              "title": "Buz veAtesin Sarkisi 1 Taht-Oyunlar",
+              "author": "George R. R. Martin",
+              "category": "roman",
+              "cover": "covers/buz-ve-atesin-sarkisi-1-taht-oyunlari.PNG",
+              "description": "Türkmen roman klasykasy",
+              "downloadLink": "books/george-r-r-martin-ejderhalarc4b1n-dansc4b1-kc4b1sc4b1m-i-ii_kopyası.pdf",
+              "readLink": "books/george-r-r-martin-ejderhalarc4b1n-dansc4b1-kc4b1sc4b1m-i-ii_kopyası.pdf",
+              "pages": 505,
+              "year": 1996,
+              "language": "Türkçe",
+              "rating": 4.5,
+              "tags": ["fantesi", "Siyasi Kurgu", "Gizem"]
+            },
+            {
+                id: 2,
+                title: 'Ak Öý',
+                author: 'Berdi Kerbabayew',
+                category: 'roman',
+                cover: 'https://picsum.photos/seed/book2/300/400',
+                description: 'Türkmen edebiýatynyň altyn hazynasy',
+                downloadLink: 'https://example.com/books/ak-oy.pdf',
+                readLink: 'https://example.com/read/ak-oy',
+                pages: 300,
+                year: 1940,
+                language: 'Türkmençe'
+            },
+            {
+                id: 3,
+                title: 'Magtymguly Pyragy',
+                author: 'Şahyr',
+                category: 'poetry',
+                cover: 'https://picsum.photos/seed/book3/300/400',
+                description: 'Türkmen nusgawy şygryýeti',
+                downloadLink: 'https://example.com/books/magtymguly.pdf',
+                readLink: 'https://example.com/read/magtymguly',
+                pages: 150,
+                year: 1800,
+                language: 'Türkmençe'
+            },
+            {
+                id: 4,
+                title: 'Harry Potter',
+                author: 'J.K. Rowling',
+                category: 'fantasy',
+                cover: 'https://picsum.photos/seed/book4/300/400',
+                description: 'Jadyly fantaziýa romany',
+                downloadLink: 'https://example.com/books/harry-potter.pdf',
+                readLink: 'https://example.com/read/harry-potter',
+                pages: 400,
+                year: 1997,
+                language: 'Iňlisçe'
+            },
+            {
+                id: 5,
+                title: 'Ylmyň Ösüşi',
+                author: 'Alym Ataýew',
+                category: 'science',
+                cover: 'https://picsum.photos/seed/book5/300/400',
+                description: 'Ylmy açyşlar we ösüş',
+                downloadLink: 'https://example.com/books/ylmyn-osusi.pdf',
+                readLink: 'https://example.com/read/ylmyn-osusi',
+                pages: 200,
+                year: 2015,
+                language: 'Türkmençe'
+            },
+            {
+                id: 6,
+                title: 'Taryhyň Şäherleri',
+                author: 'Taryhçy',
+                category: 'history',
+                cover: 'https://picsum.photos/seed/book6/300/400',
+                description: 'Taryhy şäherler barada',
+                downloadLink: 'https://example.com/books/taryhyn-saherleri.pdf',
+                readLink: 'https://example.com/read/taryhyn-saherleri',
+                pages: 180,
+                year: 2010,
+                language: 'Türkmençe'
+            },
+            {
+                id: 7,
+                title: 'Şirin Sözler',
+                author: 'Aşyk Aýdymy',
+                category: 'poetry',
+                cover: 'https://picsum.photos/seed/book7/300/400',
+                description: 'Söýgi şygryýeti',
+                downloadLink: 'https://example.com/books/sirin-sozler.pdf',
+                readLink: 'https://example.com/read/sirin-sozler',
+                pages: 120,
+                year: 2005,
+                language: 'Türkmençe'
+            },
+            {
+                id: 8,
+                title: 'Uly Oýun',
+                author: 'Fantast',
+                category: 'fantasy',
+                cover: 'https://picsum.photos/seed/book8/300/400',
+                description: 'Epos fantasy',
+                downloadLink: 'https://example.com/books/uly-oyun.pdf',
+                readLink: 'https://example.com/read/uly-oyun',
+                pages: 350,
+                year: 2018,
+                language: 'Türkmençe'
+            },
+            {
+                id: 9,
+                title: 'Tehnologiýa',
+                author: 'Inžener',
+                category: 'science',
+                cover: 'https://picsum.photos/seed/book9/300/400',
+                description: 'Tehnologiýa ösüşleri',
+                downloadLink: 'https://example.com/books/tehnologiya.pdf',
+                readLink: 'https://example.com/read/tehnologiya',
+                pages: 220,
+                year: 2020,
+                language: 'Türkmençe'
+            },
+            {
+                id: 10,
+                title: 'Türkmen Taplary',
+                author: 'Taryhçy',
+                category: 'history',
+                cover: 'https://picsum.photos/seed/book10/300/400',
+                description: 'Türkmen taplary barada',
+                downloadLink: 'https://example.com/books/turkmen-taplary.pdf',
+                readLink: 'https://example.com/read/turkmen-taplary',
+                pages: 280,
+                year: 2008,
+                language: 'Türkmençe'
+            }
+        ];
 
         // ============ STATE ============
         let currentLang = localStorage.getItem('language') || 'tk';
@@ -998,7 +1233,6 @@
         let collections = JSON.parse(localStorage.getItem('collections') || '{}');
         let profileData = JSON.parse(localStorage.getItem('profile') || '{}');
         let currentTheme = localStorage.getItem('theme') || 'dark';
-        let booksData = [];
 
         // ============ DOM ELEMENTS ============
         const booksGrid = document.getElementById('booksGrid');
@@ -1015,31 +1249,17 @@
         const mainContent = document.getElementById('mainContent');
         const mobileLangBar = document.getElementById('mobileLangBar');
 
-        // ============ LOAD BOOKS FROM JSON ============
-        async function loadBooksFromJSON() {
-            try {
-                const response = await fetch('books.json');
-                if (!response.ok) {
-                    throw new Error('JSON fayly tapylmady');
-                }
-                const data = await response.json();
-                booksData = data.books;
-                renderBooks(booksData);
-            } catch (error) {
-                console.error('JSON ýükleme ýalňyşlygy:', error);
-                booksGrid.innerHTML = `<p style="text-align:center; padding:2rem;">${translations[currentLang].error}: books.json fayly tapylmady</p>`;
-            }
-        }
-
         // ============ INITIALIZE ============
-        async function init() {
+        function init() {
+            console.log('Site başlatylýar...');
             applyTheme(currentTheme);
             applyLanguage(currentLang);
             loadProfile();
             updateNav();
             setupEventListeners();
             checkScreenSize();
-            await loadBooksFromJSON();
+            renderBooks(booksData);
+            console.log('Site başlatyldy!');
         }
 
         // ============ THEME ============
@@ -1092,9 +1312,7 @@
                 }
             });
 
-            if (booksData.length > 0) {
-                renderBooks(booksData);
-            }
+            renderBooks(booksData);
         }
 
         // ============ RENDER BOOKS ============
@@ -1385,7 +1603,15 @@
         }
 
         // ============ START ============
-        init();
+        // Sayfa yüklendiğinde başlat
+        window.addEventListener('DOMContentLoaded', init);
+        
+        // Eğer sayfa zaten yüklendiyse hemen başlat
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
     </script>
 </body>
 </html>
