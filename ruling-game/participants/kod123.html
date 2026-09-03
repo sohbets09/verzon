@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ruling Game Sezon 1 - Katılımcı Paneli">
+    <title>Ruling Game - Gatnaşyjy Paneli</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --primary-dark: #5f3dc4;
+            --primary-light: #a29bfe;
+            --accent-color: #fd79a8;
+            --success-color: #00b894;
+            --error-color: #d63031;
+            --warning-color: #fdcb6e;
+            --text-color: #2d3436;
+            --text-light: #636e72;
+            --background-color: #f8f9fa;
+            --surface-color: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        [data-theme="dark"] {
+            --text-color: #e0e0e0;
+            --text-light: #bdbdbd;
+            --background-color: #1a1a2e;
+            --surface-color: #16213e;
+            --border-color: #2d3436;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        .panel-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        /* ÜST BAR */
+        .top-bar {
+            background: var(--surface-color);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-btn {
+            background: var(--background-color);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            font-size: 1.1em;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .top-bar-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .top-bar-right {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .theme-toggle-btn {
+            background: var(--background-color);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+
+        .theme-toggle-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .logout-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #ff4757;
+            transform: translateY(-2px);
+        }
+
+        /* KATILIMCI BİLGİLERİ */
+        .participant-header {
+            background: var(--surface-color);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .participant-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .participant-avatar {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            color: white;
+            font-weight: bold;
+        }
+
+        .participant-details h1 {
+            font-size: 1.3em;
+            color: var(--text-color);
+            margin-bottom: 3px;
+        }
+
+        .participant-details p {
+            color: var(--text-light);
+            font-size: 0.85em;
+            margin: 2px 0;
+        }
+
+        .code-badge {
+            background: var(--primary-color);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .rank-container {
+            text-align: center;
+        }
+
+        .rank-badge {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #fdcb6e, #f39c12);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            color: white;
+            font-weight: bold;
+            margin: 0 auto;
+        }
+
+        .rank-label {
+            font-size: 0.8em;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        /* BÖLÜM KARTLARI */
+        .section-card {
+            background: var(--surface-color);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .section-card h2 {
+            color: var(--text-color);
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* PUAN DURUMU */
+        .total-score-box {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .total-score-label {
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+
+        .total-score-value {
+            font-size: 2em;
+            font-weight: 900;
+        }
+
+        .score-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .score-box {
+            background: var(--background-color);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .score-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .score-question {
+            display: block;
+            color: var(--text-light);
+            font-size: 0.8em;
+            margin-bottom: 5px;
+        }
+
+        .score-value {
+            display: block;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .score-status {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.7em;
+            font-weight: 600;
+        }
+
+        .score-status.correct {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .score-status.wrong {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* SIRALAMA TABLOSU */
+        .ranking-table-container {
+            overflow-x: auto;
+        }
+
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 400px;
+        }
+
+        .ranking-table th {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px;
+            text-align: left;
+            font-size: 0.85em;
+        }
+
+        .ranking-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.85em;
+            color: var(--text-color);
+        }
+
+        .highlight-row {
+            background: rgba(108, 92, 231, 0.1);
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+
+        .status-badge.leader {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.competing {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        /* SORU ALANI */
+        .question-area {
+            background: var(--background-color);
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .question-number {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 0.9em;
+        }
+
+        .question-points {
+            color: #f39c12;
+            font-weight: 700;
+            font-size: 0.9em;
+        }
+
+        .question-text {
+            color: var(--text-color);
+            font-size: 0.95em;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .option-btn {
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            background: var(--surface-color);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9em;
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary-color);
+            background: var(--background-color);
+        }
+
+        .option-btn.selected {
+            border-color: var(--primary-color);
+            background: rgba(108, 92, 231, 0.1);
+        }
+
+        .option-letter {
+            width: 28px;
+            height: 28px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85em;
+            flex-shrink: 0;
+        }
+
+        .submit-answer-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .submit-answer-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* WATTPAD LİNKLERİ */
+        .wattpad-links {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .wattpad-link {
+            padding: 15px;
+            background: linear-gradient(135deg, #ff6b6b, #ff4757);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+            display: block;
+        }
+
+        .wattpad-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,71,87,0.3);
+        }
+
+        .wattpad-link i {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .wattpad-link h3 {
+            font-size: 0.95em;
+        }
+
+        .wattpad-link p {
+            font-size: 0.8em;
+            opacity: 0.9;
+        }
+
+        /* BİLDİRİM */
+        .notification {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            left: 15px;
+            background: var(--surface-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 15px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .notification-icon {
+            font-size: 1.3em;
+            color: var(--success-color);
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-content h4 {
+            font-size: 0.95em;
+            color: var(--text-color);
+        }
+
+        .notification-content p {
+            font-size: 0.85em;
+            color: var(--text-light);
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+
+        /* TABLET */
+        @media (min-width: 768px) {
+            .panel-container {
+                padding: 25px;
+            }
+            
+            .participant-header {
+                padding: 25px;
+            }
+            
+            .section-card {
+                padding: 25px;
+            }
+            
+            .score-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            
+            .options {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .wattpad-links {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .participant-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 2em;
+            }
+            
+            .participant-details h1 {
+                font-size: 1.5em;
+            }
+        }
+
+        /* BÜYÜK EKRAN */
+        @media (min-width: 1024px) {
+            .panel-container {
+                padding: 30px;
+            }
+            
+            .score-grid {
+                grid-template-columns: repeat(10, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="panel-container">
+        <!-- ÜST BAR -->
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <button class="back-btn" onclick="goBack()" title="Yza gaýt">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <span class="top-bar-title">Ruling Game - Panel</span>
+            </div>
+            <div class="top-bar-right">
+                <button class="theme-toggle-btn" onclick="toggleDarkMode()" title="Tema">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Çykyş
+                </button>
+            </div>
+        </div>
+
+        <!-- KATILIMCI BİLGİLERİ -->
+        <div class="participant-header" data-aos="fade-up">
+            <div class="participant-info">
+                <div class="participant-avatar">A</div>
+                <div class="participant-details">
+                    <h1>Ahmet Yılmaz</h1>
+                    <p>Kod: <span class="code-badge">KOD123</span></p>
+                    <p>Email: ahmet@example.com</p>
+                    <p>Gatnaşan senesi: 01.01.2024</p>
+                </div>
+            </div>
+            <div class="rank-container">
+                <div class="rank-badge">#1</div>
+                <p class="rank-label">Umumy reýting</p>
+            </div>
+        </div>
+
+        <!-- PUAN DURUMU -->
+        <div class="section-card" data-aos="fade-up" data-aos-delay="100">
+            <h2><i class="fas fa-chart-bar"></i> Bal Ýagdaýyňyz</h2>
+            <div class="total-score-box">
+                <div class="total-score-label">Jemi Bal</div>
+                <div class="total-score-value">84</div>
+            </div>
+            <div class="score-grid">
+                <div class="score-box">
+                    <span class="score-question">Sorag 1</span>
+                    <span class="score-value">10</span>
+                    <span class="score-status correct">✓ Dogry</span>
+                </div>
+                <div class="score-box">
+                    <span class="score-question">Sorag 2</span>
+                    <span class="score-value">8</span>
+                    <span class="score-status correct">✓ Dogry</span>
+                </div>
+                <div class="score-box">
+                    <span class="score-question">Sorag 3</span>
+                    <span class="score-value">9</span>
+                    <span class="score-status correct">✓ Dogry</span>
+                </div>
+                <div class="score-box">
+                    <span class="score-question">Sorag 4</span>
+                    <span class="score-value">7</span>
+                    <span class="score-status correct">✓ Dogry</span>
+                </div>
+                <div class="score-box">
+                    <span class="score-question">Sorag 5</span>
+                    <span class="score-value">10</span>
+                    <span class="score-status correct">✓ Dogry</span>
+                </div>
+                <div class="score-box">
+                    <span class="score-question">Sorag 6</span>
+                    <span class="score-value">6</span>
+                    <span class="score-status wrong">✗ Nädogry</span>
+                </div>
+                <div class="score-box">
+                    <span class="score-question">Sorag 7</span>
+                    <span class="score-value">8</span>
+                    <span class="score-status correct">✓ Dogry</span>
+                </div>
+                <div class="score-box">
+                    <span class="score-question">Sorag 8</span>
+                    <span class="score-value">9</span>
+                    <span class="score-status correct">✓ Dogry</span>
+                </div>
+                <div class="score-box">
+                    <span class="score-question">Sorag 9</span>
+                    <span class="score-value">7</span>
+                    <span class="score-status correct">✓ Dogry</span>
+                </div>
+                <div class="score-box">
+                    <span class="score-question">Sorag 10</span>
+                    <span class="score-value">10</span>
+                    <span class="score-status correct">✓ Dogry</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- GENEL SIRALAMA -->
+        <div class="section-card" data-aos="fade-up" data-aos-delay="200">
+            <h2><i class="fas fa-trophy"></i> Umumy Reýting</h2>
+            <div class="ranking-table-container">
+                <table class="ranking-table">
+                    <thead>
+                        <tr>
+                            <th>Orun</th>
+                            <th>Gatnaşyjy</th>
+                            <th>Bal</th>
+                            <th>Ýagdaý</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="highlight-row">
+                            <td>🏆 1</td>
+                            <td>Ahmet Yılmaz (Siz)</td>
+                            <td>84</td>
+                            <td><span class="status-badge leader">Lider</span></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Mehmet Şahin</td>
+                            <td>83</td>
+                            <td><span class="status-badge competing">Ýaryşýar</span></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Ayşe Kaya</td>
+                            <td>82</td>
+                            <td><span class="status-badge competing">Ýaryşýar</span></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Zeynep Demir</td>
+                            <td>78</td>
+                            <td><span class="status-badge competing">Ýaryşýar</span></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Test Kullanıcı</td>
+                            <td>50</td>
+                            <td><span class="status-badge competing">Ýaryşýar</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SORU ALANI -->
+        <div class="section-card" data-aos="fade-up" data-aos-delay="300">
+            <h2><i class="fas fa-question-circle"></i> Häzirki Sorag</h2>
+            <div class="question-area">
+                <div class="question-header">
+                    <span class="question-number">Sorag 10</span>
+                    <span class="question-points">10 Bal</span>
+                </div>
+                <p class="question-text">
+                    Bu sorag GitHub üsti bilen guramaçy tarapyndan goşular.
+                </p>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('A')">
+                        <span class="option-letter">A</span>
+                        <span>Wariant A</span>
+                    </button>
+                    <button class="option-btn" onclick="selectAnswer('B')">
+                        <span class="option-letter">B</span>
+                        <span>Wariant B</span>
+                    </button>
+                    <button class="option-btn" onclick="selectAnswer('C')">
+                        <span class="option-letter">C</span>
+                        <span>Wariant C</span>
+                    </button>
+                    <button class="option-btn" onclick="selectAnswer('D')">
+                        <span class="option-letter">D</span>
+                        <span>Wariant D</span>
+                    </button>
+                </div>
+                <button class="submit-answer-btn" onclick="submitAnswer()">
+                    <i class="fas fa-paper-plane"></i> Jogaby Ugrat
+                </button>
+            </div>
+        </div>
+
+        <!-- WATTPAD HIZLI ERİŞİM -->
+        <div class="section-card" data-aos="fade-up" data-aos-delay="400">
+            <h2><i class="fas fa-book"></i> Wattpad Çalt Giriş</h2>
+            <div class="wattpad-links">
+                <a href="https://www.wattpad.com/story/1" class="wattpad-link" target="_blank">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Kitap 1</h3>
+                    <p>Başlangyç</p>
+                </a>
+                <a href="https://www.wattpad.com/story/2" class="wattpad-link" target="_blank">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Kitap 2</h3>
+                    <p>Dowamy</p>
+                </a>
+                <a href="https://www.wattpad.com/story/3" class="wattpad-link" target="_blank">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Kitap 3</h3>
+                    <p>Final</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- BİLDİRİM -->
+    <div id="notification" class="notification">
+        <div class="notification-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="notification-content">
+            <h4 id="notificationTitle">Üstünlikli!</h4>
+            <p id="notificationMessage">Amal tamamlandy.</p>
+        </div>
+        <button class="notification-close" onclick="closeNotification()">&times;</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // AOS Animasyonları
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Seçilen cevap
+        let selectedAnswer = null;
+
+        function selectAnswer(option) {
+            selectedAnswer = option;
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            event.target.closest('.option-btn').classList.add('selected');
+        }
+
+        function submitAnswer() {
+            if (selectedAnswer) {
+                showNotification('Üstünlikli!', `Jogabyňyz (${selectedAnswer}) kabul edildi! Guramaçy balyňyzy tazeler.`);
+                selectedAnswer = null;
+                document.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+            } else {
+                showNotification('Duýduryş!', 'Jogap saýlaň!', 'warning');
+            }
+        }
+
+        function showNotification(title, message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const titleElement = document.getElementById('notificationTitle');
+            const messageElement = document.getElementById('notificationMessage');
+            
+            if (notification && titleElement && messageElement) {
+                titleElement.textContent = title;
+                messageElement.textContent = message;
+                
+                const colors = {
+                    success: '#00b894',
+                    warning: '#fdcb6e',
+                    error: '#d63031'
+                };
+                
+                notification.style.borderLeftColor = colors[type] || colors.success;
+                notification.style.display = 'flex';
+                
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        function closeNotification() {
+            document.getElementById('notification').style.display = 'none';
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            
+            const icon = document.getElementById('themeIcon');
+            if (icon) {
+                icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        function goBack() {
+            window.location.href = '../index.html';
+        }
+
+        function logout() {
+            if (confirm('Çykyş etmek isleýäňizmi?')) {
+                localStorage.removeItem('ruling_game_participant');
+                window.location.href = '../index.html';
+            }
+        }
+
+        // Giriş kontrolü
+        document.addEventListener('DOMContentLoaded', () => {
+            const participantData = localStorage.getItem('ruling_game_participant');
+            if (participantData) {
+                const data = JSON.parse(participantData);
+                if (data.code !== 'KOD123') {
+                    alert('Bu sahypa KOD123 gatnaşyjysyna degişlidir.');
+                    window.location.href = '../index.html';
+                }
+            } else {
+                alert('Ilki bilen giriş ediň.');
+                window.location.href = '../index.html';
+            }
+        });
+    </script>
+</body>
+</html>

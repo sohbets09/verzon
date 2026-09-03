@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ruling Game Sezon 1 - Heyecan verici yarışma deneyimi">
+    <meta name="keywords" content="yarışma, oyun, ruling game, sezon 1, ödül">
+    <meta name="author" content="Ruling Game Team">
+    <title>Ruling Game</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        /* TEMEL STİLLER - MOBİL UYUMLU */
+        :root {
+            --primary-color: #6c5ce7;
+            --primary-dark: #5f3dc4;
+            --primary-light: #a29bfe;
+            --accent-color: #fd79a8;
+            --success-color: #00b894;
+            --error-color: #d63031;
+            --warning-color: #fdcb6e;
+            --text-color: #2d3436;
+            --text-light: #636e72;
+            --background-color: #f8f9fa;
+            --surface-color: #ffffff;
+            --border-color: #e0e0e0;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 16px rgba(0,0,0,0.15);
+            --shadow-xl: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        [data-theme="dark"] {
+            --text-color: #e0e0e0;
+            --text-light: #bdbdbd;
+            --background-color: #1a1a2e;
+            --surface-color: #16213e;
+            --border-color: #2d3436;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        /* YÜKLEME EKRANI */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe, #fd79a8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            position: relative;
+        }
+
+        .spinner-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid transparent;
+            border-radius: 50%;
+            animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        }
+
+        .spinner-ring:nth-child(1) { border-top-color: white; animation-delay: -0.45s; }
+        .spinner-ring:nth-child(2) { border-right-color: white; animation-delay: -0.3s; }
+        .spinner-ring:nth-child(3) { border-bottom-color: white; animation-delay: -0.15s; }
+        .spinner-ring:nth-child(4) { border-left-color: white; }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-logo {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 8px;
+        }
+
+        .loading-letter {
+            font-size: 1.8em;
+            font-weight: 900;
+            color: white;
+            animation: bounce 1.5s ease-in-out infinite;
+        }
+
+        .loading-letter:nth-child(1) { animation-delay: 0s; }
+        .loading-letter:nth-child(2) { animation-delay: 0.1s; }
+        .loading-letter:nth-child(3) { animation-delay: 0.2s; }
+        .loading-letter:nth-child(4) { animation-delay: 0.3s; }
+        .loading-letter:nth-child(5) { animation-delay: 0.4s; }
+        .loading-letter:nth-child(6) { animation-delay: 0.5s; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .loading-game-title {
+            font-size: 1em;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 0.4em;
+            margin-bottom: 15px;
+        }
+
+        .loading-progress {
+            width: 150px;
+            height: 5px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 0 auto 8px;
+        }
+
+        .loading-progress-bar {
+            height: 100%;
+            background: white;
+            border-radius: 3px;
+            transition: width 0.3s;
+            width: 0%;
+        }
+
+        .loading-percentage {
+            font-size: 1em;
+            font-weight: 600;
+            color: white;
+        }
+
+        .loading-text {
+            color: rgba(255,255,255,0.8);
+            margin-top: 8px;
+            font-size: 0.9em;
+        }
+
+        /* NAVİGASYON - MOBİL UYUMLU */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--surface-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .nav-main {
+            padding: 10px 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1em;
+        }
+
+        .logo-text-container {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .logo-text-main {
+            font-size: 1em;
+            font-weight: 900;
+            color: var(--primary-color);
+        }
+
+        .logo-text-sub {
+            font-size: 0.7em;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .season-badge {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.6em;
+            font-weight: 700;
+            display: none;
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .language-selector select {
+            padding: 6px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            background: var(--surface-color);
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8em;
+            cursor: pointer;
+            max-width: 100px;
+        }
+
+        .theme-toggle {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background: var(--surface-color);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .hamburger-line {
+            width: 20px;
+            height: 2px;
+            background: var(--text-color);
+            transition: all 0.3s;
+            border-radius: 2px;
+        }
+
+        .hamburger.active .hamburger-line:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .hamburger.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active .hamburger-line:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+
+        /* MOBİL MENÜ */
+        .nav-menu {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px 0;
+        }
+
+        .nav-menu.active {
+            display: flex;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 0.9em;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: rgba(108, 92, 231, 0.1);
+            color: var(--primary-color);
+        }
+
+        .nav-link.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .nav-link-highlight {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 50%, #fd79a8 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 80px 20px 40px;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85em;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-title {
+            font-size: 2.5em;
+            font-weight: 900;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 8px;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 0.2em;
+            margin-bottom: 15px;
+        }
+
+        .hero-description {
+            font-size: 0.95em;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            min-width: 60px;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: 900;
+            color: white;
+        }
+
+        .stat-label {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.75em;
+        }
+
+        /* SECTION STİLLERİ */
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 15px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: white;
+            font-size: 1.2em;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            font-weight: 900;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+
+        .section-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .divider-line {
+            width: 40px;
+            height: 2px;
+            background: var(--primary-color);
+        }
+
+        .divider-icon {
+            color: var(--primary-color);
+            font-size: 0.9em;
+        }
+
+        .section-subtitle {
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+
+        /* KARTLAR */
+        .about-grid, .sponsors-grid, .prizes-grid, .social-grid, .wattpad-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .about-card, .sponsor-card, .prize-card, .social-card, .wattpad-card {
+            background: var(--surface-color);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .about-card:hover, .sponsor-card:hover, .prize-card:hover, .social-card:hover, .wattpad-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(108, 92, 231, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: var(--primary-color);
+            font-size: 1.5em;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5em;
+            font-weight: 900;
+            color: rgba(108, 92, 231, 0.1);
+        }
+
+        /* KURALLAR */
+        .rules-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .rule-item {
+            display: flex;
+            gap: 15px;
+            background: var(--surface-color);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+
+        .rule-number {
+            width: 35px;
+            height: 35px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* KATILIMCI GİRİŞİ */
+        .participant-login {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .login-box {
+            background: var(--surface-color);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .login-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: white;
+            font-size: 1.8em;
+        }
+
+        .code-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .code-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            background: var(--surface-color);
+            color: var(--text-color);
+        }
+
+        .code-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .btn-login {
+            padding: 12px 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 1em;
+        }
+
+        .btn-login:hover {
+            background: var(--primary-dark);
+        }
+
+        .code-error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9em;
+        }
+
+        /* SOSYAL MEDYA */
+        .social-card {
+            text-decoration: none;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3em;
+        }
+
+        .github .social-icon { background: #333; }
+        .wattpad .social-icon { background: #ff6b6b; }
+        .youtube .social-icon { background: #ff0000; }
+        .tiktok .social-icon { background: #000; }
+        .instagram .social-icon { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+
+        /* FOOTER */
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 30px 0 15px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+
+        .footer-section a {
+            display: block;
+            color: #bdbdbd;
+            text-decoration: none;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-section p {
+            color: #bdbdbd;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .footer-social a {
+            width: 35px;
+            height: 35px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 15px;
+            text-align: center;
+            font-size: 0.85em;
+            color: #bdbdbd;
+        }
+
+        /* ÇEREZ BİLDİRİMİ */
+        .cookie-consent {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            right: 15px;
+            background: var(--surface-color);
+            border-radius: 15px;
+            box-shadow: var(--shadow-xl);
+            padding: 15px;
+            z-index: 1000;
+        }
+
+        .cookie-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: center;
+        }
+
+        .cookie-icon {
+            font-size: 1.5em;
+            color: var(--primary-color);
+        }
+
+        .cookie-text h4 {
+            font-size: 0.95em;
+            margin-bottom: 5px;
+        }
+
+        .cookie-text p {
+            font-size: 0.85em;
+            color: var(--text-light);
+        }
+
+        .cookie-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .cookie-accept, .cookie-decline {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        .cookie-accept {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .cookie-decline {
+            background: var(--background-color);
+            color: var(--text-color);
+        }
+
+        /* CANLI DESTEK */
+        .live-chat {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            z-index: 999;
+        }
+
+        .chat-toggle {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.2em;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .chat-badge {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            width: 18px;
+            height: 18px;
+            background: var(--error-color);
+            border-radius: 50%;
+            font-size: 0.7em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 75px;
+            right: 15px;
+            width: calc(100% - 30px);
+            max-width: 350px;
+            height: 400px;
+            background: var(--surface-color);
+            border-radius: 15px;
+            box-shadow: var(--shadow-xl);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .chat-window.active {
+            display: flex;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .chat-input {
+            padding: 10px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .chat-input button {
+            width: 35px;
+            height: 35px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* YUKARI ÇIK BUTONU */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            width: 45px;
+            height: 45px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            display: none;
+            z-index: 999;
+        }
+
+        .scroll-to-top.visible {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* BİLDİRİM */
+        .notification {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            left: 15px;
+            background: var(--surface-color);
+            border-radius: 12px;
+            box-shadow: var(--shadow-xl);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1100;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .notification-icon {
+            font-size: 1.2em;
+            color: var(--success-color);
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-content h4 {
+            font-size: 0.95em;
+        }
+
+        .notification-content p {
+            font-size: 0.85em;
+            color: var(--text-light);
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+
+        /* TABLET VE ÜSTÜ */
+        @media (min-width: 768px) {
+            .season-badge {
+                display: inline-block;
+            }
+            
+            .hamburger {
+                display: none;
+            }
+            
+            .nav-menu {
+                display: flex;
+                flex-direction: row;
+                width: auto;
+                padding: 0;
+                gap: 5px;
+            }
+            
+            .nav-link {
+                padding: 8px 12px;
+                font-size: 0.8em;
+            }
+            
+            .hero-title {
+                font-size: 4em;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.5em;
+                letter-spacing: 0.3em;
+            }
+            
+            .hero-description {
+                font-size: 1.1em;
+            }
+            
+            .hero-stats {
+                gap: 30px;
+            }
+            
+            .stat-number {
+                font-size: 2em;
+            }
+            
+            .stat-label {
+                font-size: 0.9em;
+            }
+            
+            .section-title {
+                font-size: 2em;
+            }
+            
+            .about-grid, .sponsors-grid, .social-grid, .wattpad-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .prizes-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+            
+            .code-input-group {
+                flex-direction: row;
+            }
+            
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+            
+            .cookie-consent {
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
+                width: 500px;
+            }
+            
+            .cookie-content {
+                flex-direction: row;
+                align-items: center;
+                text-align: left;
+            }
+        }
+
+        /* BÜYÜK EKRAN */
+        @media (min-width: 1024px) {
+            .nav-link {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+            
+            .about-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .sponsors-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .social-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .wattpad-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .footer-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- YÜKLEME EKRANI -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+            <div class="loading-logo">
+                <span class="loading-letter">R</span>
+                <span class="loading-letter">U</span>
+                <span class="loading-letter">L</span>
+                <span class="loading-letter">I</span>
+                <span class="loading-letter">N</span>
+                <span class="loading-letter">G</span>
+            </div>
+            <div class="loading-game-title">GAME</div>
+            <div class="loading-progress">
+                <div class="loading-progress-bar" id="loadingProgressBar"></div>
+            </div>
+            <div class="loading-percentage" id="loadingPercentage">0%</div>
+            <div class="loading-text" id="loadingText">Ýüklenýär...</div>
+        </div>
+    </div>
+
+    <!-- NAVİGASYON -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-main">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="logo-text-container">
+                        <span class="logo-text-main">RULING</span>
+                        <span class="logo-text-sub">GAME</span>
+                    </div>
+                    <span class="season-badge">SEZON 1</span>
+                </div>
+                
+                <div class="nav-controls">
+                    <div class="language-selector">
+                        <select id="languageSelect" onchange="changeLanguage(this.value)">
+                            <option value="tk">Türkmençe</option>
+                            <option value="tr">Türkçe</option>
+                            <option value="ru">Русский</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                    <button class="theme-toggle" onclick="toggleDarkMode()">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <div class="hamburger" onclick="toggleMobileMenu()">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </div>
+                </div>
+                
+                <div class="nav-menu" id="navMenu">
+                    <a href="#home" class="nav-link active" id="navHome">Baş Sahypa</a>
+                    <a href="#about" class="nav-link" id="navAbout">Hakynda</a>
+                    <a href="#rules" class="nav-link" id="navRules">Düzgünler</a>
+                    <a href="#sponsors" class="nav-link" id="navSponsors">Hemaýatkärler</a>
+                    <a href="#prizes" class="nav-link" id="navPrizes">Baýraklar</a>
+                    <a href="#social" class="nav-link" id="navSocial">Sosial Mediýa</a>
+                    <a href="#wattpad" class="nav-link" id="navWattpad">Wattpad</a>
+                    <a href="#participant" class="nav-link nav-link-highlight" id="navParticipant">Giriş</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="hero-section">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-star"></i> <span id="heroBadgeText">1-nji Möwsüm Başlady!</span>
+            </div>
+            <h1 class="hero-title">RULING GAME</h1>
+            <h2 class="hero-subtitle" id="heroSubtitleText">1-NJI MÖWSÜM</h2>
+            <p class="hero-description" id="heroDescriptionText">
+                Täsirli ýaryşa goşulyň we uly baýraklary utuň!
+            </p>
+            <div class="hero-buttons">
+                <a href="#participant" class="btn-primary" id="heroJoinBtn">
+                    <i class="fas fa-trophy"></i> Ýaryşa Goşul
+                </a>
+                <a href="#about" class="btn-secondary" id="heroLearnBtn">
+                    <i class="fas fa-info-circle"></i> Köpräk Öwren
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">10</div>
+                    <div class="stat-label" id="statQuestions">Sorag</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label" id="statLanguages">Dil</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label" id="statParticipants">Gatnaşyjy</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label" id="statPrizes">Uly Baýrak</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HAKKINDA SECTION -->
+    <section id="about" class="about-section">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-info-circle"></i></div>
+                <h2 class="section-title" id="aboutTitle">Ýaryşma Hakynda</h2>
+                <div class="section-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-icon"><i class="fas fa-crown"></i></div>
+                    <div class="divider-line"></div>
+                </div>
+                <p class="section-subtitle" id="aboutSubtitle">Ruling Game hakda bilmeli zatlaryňyz</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="card-icon"><i class="fas fa-question-circle"></i></div>
+                    <h3 id="aboutCard1Title">10 Kyn Sorag</h3>
+                    <p id="aboutCard1Desc">Her biri sizi oýlandyrjak 10 ýörite sorag garaşýar.</p>
+                    <div class="card-number">01</div>
+                </div>
+                <div class="about-card">
+                    <div class="card-icon"><i class="fas fa-users"></i></div>
+                    <h3 id="aboutCard2Title">Bäsdeşlik</h3>
+                    <p id="aboutCard2Desc">Beýleki gatnaşyjylar bilen ýaryşyň we ýokary çykyň.</p>
+                    <div class="card-number">02</div>
+                </div>
+                <div class="about-card">
+                    <div class="card-icon"><i class="fas fa-gift"></i></div>
+                    <h3 id="aboutCard3Title">Uly Baýraklar</h3>
+                    <p id="aboutCard3Desc">Ýeňijileri ajaýyp baýraklar garaşýar.</p>
+                    <div class="card-number">03</div>
+                </div>
+                <div class="about-card">
+                    <div class="card-icon"><i class="fas fa-globe"></i></div>
+                    <h3 id="aboutCard4Title">4 Dil Goldawy</h3>
+                    <p id="aboutCard4Desc">Türkmen, Türk, Rus we Iňlis dillerinde ýaryşyň.</p>
+                    <div class="card-number">04</div>
+                </div>
+                <div class="about-card">
+                    <div class="card-icon"><i class="fas fa-clock"></i></div>
+                    <h3 id="aboutCard5Title">Wagt Çäklendirmesi</h3>
+                    <p id="aboutCard5Desc">Her sorag üçin belli bir wagt çägi bar.</p>
+                    <div class="card-number">05</div>
+                </div>
+                <div class="about-card">
+                    <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3 id="aboutCard6Title">Janly Reýting</h3>
+                    <p id="aboutCard6Desc">Reýtingi we ballary real wagtda yzarlaň.</p>
+                    <div class="card-number">06</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KURALLAR SECTION -->
+    <section id="rules" class="rules-section">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-gavel"></i></div>
+                <h2 class="section-title" id="rulesTitle">Ýaryşma Düzgünleri</h2>
+                <div class="section-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-icon"><i class="fas fa-scale-balanced"></i></div>
+                    <div class="divider-line"></div>
+                </div>
+                <p class="section-subtitle" id="rulesSubtitle">Adalatly we gyzykly ýaryşma üçin düzgünler</p>
+            </div>
+            <div class="rules-list">
+                <div class="rule-item">
+                    <div class="rule-number">1</div>
+                    <div>
+                        <h3 id="rule1Title">Gatnaşmak Şertleri</h3>
+                        <p id="rule1Desc">Ýaryşa gatnaşmak üçin dogry gatnaşyjy koduna eýe bolmaly.</p>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-number">2</div>
+                    <div>
+                        <h3 id="rule2Title">Sorag Sany</h3>
+                        <p id="rule2Desc">Ýaryşma jemi 10 soragdan ybarat.</p>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-number">3</div>
+                    <div>
+                        <h3 id="rule3Title">Jogap Bermek</h3>
+                        <p id="rule3Desc">Her sorag üçin A, B, C, D görnüşinde 4 wariant bar.</p>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-number">4</div>
+                    <div>
+                        <h3 id="rule4Title">Ballamak</h3>
+                        <p id="rule4Desc">Her dogry jogap 10 balla deň.</p>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-number">5</div>
+                    <div>
+                        <h3 id="rule5Title">Ýeňijini Kesgitlemek</h3>
+                        <p id="rule5Desc">Iň ýokary bal alan gatnaşyjy ýaryşy utýar.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KATILIMCI GİRİŞİ -->
+    <section id="participant" class="participant-section">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-key"></i></div>
+                <h2 class="section-title" id="participantTitle">Gatnaşyjy Girişi</h2>
+                <div class="section-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-icon"><i class="fas fa-user-lock"></i></div>
+                    <div class="divider-line"></div>
+                </div>
+                <p class="section-subtitle" id="participantSubtitle">Size mahsus koduňyzy girizip paneliňize giriň</p>
+            </div>
+            <div class="participant-login">
+                <div class="login-box">
+                    <div class="login-icon"><i class="fas fa-user-circle"></i></div>
+                    <h3 style="text-align:center;" id="participantCodeTitle">Gatnaşyjy Koduňyzy Giriň</h3>
+                    <p style="text-align:center; color: var(--text-light);" id="participantCodeDesc">Size mahsus koduňyzy girizip paneliňize giriň.</p>
+                    <div class="code-input-group">
+                        <input type="text" id="participantCode" class="code-input" placeholder="KOD123" maxlength="10" onkeyup="this.value = this.value.toUpperCase()">
+                        <button class="btn-login" onclick="checkParticipantCode()" id="loginBtnText">Giriş</button>
+                    </div>
+                    <div id="codeError" class="code-error" style="display: none;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span id="codeErrorText">Nädogry kod! Dogry gatnaşyjy koduny giriziň.</span>
+                    </div>
+                    <p style="text-align:center; color: var(--text-light); margin-top: 15px;" id="exampleCodesText">
+                        Mysal kodlar: 
+                        <button onclick="fillCode('KOD123')" style="background:none;border:none;color:var(--primary-color);cursor:pointer;font-weight:600;">KOD123</button>
+                        <button onclick="fillCode('KOD456')" style="background:none;border:none;color:var(--primary-color);cursor:pointer;font-weight:600;">KOD456</button>
+                        <button onclick="fillCode('KOD789')" style="background:none;border:none;color:var(--primary-color);cursor:pointer;font-weight:600;">KOD789</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SPONSORLAR -->
+    <section id="sponsors" class="sponsors-section">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-handshake"></i></div>
+                <h2 class="section-title" id="sponsorsTitle">Hemaýatkärlerimiz</h2>
+                <div class="section-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-icon"><i class="fas fa-building"></i></div>
+                    <div class="divider-line"></div>
+                </div>
+                <p class="section-subtitle" id="sponsorsSubtitle">Bizi goldaýan gymmatly hemaýatkärlerimiz</p>
+            </div>
+            <div class="sponsors-grid">
+                <div class="sponsor-card">
+                    <div class="card-icon"><i class="fas fa-building"></i></div>
+                    <h3>TechCorp</h3>
+                    <p style="color:var(--primary-color);font-weight:600;" id="sponsor1Type">Baş Hemaýatkär</p>
+                    <p>Tähnalogiýa çözgütlerinde öňdebaryjy firma</p>
+                </div>
+                <div class="sponsor-card">
+                    <div class="card-icon"><i class="fas fa-laptop"></i></div>
+                    <h3>GameWorld</h3>
+                    <p style="color:var(--primary-color);font-weight:600;" id="sponsor2Type">Tähnalogiýa Hemaýatkäri</p>
+                    <p>Oýun dünýäsiniň lider markasy</p>
+                </div>
+                <div class="sponsor-card">
+                    <div class="card-icon"><i class="fas fa-newspaper"></i></div>
+                    <h3>MediaNet</h3>
+                    <p style="color:var(--primary-color);font-weight:600;" id="sponsor3Type">Media Hemaýatkäri</p>
+                    <p>Habarlar we media pudagynyň ägirdi</p>
+                </div>
+                <div class="sponsor-card">
+                    <div class="card-icon"><i class="fas fa-coffee"></i></div>
+                    <h3>CoffeeHouse</h3>
+                    <p style="color:var(--primary-color);font-weight:600;" id="sponsor4Type">Goldaw Hemaýatkäri</p>
+                    <p>Iň gowy kofe tejribesi</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ÖDÜLLER -->
+    <section id="prizes" class="prizes-section">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-trophy"></i></div>
+                <h2 class="section-title" id="prizesTitle">Baýraklar</h2>
+                <div class="section-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-icon"><i class="fas fa-gift"></i></div>
+                    <div class="divider-line"></div>
+                </div>
+                <p class="section-subtitle" id="prizesSubtitle">Ýeňijileri garaşýan uly baýraklar</p>
+            </div>
+            <div class="prizes-grid">
+                <div class="prize-card">
+                    <div style="font-size:2.5em;">🥇</div>
+                    <h3 id="prize1Title">1-nji Baýrak</h3>
+                    <div style="font-size:1.5em;font-weight:900;color:var(--primary-color);">3000TMT</div>
+                    <p>Uly baýrak we ýörite şahadatnama</p>
+                </div>
+                <div class="prize-card">
+                    <div style="font-size:2.5em;">🥈</div>
+                    <h3 id="prize2Title">2-nji Baýrak</h3>
+                    <div style="font-size:1.5em;font-weight:900;color:var(--primary-color);">2000TMT</div>
+                    <p>Ikinji ýer baýragy we şahadatnama</p>
+                </div>
+                <div class="prize-card">
+                    <div style="font-size:2.5em;">🥉</div>
+                    <h3 id="prize3Title">3-nji Baýrak</h3>
+                    <div style="font-size:1.5em;font-weight:900;color:var(--primary-color);">1000$</div>
+                    <p>Üçünji ýer baýragy we şahadatnama</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOSYAL MEDYA -->
+    <section id="social" class="social-section">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-share-alt"></i></div>
+                <h2 class="section-title" id="socialTitle">Sosial Mediýa Hasapalarymyz</h2>
+                <div class="section-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-icon"><i class="fas fa-hashtag"></i></div>
+                    <div class="divider-line"></div>
+                </div>
+                <p class="section-subtitle" id="socialSubtitle">Bizi sosial mediýada yzarlaň</p>
+            </div>
+            <div class="social-grid">
+                <a href="https://github.com/kurbanow09" class="social-card github" target="_blank">
+                    <div class="social-icon"><i class="fab fa-github"></i></div>
+                    <span style="font-weight:600;">GitHub 1</span>
+                </a>
+                <a href="https://github.com/sohbets09" class="social-card github" target="_blank">
+                    <div class="social-icon"><i class="fab fa-github"></i></div>
+                    <span style="font-weight:600;">GitHub 2</span>
+                </a>
+                <a href="https://www.wattpad.com/user/Zeron_v7" class="social-card wattpad" target="_blank">
+                    <div class="social-icon"><i class="fas fa-book"></i></div>
+                    <span style="font-weight:600;">Wattpad</span>
+                </a>
+                <a href="https://www.youtube.com" class="social-card youtube" target="_blank">
+                    <div class="social-icon"><i class="fab fa-youtube"></i></div>
+                    <span style="font-weight:600;">YouTube</span>
+                </a>
+                <a href="https://www.tiktok.com/coldxoz/" class="social-card tiktok" target="_blank">
+                    <div class="social-icon"><i class="fab fa-tiktok"></i></div>
+                    <span style="font-weight:600;">TikTok</span>
+                </a>
+                <a href="https://www.instagram.com/coldxoz/" class="social-card instagram" target="_blank">
+                    <div class="social-icon"><i class="fab fa-instagram"></i></div>
+                    <span style="font-weight:600;">Instagram</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- WATTPAD -->
+    <section id="wattpad" class="wattpad-section">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-book"></i></div>
+                <h2 class="section-title" id="wattpadTitle">Wattpad Kitaplarym</h2>
+                <div class="section-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-icon"><i class="fas fa-book-open"></i></div>
+                    <div class="divider-line"></div>
+                </div>
+                <p class="section-subtitle" id="wattpadSubtitle">AÝAZ kitap seriýasyny okaň</p>
+            </div>
+            <div class="wattpad-grid">
+                <a href="https://www.wattpad.com/story/409037252-k%C3%BCllerin-%C5%9F%C3%B6valyesi-a%C3%BDaz" class="wattpad-card" target="_blank" style="text-decoration:none;color:var(--text-color);">
+                    <div style="background:linear-gradient(135deg,#6c5ce7,#a29bfe);height:180px;border-radius:15px;display:flex;align-items:center;justify-content:center;color:white;font-size:1.5em;font-weight:900;">
+                        Kitap 1
+                    </div>
+                    <h3 style="margin-top:10px;">AÝAZ: Başlangyç</h3>
+                    <p style="color:var(--text-light);">Ilkinji kitap seriýasy</p>
+                </a>
+                <a href="https://www.wattpad.com/story/412057555-g%C3%B6lgedeki-taht-nyxos-a%C3%BDaz" class="wattpad-card" target="_blank" style="text-decoration:none;color:var(--text-color);">
+                    <div style="background:linear-gradient(135deg,#fd79a8,#e84393);height:180px;border-radius:15px;display:flex;align-items:center;justify-content:center;color:white;font-size:1.5em;font-weight:900;">
+                        Kitap 2
+                    </div>
+                    <h3 style="margin-top:10px;">AÝAZ: Dowamy</h3>
+                    <p style="color:var(--text-light);">Ikinji kitap seriýasy</p>
+                </a>
+              <!--  <a href="https://www.wattpad.com/story/3" class="wattpad-card" target="_blank" style="text-decoration:none;color:var(--text-color);">
+                    <div style="background:linear-gradient(135deg,#00b894,#55efc4);height:180px;border-radius:15px;display:flex;align-items:center;justify-content:center;color:white;font-size:1.5em;font-weight:900;">
+                        Kitap 3
+                    </div>
+                    <h3 style="margin-top:10px;">Ruling Game: Final</h3>
+                    <p style="color:var(--text-light);">Üçünji kitap seriýasy</p>
+                </a> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>RULING GAME</h4>
+                    <p>Täsirli ýaryşma tejribesi</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/kurbanow09/" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://github.com/sohbets09/" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.instagram.com/coldxoz/" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/coldxoz/" target="_blank"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://www.wattpad.com/user/Zeron_v7" target="_blank"><i class="fas fa-book"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Çalt Baglanyşyklar</h4>
+                    <a href="#home">Baş Sahypa</a>
+                    <a href="#about">Hakynda</a>
+                    <a href="#rules">Düzgünler</a>
+                    <a href="#sponsors">Hemaýatkärler</a>
+                    <a href="#prizes">Baýraklar</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Habarlaşmak</h4>
+                    <p>📧 info@rulinggame.com</p>
+                    <p>📱 +993 65 777777</p>
+                    <p>📍 Aşgabat Türkmenistan<Textarea:cols:rows></Textarea:cols:rows></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ruling Game. Ähli hukuklar goralandyr.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ÇEREZ BİLDİRİMİ -->
+    <div id="cookieConsent" class="cookie-consent" style="display:none;">
+        <div class="cookie-content">
+            <div class="cookie-icon"><i class="fas fa-cookie-bite"></i></div>
+            <div class="cookie-text">
+                <h4 id="cookieTitle">Çerez Ulanylyşy</h4>
+                <p id="cookieDesc">Bu web sahypa çerezleri ulanýar.</p>
+            </div>
+            <div class="cookie-buttons">
+                <button class="cookie-accept" onclick="acceptCookies()" id="cookieAccept">Kabul Et</button>
+                <button class="cookie-decline" onclick="declineCookies()" id="cookieDecline">Ret Et</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CANLI DESTEK -->
+    <div id="liveChat" class="live-chat">
+        <button class="chat-toggle" onclick="toggleChat()">
+            <i class="fas fa-comments"></i>
+            <span class="chat-badge">1</span>
+        </button>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div>
+                    <h4 id="chatTitle">Janly Goldaw</h4>
+                    <p style="font-size:0.8em;">Onlaýn</p>
+                </div>
+                <button onclick="toggleChat()" style="background:none;border:none;color:white;font-size:1.2em;cursor:pointer;">&times;</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div style="background:var(--background-color);padding:10px;border-radius:10px;margin-bottom:10px;">
+                    <p id="chatWelcome">Salam! Size nädip kömek edip bilerin?</p>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Habaryňyzy ýazyň..." onkeypress="handleChatInput(event)">
+                <button onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- YUKARI ÇIK -->
+    <button id="scrollToTop" class="scroll-to-top" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- BİLDİRİM -->
+    <div id="notification" class="notification" style="display: none;">
+        <div class="notification-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="notification-content">
+            <h4 id="notificationTitle">Üstünlikli!</h4>
+            <p id="notificationMessage">Amal tamamlandy.</p>
+        </div>
+        <button class="notification-close" onclick="closeNotification()">&times;</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
