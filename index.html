@@ -4,30 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sohbets</title>
+    <title>Sohbets Portfolio</title>
     <style>
         :root {
+            /* Başlangyç ýaşyl reňkiň RGB bahasy (0, 255, 136) */
+            --accent-rgb: 0, 255, 136;
+
             --bg-primary: #050805;
             --bg-secondary: #0a100a;
             --bg-card: #0f180f;
             --bg-card-hover: #152015;
             --bg-input: #0d140d;
-            --accent: #00ff88;
-            --accent-bright: #00ff88;
-            --accent-dark: #00cc6a;
-            --accent-dim: #00994d;
-            --accent-glow: rgba(0, 255, 136, 0.2);
-            --accent-glow-strong: rgba(0, 255, 136, 0.35);
+
+            /* Dinamik reňkler */
+            --accent: rgb(var(--accent-rgb));
+            --accent-bright: rgba(var(--accent-rgb), 0.8);
+            --accent-dark: rgba(var(--accent-rgb), 0.6);
+            --accent-dim: rgba(var(--accent-rgb), 0.4);
+            --accent-glow: rgba(var(--accent-rgb), 0.2);
+            --accent-glow-strong: rgba(var(--accent-rgb), 0.35);
+
             --text-primary: #e8f5e8;
             --text-secondary: #a0c0a0;
             --text-muted: #608060;
-            --text-bright: #ffffff;
             --border: #1a2a1a;
-            --border-hover: #00ff88;
-            --border-light: #203020;
-            --glass-bg: rgba(10, 20, 10, 0.85);
-            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
-            --hover-shadow: 0 12px 48px rgba(0, 255, 136, 0.15);
             --radius-sm: 10px;
             --radius: 16px;
             --radius-lg: 20px;
@@ -52,16 +52,100 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 30px 20px 60px;
+            padding: 80px 20px 60px;
             background-image:
-                radial-gradient(ellipse at 15% 10%, rgba(0, 255, 136, 0.04) 0%, transparent 55%),
-                radial-gradient(ellipse at 85% 90%, rgba(0, 255, 136, 0.05) 0%, transparent 55%),
+                radial-gradient(ellipse at 15% 10%, rgba(var(--accent-rgb), 0.04) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 90%, rgba(var(--accent-rgb), 0.05) 0%, transparent 55%),
                 radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.9) 0%, var(--bg-primary) 100%);
             line-height: 1.6;
-            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
         }
 
-        /* Zarýadly bölejikler */
+        /* ============ ÝOKARKY OWADAN MENÝU (Dil we Reňk saýlaýjy) ============ */
+        .controls-bar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            /* Sag burça süýşürýär */
+            display: flex;
+            gap: 15px;
+            /* Dil we reňk düwmesiniň arasyny açýar */
+            z-index: 100;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(15, 24, 15, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 6px 14px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            transition: var(--transition);
+        }
+
+        .control-group:hover {
+            border-color: var(--accent-dim);
+        }
+
+        .btn-lang {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            padding: 6px 10px;
+            border-radius: 20px;
+            transition: var(--transition);
+        }
+
+        .btn-lang.active,
+        .btn-lang:hover {
+            background: var(--accent-glow);
+            color: var(--accent);
+        }
+
+        .picker-label {
+            font-size: 0.9em;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        /* Reňk saýlaýjyny owadanlamak */
+        #themeColor {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 28px;
+            height: 28px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        #themeColor::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        #themeColor::-webkit-color-swatch {
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        #themeColor:hover::-webkit-color-swatch {
+            border-color: var(--text-primary);
+            transform: scale(1.1);
+        }
+
+        /* ============ UÇÝAN NOKATLAR (Öňki original wersiýaňyz) ============ */
         .particles {
             position: fixed;
             top: 0;
@@ -77,7 +161,7 @@
             background: var(--accent);
             border-radius: 50%;
             animation: floatUp linear infinite;
-            box-shadow: 0 0 6px var(--accent-glow);
+            box-shadow: 0 0 6px var(--accent-glow-strong);
         }
 
         @keyframes floatUp {
@@ -100,18 +184,6 @@
             }
         }
 
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-        }
-
         @keyframes slideInUp {
             from {
                 opacity: 0;
@@ -124,49 +196,20 @@
             }
         }
 
-        @keyframes borderGlow {
-
-            0%,
-            100% {
-                border-color: var(--accent);
-                box-shadow: 0 0 20px var(--accent-glow);
-            }
-
-            50% {
-                border-color: var(--accent-dim);
-                box-shadow: 0 0 35px var(--accent-glow-strong);
-            }
-        }
-
         .container {
             max-width: 1000px;
             width: 100%;
             background: var(--bg-secondary);
             border-radius: var(--radius-lg);
             padding: 48px 40px;
-            box-shadow:
-                0 30px 80px rgba(0, 0, 0, 0.8),
-                0 0 0 1px var(--border),
-                inset 0 1px 0 rgba(255, 255, 255, 0.015);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--border);
             position: relative;
             z-index: 1;
             backdrop-filter: blur(8px);
             animation: slideInUp 0.8s ease;
         }
 
-        /* Üst çyzyk */
-        .top-glow {
-            position: absolute;
-            top: -1px;
-            left: 40px;
-            right: 40px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            opacity: 0.7;
-            border-radius: 2px;
-        }
-
-        /* ============ PROFIL BÖLÜMI ============ */
+        /* ============ PROFIL ============ */
         .profile-section {
             text-align: center;
             margin-bottom: 50px;
@@ -183,59 +226,20 @@
             height: 120px;
             border-radius: 50%;
             background: var(--bg-card);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            font-weight: 700;
-            color: var(--accent);
             border: 3px solid var(--border);
             position: relative;
             z-index: 1;
             transition: all var(--transition);
-            cursor: default;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
         }
 
         .avatar img {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
             object-fit: cover;
-        }
-
-        .avatar-ring {
-            position: absolute;
-            top: -8px;
-            left: -8px;
-            width: 136px;
-            height: 136px;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            border-top-color: var(--accent);
-            border-right-color: var(--accent-dim);
-            animation: spin 6s linear infinite;
-            opacity: 0.7;
-        }
-
-        .avatar-ring-2 {
-            position: absolute;
-            top: -14px;
-            left: -14px;
-            width: 148px;
-            height: 148px;
-            border-radius: 50%;
-            border: 1.5px solid transparent;
-            border-bottom-color: var(--accent);
-            border-left-color: var(--accent-dark);
-            animation: spin 10s linear infinite reverse;
-            opacity: 0.4;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
         }
 
         .avatar:hover {
@@ -244,35 +248,14 @@
             transform: scale(1.03);
         }
 
-        .avatar:hover~.avatar-ring,
-        .avatar-wrapper:hover .avatar-ring {
-            animation-duration: 3s;
-            opacity: 1;
-        }
-
-        .status-dot {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            width: 16px;
-            height: 16px;
-            background: var(--accent);
-            border-radius: 50%;
-            border: 3px solid var(--bg-secondary);
-            z-index: 2;
-            animation: pulse 2s ease-in-out infinite;
-            box-shadow: 0 0 10px var(--accent-glow-strong);
-        }
-
         h1 {
             font-size: 2.6em;
             font-weight: 800;
             letter-spacing: -1px;
             margin-bottom: 6px;
-            background: linear-gradient(135deg, #ffffff 0%, #00ff88 40%, #00cc6a 100%);
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent) 40%, var(--accent-dark) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .title-badge {
@@ -285,7 +268,6 @@
             color: var(--accent);
             letter-spacing: 1.5px;
             margin-bottom: 18px;
-            font-weight: 500;
             text-transform: uppercase;
         }
 
@@ -299,21 +281,17 @@
             color: var(--text-secondary);
             line-height: 1.8;
             font-size: 0.95em;
-            transition: all var(--transition);
+            transition: var(--transition);
         }
 
         .bio-box:hover {
             border-color: var(--accent-dim);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.05);
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
         .bio-box strong {
             color: var(--accent);
             font-weight: 600;
-        }
-
-        .bio-box .emoji {
-            font-size: 1.2em;
         }
 
         /* ============ STATISTIKALAR ============ */
@@ -331,16 +309,16 @@
             border-radius: var(--radius);
             padding: 20px 24px;
             text-align: center;
-            min-width: 130px;
             flex: 1;
+            min-width: 130px;
             max-width: 200px;
-            transition: all var(--transition);
+            transition: var(--transition);
         }
 
         .stat-card:hover {
             border-color: var(--accent);
             transform: translateY(-3px);
-            box-shadow: var(--hover-shadow);
+            box-shadow: 0 12px 48px var(--accent-glow);
         }
 
         .stat-number {
@@ -367,10 +345,6 @@
             margin-top: 50px;
         }
 
-        .section-header:first-of-type {
-            margin-top: 0;
-        }
-
         .icon-circle {
             width: 44px;
             height: 44px;
@@ -381,7 +355,7 @@
             align-items: center;
             justify-content: center;
             font-size: 1.3em;
-            transition: all var(--transition);
+            transition: var(--transition);
             flex-shrink: 0;
         }
 
@@ -395,7 +369,6 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2.5px;
-            color: var(--text-primary);
         }
 
         .section-line {
@@ -405,7 +378,7 @@
             margin-left: 8px;
         }
 
-        /* ============ GÖZLEG INPUTY ============ */
+        /* ============ GÖZLEG WE SCROLL (Aşak süýşme) ============ */
         .search-wrapper {
             position: relative;
             max-width: 480px;
@@ -421,17 +394,12 @@
             color: var(--text-primary);
             font-size: 0.95em;
             outline: none;
-            transition: all var(--transition);
-            font-family: inherit;
-        }
-
-        .search-input::placeholder {
-            color: var(--text-muted);
+            transition: var(--transition);
         }
 
         .search-input:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 0 5px var(--accent-glow), 0 0 30px var(--accent-glow-strong);
+            box-shadow: 0 0 0 5px var(--accent-glow);
             background: #0f180f;
         }
 
@@ -442,68 +410,40 @@
             transform: translateY(-50%);
             color: var(--text-muted);
             font-size: 1.2em;
-            transition: all var(--transition);
         }
 
-        .search-input:focus~.search-icon,
-        .search-wrapper:focus-within .search-icon {
+        .search-input:focus~.search-icon {
             color: var(--accent);
         }
 
-        .search-clear {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 1.2em;
-            padding: 6px 10px;
-            border-radius: 50%;
-            transition: all var(--transition);
-            display: none;
-        }
-
-        .search-clear.visible {
-            display: block;
-        }
-
-        .search-clear:hover {
-            color: var(--text-primary);
-            background: var(--border);
-        }
-
-        .no-results {
-            display: none;
-            text-align: center;
-            color: var(--text-muted);
-            margin: 16px 0;
-            padding: 14px 20px;
-            background: var(--bg-card);
+        .scrollable-grid {
+            max-height: 450px;
+            /* Içinden scroll etdirýän owadan guty */
+            overflow-y: auto;
+            padding: 10px 5px;
+            margin: 0 -5px;
             border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-            font-size: 0.9em;
         }
 
-        .no-results.visible {
-            display: block;
+        /* Scrollbar Owadanlaýyş */
+        .scrollable-grid::-webkit-scrollbar {
+            width: 8px;
         }
 
-        .results-count {
-            text-align: center;
-            font-size: 0.8em;
-            color: var(--text-muted);
-            margin-bottom: 16px;
-            display: none;
+        .scrollable-grid::-webkit-scrollbar-track {
+            background: var(--bg-card);
+            border-radius: 10px;
         }
 
-        .results-count.visible {
-            display: block;
+        .scrollable-grid::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
         }
 
-        /* ============ WEBSAHYPA KARTLARY ============ */
+        .scrollable-grid::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-dim);
+        }
+
         .website-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
@@ -521,7 +461,7 @@
             flex-direction: column;
             align-items: center;
             gap: 10px;
-            transition: all var(--transition);
+            transition: var(--transition);
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -542,7 +482,7 @@
         .website-card:hover {
             border-color: var(--accent);
             transform: translateY(-5px);
-            box-shadow: var(--hover-shadow);
+            box-shadow: 0 12px 48px var(--accent-glow);
             background: var(--bg-card-hover);
         }
 
@@ -552,8 +492,7 @@
 
         .website-card .card-icon {
             font-size: 2.2em;
-            transition: all var(--transition);
-            position: relative;
+            transition: var(--transition);
         }
 
         .website-card:hover .card-icon {
@@ -564,88 +503,27 @@
         .website-card .card-name {
             font-weight: 600;
             font-size: 0.9em;
-            line-height: 1.3;
-            transition: color var(--transition);
+            transition: var(--transition);
         }
 
         .website-card:hover .card-name {
             color: var(--accent);
         }
 
-        .website-card .card-url {
-            font-size: 0.7em;
-            color: var(--text-muted);
-            word-break: break-all;
-            transition: all var(--transition);
-        }
-
-        .website-card:hover .card-url {
-            color: var(--text-secondary);
-        }
-
         .website-card .card-tag {
             font-size: 0.7em;
             padding: 3px 10px;
             border-radius: 12px;
-            background: rgba(0, 255, 136, 0.08);
+            background: rgba(var(--accent-rgb), 0.08);
             color: var(--accent);
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            margin-top: 2px;
+            border: 1px solid rgba(var(--accent-rgb), 0.2);
         }
 
         .website-card.hidden {
             display: none;
         }
 
-        .website-card.highlight {
-            animation: borderGlow 1.5s ease-in-out 3;
-            border-color: var(--accent);
-            box-shadow: 0 0 25px var(--accent-glow-strong);
-        }
-
-        /* ============ BAŞARNYKLAR ============ */
-        .skills-section {
-            margin-bottom: 30px;
-        }
-
-        .skill-item {
-            margin-bottom: 18px;
-        }
-
-        .skill-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 6px;
-            font-size: 0.88em;
-        }
-
-        .skill-name {
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .skill-percent {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .skill-bar {
-            height: 8px;
-            background: var(--bg-card);
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-
-        .skill-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent), var(--accent-dark));
-            border-radius: 10px;
-            transition: width 1.5s ease;
-            width: 0;
-        }
-
-        /* ============ SOSIAL MEDIA ============ */
+        /* ============ SOSIAL WE KITAPLAR ============ */
         .social-grid {
             display: flex;
             flex-wrap: wrap;
@@ -665,103 +543,17 @@
             gap: 9px;
             font-weight: 500;
             font-size: 0.88em;
-            transition: all var(--transition);
-            cursor: pointer;
+            transition: var(--transition);
         }
 
         .social-btn:hover {
             border-color: var(--accent);
             background: #0f1f0f;
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.12);
+            box-shadow: 0 6px 20px var(--accent-glow);
             color: var(--accent);
         }
 
-        .social-btn .s-icon {
-            font-size: 1.3em;
-            transition: transform var(--transition);
-        }
-
-        .social-btn:hover .s-icon {
-            transform: scale(1.2);
-        }
-
-        /* ============ PROÝEKTLER ============ */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-            margin-bottom: 30px;
-        }
-
-        .project-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 24px;
-            transition: all var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-            box-shadow: var(--hover-shadow);
-        }
-
-        .project-card .project-icon {
-            font-size: 2.5em;
-            margin-bottom: 12px;
-            display: block;
-        }
-
-        .project-card h4 {
-            font-size: 1.1em;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
-
-        .project-card p {
-            font-size: 0.85em;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 14px;
-        }
-
-        .project-card .project-link {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.85em;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all var(--transition);
-        }
-
-        .project-card .project-link:hover {
-            gap: 10px;
-            color: var(--accent-bright);
-        }
-
-        .project-card .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 12px;
-        }
-
-        .tech-tag {
-            font-size: 0.7em;
-            padding: 4px 10px;
-            border-radius: 12px;
-            background: rgba(0, 255, 136, 0.06);
-            color: var(--accent);
-            border: 1px solid rgba(0, 255, 136, 0.15);
-        }
-
-        /* ============ WATTPAD KITAPLARY ============ */
         .books-list {
             display: flex;
             flex-direction: column;
@@ -778,22 +570,19 @@
             display: flex;
             align-items: center;
             gap: 18px;
-            transition: all var(--transition);
-            position: relative;
+            transition: var(--transition);
         }
 
         .book-card:hover {
             border-color: var(--accent);
             background: #0f1f0f;
             transform: translateX(6px);
-            box-shadow: var(--hover-shadow);
+            box-shadow: 0 12px 48px var(--accent-glow);
         }
 
         .book-icon {
             font-size: 2.2em;
-            min-width: 50px;
-            text-align: center;
-            transition: all var(--transition);
+            transition: var(--transition);
         }
 
         .book-card:hover .book-icon {
@@ -801,581 +590,51 @@
             filter: drop-shadow(0 0 8px var(--accent-glow));
         }
 
-        .book-info {
-            flex: 1;
-        }
-
         .book-info h4 {
             font-size: 1em;
             font-weight: 600;
-            margin-bottom: 4px;
-            transition: color var(--transition);
+            transition: var(--transition);
         }
 
         .book-card:hover .book-info h4 {
             color: var(--accent);
         }
 
-        .book-info p {
-            font-size: 0.8em;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-
-        .book-card .arrow-icon {
-            color: var(--text-muted);
-            font-size: 1.4em;
-            transition: all var(--transition);
-        }
-
-        .book-card:hover .arrow-icon {
-            color: var(--accent);
-            transform: translateX(6px);
-        }
-
-        /* ============ HABARLAŞMAK FORMASY ============ */
-        .contact-form {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 28px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-
-        .form-group {
-            flex: 1;
-            min-width: 200px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .form-group label {
-            font-size: 0.82em;
-            color: var(--text-secondary);
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            padding: 12px 16px;
-            background: var(--bg-input);
-            border: 2px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--text-primary);
-            font-size: 0.93em;
-            outline: none;
-            transition: all var(--transition);
-            font-family: inherit;
-            resize: vertical;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px var(--accent-glow);
-            background: #0f180f;
-        }
-
-        .form-group textarea {
-            min-height: 100px;
-        }
-
-        .submit-btn {
-            padding: 14px 32px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            color: #000;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.95em;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            transition: all var(--transition);
-            align-self: flex-start;
-            box-shadow: 0 4px 20px var(--accent-glow);
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px var(--accent-glow-strong);
-            background: linear-gradient(135deg, #33ff99, var(--accent));
-        }
-
-        .submit-btn:active {
-            transform: scale(0.97);
-        }
-
-        /* ============ FOOTER ============ */
-        .footer {
-            text-align: center;
-            margin-top: 50px;
-            padding-top: 28px;
-            border-top: 1px solid var(--border);
-            color: var(--text-muted);
-            font-size: 0.82em;
-            letter-spacing: 1px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .footer .dot {
-            color: var(--accent);
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .footer-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color var(--transition);
-            font-size: 0.85em;
-        }
-
-        .footer-links a:hover {
-            color: var(--accent);
-        }
-
-        /* ============ RESPONSIVE - TELEFON OPTİMİZASYONU ============ */
         @media (max-width: 768px) {
             body {
-                padding: 10px 8px 40px;
+                padding: 90px 8px 40px;
                 font-size: 14px;
             }
 
             .container {
                 padding: 20px 12px;
                 border-radius: 12px;
-                margin: 0;
-                width: 100%;
             }
 
-            .top-glow {
-                left: 20px;
-                right: 20px;
+            .controls-bar {
+                top: 10px;
+                flex-direction: column;
+                gap: 8px;
+                align-items: center;
+                padding: 0 10px;
             }
 
-            /* Profil bölümü */
-            .profile-section {
-                margin-bottom: 30px;
+            .scrollable-grid {
+                max-height: 380px;
             }
 
-            .avatar {
-                width: 80px;
-                height: 80px;
-                font-size: 32px;
-            }
-
-            .avatar-ring {
-                width: 92px;
-                height: 92px;
-                top: -6px;
-                left: -6px;
-            }
-
-            .avatar-ring-2 {
-                width: 100px;
-                height: 100px;
-                top: -10px;
-                left: -10px;
-            }
-
-            .status-dot {
-                width: 12px;
-                height: 12px;
-                bottom: 4px;
-                right: 4px;
-                border-width: 2px;
-            }
-
-            h1 {
-                font-size: 1.8em;
-                letter-spacing: -0.5px;
-            }
-
-            .title-badge {
-                font-size: 0.7em;
-                padding: 5px 12px;
-                letter-spacing: 1px;
-                margin-bottom: 12px;
-            }
-
-            .bio-box {
-                padding: 12px 14px;
-                font-size: 0.85em;
-                line-height: 1.6;
-                margin: 0 4px;
-            }
-
-            /* İstatistikler */
-            .stats-row {
-                gap: 6px;
-                margin-bottom: 30px;
-                display: grid;
+            .website-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+                display: grid;
             }
 
             .stat-card {
-                min-width: auto;
                 max-width: none;
-                padding: 12px 8px;
-                border-radius: 10px;
-            }
-
-            .stat-number {
-                font-size: 1.5em;
-            }
-
-            .stat-label {
-                font-size: 0.7em;
-                letter-spacing: 1px;
-            }
-
-            /* Bölüm başlıkları */
-            .section-header {
-                gap: 10px;
-                margin-bottom: 16px;
-                margin-top: 30px;
-            }
-
-            .icon-circle {
-                width: 36px;
-                height: 36px;
-                font-size: 1em;
-            }
-
-            .section-header h3 {
-                font-size: 0.9em;
-                letter-spacing: 1.5px;
-            }
-
-            /* Arama */
-            .search-wrapper {
-                max-width: 100%;
-                margin-bottom: 20px;
-            }
-
-            .search-input {
-                padding: 12px 40px 12px 40px;
-                font-size: 0.85em;
-                border-radius: 25px;
-            }
-
-            .search-icon {
-                left: 14px;
-                font-size: 1em;
-            }
-
-            .search-clear {
-                right: 8px;
-                padding: 4px 8px;
-            }
-
-            /* Website kartları */
-            .website-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 8px;
-            }
-
-            .website-card {
-                padding: 12px 8px;
-                gap: 6px;
-                border-radius: 10px;
-            }
-
-            .website-card .card-icon {
-                font-size: 1.5em;
-            }
-
-            .website-card .card-name {
-                font-size: 0.75em;
-                line-height: 1.2;
-            }
-
-            .website-card .card-url {
-                display: none;
-            }
-
-            .website-card .card-tag {
-                font-size: 0.6em;
-                padding: 2px 8px;
-            }
-
-            /* Sosyal medya */
-            .social-grid {
-                gap: 6px;
-            }
-
-            .social-btn {
-                padding: 8px 12px;
-                font-size: 0.75em;
-                border-radius: 20px;
-                gap: 6px;
-            }
-
-            .social-btn .s-icon {
-                font-size: 1.1em;
-            }
-
-            /* Wattpad kitapları */
-            .books-list {
-                gap: 8px;
-            }
-
-            .book-card {
-                padding: 12px;
-                gap: 10px;
-                border-radius: 10px;
-            }
-
-            .book-icon {
-                font-size: 1.4em;
-                min-width: 30px;
-            }
-
-            .book-info h4 {
-                font-size: 0.85em;
-            }
-
-            .book-info p {
-                font-size: 0.7em;
-            }
-
-            .book-card .arrow-icon {
-                font-size: 1.1em;
-            }
-
-            /* Projeler */
-            .projects-grid {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .project-card {
-                padding: 16px;
-                border-radius: 10px;
-            }
-
-            .project-card .project-icon {
-                font-size: 1.8em;
-                margin-bottom: 8px;
-            }
-
-            .project-card h4 {
-                font-size: 1em;
-            }
-
-            .project-card p {
-                font-size: 0.8em;
-            }
-
-            /* İletişim formu */
-            .contact-form {
-                padding: 16px;
-                gap: 12px;
-                border-radius: 10px;
-            }
-
-            .form-group label {
-                font-size: 0.75em;
-            }
-
-            .form-group input,
-            .form-group textarea {
-                padding: 10px 12px;
-                font-size: 0.85em;
-                border-radius: 8px;
-            }
-
-            .submit-btn {
-                padding: 12px 24px;
-                font-size: 0.85em;
-                border-radius: 25px;
-                width: 100%;
-                text-align: center;
-            }
-
-            /* Footer */
-            .footer {
-                margin-top: 30px;
-                padding-top: 20px;
-                font-size: 0.75em;
-                gap: 6px;
-            }
-
-            .footer-links {
-                gap: 12px;
-                font-size: 0.75em;
-            }
-
-            .results-count {
-                font-size: 0.75em;
-                margin-bottom: 10px;
-            }
-
-            .no-results {
-                font-size: 0.8em;
-                padding: 10px 14px;
-                margin: 10px 0;
-            }
-        }
-
-        /* Çok küçük ekranlar için */
-        @media (max-width: 360px) {
-            .website-grid {
-                gap: 6px;
-            }
-
-            .website-card {
-                padding: 10px 6px;
-                border-radius: 8px;
-            }
-
-            .website-card .card-name {
-                font-size: 0.7em;
-            }
-
-            .website-card .card-icon {
-                font-size: 1.3em;
-            }
-
-            h1 {
-                font-size: 1.5em;
-            }
-
-            .avatar {
-                width: 70px;
-                height: 70px;
-                font-size: 28px;
-            }
-
-            .avatar-ring {
-                width: 80px;
-                height: 80px;
-            }
-
-            .avatar-ring-2 {
-                width: 86px;
-                height: 86px;
-            }
-
-            .social-btn {
-                padding: 6px 10px;
-                font-size: 0.7em;
-            }
-
-            .stat-number {
-                font-size: 1.3em;
-            }
-
-            .stat-label {
-                font-size: 0.65em;
-            }
-        }
-
-        /* Telefon için dokunma optimizasyonu */
-        @media (hover: none) and (pointer: coarse) {
-            .website-card:hover {
-                transform: none;
-                box-shadow: none;
-                border-color: var(--border);
-            }
-
-            .website-card:active {
-                transform: scale(0.95);
-                border-color: var(--accent);
-                box-shadow: var(--hover-shadow);
-                transition: all 0.15s ease;
-            }
-
-            .social-btn:hover {
-                transform: none;
-                box-shadow: none;
-                border-color: var(--border);
-                color: var(--text-primary);
-            }
-
-            .social-btn:active {
-                transform: scale(0.95);
-                border-color: var(--accent);
-                color: var(--accent);
-                box-shadow: 0 4px 15px rgba(0, 255, 136, 0.15);
-                transition: all 0.15s ease;
-            }
-
-            .book-card:hover {
-                transform: none;
-                box-shadow: none;
-                border-color: var(--border);
-                background: var(--bg-card);
-            }
-
-            .book-card:active {
-                transform: scale(0.98);
-                border-color: var(--accent);
-                background: #0f1f0f;
-                transition: all 0.15s ease;
-            }
-
-            .stat-card:hover {
-                transform: none;
-                box-shadow: none;
-                border-color: var(--border);
-            }
-
-            .stat-card:active {
-                transform: scale(0.97);
-                border-color: var(--accent);
-                transition: all 0.15s ease;
-            }
-        }
-
-        /* Yatay mod için */
-        @media (max-width: 768px) and (orientation: landscape) {
-            .website-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .stats-row {
-                grid-template-columns: repeat(4, 1fr);
-            }
-
-            .avatar {
-                width: 60px;
-                height: 60px;
-                font-size: 24px;
-            }
-
-            .avatar-ring {
-                width: 70px;
-                height: 70px;
-            }
-
-            .avatar-ring-2 {
-                width: 76px;
-                height: 76px;
-            }
-
-            h1 {
-                font-size: 1.5em;
             }
         }
     </style>
@@ -1383,31 +642,43 @@
 
 <body>
 
-    <!-- Zarýadly bölejikler -->
+    <!-- Ykjamlaşdyrylan Owadan Menýu -->
+    <div class="controls-bar">
+        <!-- Dil Saýlaýjy -->
+        <div class="control-group">
+            <button class="btn-lang active" onclick="changeLang('tk')">TK</button>
+            <button class="btn-lang" onclick="changeLang('tr')">TR</button>
+            <button class="btn-lang" onclick="changeLang('en')">EN</button>
+            <button class="btn-lang" onclick="changeLang('ru')">RU</button>
+        </div>
+
+        <!-- Özbaşdak Reňk Saýlaýjy (Color Picker) -->
+        <div class="control-group">
+            <label for="themeColor" class="picker-label">
+                🎨 <span data-i18n="color_text">Reňk:</span>
+            </label>
+            <input type="color" id="themeColor" value="#00ff88">
+        </div>
+    </div>
+
+    <!-- Arkada uçýan zarýadly bölejikler (Nokatlar) -->
     <div class="particles" id="particles"></div>
 
     <div class="container">
-        <div class="top-glow"></div>
-
         <!-- ============ PROFIL ============ -->
         <div class="profile-section">
             <div class="avatar-wrapper">
-                <div class="avatar-ring"></div>
-                <div class="avatar-ring-2"></div>
                 <div class="avatar">
-                    <img src="photo/profile.jpg" alt="Verzon">
-                    <div class="status-dot" title="Onlaýn"></div>
+                    <img src="photo/profile.jpg" alt="ColdXoz"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='C X';">
                 </div>
             </div>
             <h1>ColdXoz</h1>
-            <div class="title-badge">✦ Full-Stack Developer & Ýazyjy ✦</div>
+            <div class="title-badge" data-i18n="badge">✦ Full-Stack Developer & Ýazyjy ✦</div>
             <div class="bio-box">
-                <p><span class="emoji">👋</span> Salam! Men — <strong>ColdXoz</strong>. Web dizaýn, programma
-                    üpjünçiligi we döredijilik bilen meşgullanýaryn. Aşakda ähli <strong>websahypalarym</strong>,
-                    <strong>sosial hasaplarym</strong>, <strong>proýektlerim</strong> we <strong>Wattpad
-                        kitaplarym</strong> ýerleşýär. Gözleg arkaly islän zadyňyzy tapyp bilersiňiz. <span
-                        class="emoji">🚀</span>
-                </p>
+                <p id="bioText">👋 Salam! Men — <strong>ColdXoz</strong>. Web dizaýn, programma üpjünçiligi we
+                    döredijilik bilen meşgullanýaryn. Aşakda ähli <strong>websahypalarym</strong>, <strong>sosial
+                        hasaplarym</strong> we <strong>Wattpad kitaplarym</strong> ýerleşýär. 🚀</p>
             </div>
         </div>
 
@@ -1415,163 +686,184 @@
         <div class="stats-row">
             <div class="stat-card">
                 <div class="stat-number" data-count="8">0</div>
-                <div class="stat-label">Websahypa</div>
+                <div class="stat-label" data-i18n="stat_web">Websahypa</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" data-count="6"></div>
-                <div class="stat-label">Sosial Hasap</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" data-count="2">0</div>
-                <div class="stat-label">Wattpad Kitap</div>
+                <div class="stat-number" data-count="6">0</div>
+                <div class="stat-label" data-i18n="stat_social">Sosial Hasap</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" data-count="2">0</div>
-                <div class="stat-label">Ýyl Tejribe</div>
+                <div class="stat-label" data-i18n="stat_book">Wattpad Kitap</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-count="2">0</div>
+                <div class="stat-label" data-i18n="stat_exp">Ýyl Tejribe</div>
             </div>
         </div>
 
         <!-- ============ WEBSAHYPALAR ============ -->
         <div class="section-header">
             <div class="icon-circle">🌐</div>
-            <h3>Websahypalarym</h3>
+            <h3 data-i18n="title_web">Websahypalarym</h3>
             <div class="section-line"></div>
         </div>
 
         <div class="search-wrapper">
             <span class="search-icon">🔍</span>
-            <input type="text" class="search-input" id="websiteSearch" placeholder="Websahypa adyny ýa-da URL ýazyň..."
-                oninput="searchWebsites()">
-            <button class="search-clear" id="searchClear" onclick="clearSearch()" title="Arassala">✕</button>
-        </div>
-        <div class="results-count" id="resultsCount"></div>
-        <div class="no-results" id="noResults">⚠️ Gözleg boýunça hiç hili websahypa tapylmady.</div>
-
-        <div class="website-grid" id="websiteGrid">
-            <a href="https://sohbets09.github.io/verzon/A_Song_of_Ice_and_Fire/" target="_blank" class="website-card"
-                data-name="Şahsy Portfolio">
-                <span class="card-icon">🌐</span>
-                <span class="card-name">A song of ice and fire</span>
-                <span class="card-url">A song of ice and fire</span>
-                <span class="card-tag">Gir</span>
-            </a>
-            <a href="https://sohbets09.github.io/verzon/Verzon/" target="_blank" class="website-card"
-                data-name="Şahsy Portfolio">
-                <span class="card-icon">🌐</span>
-                <span class="card-name">Verzon</span>
-                <span class="card-url">Verzon</span>
-                <span class="card-tag">Gir</span>
-            </a>
-            <a href="https://sohbets09.github.io/verzon/Motivasyon/" target="_blank" class="website-card"
-                data-name="Şahsy Portfolio">
-                <span class="card-icon">🌐</span>
-                <span class="card-name">Motivasyon</span>
-                <span class="card-url">Motivasyon</span>
-                <span class="card-tag">Gir</span>
-            </a>
-            <a href="https://sohbets09.github.io/verzon/75-nji%20dom/" target="_blank" class="website-card"
-                data-name="Şahsy Portfolio">
-                <span class="card-icon">🌐</span>
-                <span class="card-name">75-nji dom</span>
-                <span class="card-url">75-nji dom</span>
-                <span class="card-tag">Gir</span>
-            </a>
-            <a href="https://sohbets09.github.io/verzon/sevgili/" target="_blank" class="website-card"
-                data-name="Şahsy Portfolio">
-                <span class="card-icon">🌐</span>
-                <span class="card-name">sev</span>
-                <span class="card-url">sev</span>
-                <span class="card-tag">Gir</span>
-            </a>
-            <a href="https://sohbets09.github.io/verzon/Minecraft_Group/" target="_blank" class="website-card"
-                data-name="Şahsy Portfolio">
-                <span class="card-icon">🌐</span>
-                <span class="card-name">Minecraft Group</span>
-                <span class="card-url">Minecraft Group</span>
-                <span class="card-tag">Gir</span>
-            </a>
-            <a href="https://sohbets09.github.io/verzon/Book%20Store/" target="_blank" class="website-card"
-                data-name="Şahsy Portfolio">
-                <span class="card-icon">🌐</span>
-                <span class="card-name">Book Store</span>
-                <span class="card-url">Book Store</span>
-                <span class="card-tag">Gir</span>
-            </a>
-            <a href="https://sohbets09.github.io/verzon/ruling-game/" target="_blank" class="website-card"
-                data-name="Şahsy Portfolio">
-                <span class="card-icon">🌐</span>
-                <span class="card-name">Ruling Game</span>
-                <span class="card-url">Ruling Game</span>
-                <span class="card-tag">Gir</span>
-            </a>
+            <input type="text" class="search-input" id="websiteSearch" placeholder="Websahypa adyny ýazyň..."
+                data-i18n-ph="search_ph" oninput="searchWebsites()">
         </div>
 
+        <!-- Web sahypalar uzamaz ýaly Içi scroll bolýan guty -->
+        <div class="scrollable-grid">
+            <div class="website-grid" id="websiteGrid">
+                <a href="#" target="_blank" class="website-card" data-name="a song of ice and fire">
+                    <span class="card-icon">🐉</span>
+                    <span class="card-name">A Song of Ice and Fire</span>
+                    <span class="card-tag" data-i18n="btn_enter">Gir</span>
+                </a>
+                <a href="#" target="_blank" class="website-card" data-name="verzon">
+                    <span class="card-icon">💻</span>
+                    <span class="card-name">Verzon</span>
+                    <span class="card-tag" data-i18n="btn_enter">Gir</span>
+                </a>
+                <a href="#" target="_blank" class="website-card" data-name="motivasyon">
+                    <span class="card-icon">🔥</span>
+                    <span class="card-name">Motivasyon</span>
+                    <span class="card-tag" data-i18n="btn_enter">Gir</span>
+                </a>
+                <a href="#" target="_blank" class="website-card" data-name="75-nji dom">
+                    <span class="card-icon">🏢</span>
+                    <span class="card-name">75-nji dom</span>
+                    <span class="card-tag" data-i18n="btn_enter">Gir</span>
+                </a>
+                <a href="#" target="_blank" class="website-card" data-name="sev">
+                    <span class="card-icon">❤️</span>
+                    <span class="card-name">Sev</span>
+                    <span class="card-tag" data-i18n="btn_enter">Gir</span>
+                </a>
+                <a href="#" target="_blank" class="website-card" data-name="minecraft group">
+                    <span class="card-icon">⛏️</span>
+                    <span class="card-name">Minecraft Group</span>
+                    <span class="card-tag" data-i18n="btn_enter">Gir</span>
+                </a>
+                <a href="#" target="_blank" class="website-card" data-name="book store">
+                    <span class="card-icon">📚</span>
+                    <span class="card-name">Book Store</span>
+                    <span class="card-tag" data-i18n="btn_enter">Gir</span>
+                </a>
+                <a href="#" target="_blank" class="website-card" data-name="ruling game">
+                    <span class="card-icon">🎮</span>
+                    <span class="card-name">Ruling Game</span>
+                    <span class="card-tag" data-i18n="btn_enter">Gir</span>
+                </a>
+            </div>
+        </div>
 
-
-        <!-- ============ SOSIAL MEDIA ============ -->
+        <!-- ============ SOSIAL HASAPLAR ============ -->
         <div class="section-header">
             <div class="icon-circle">🔗</div>
-            <h3>Sosial Hasabym</h3>
+            <h3 data-i18n="title_social">Sosial Hasabym</h3>
             <div class="section-line"></div>
         </div>
-
         <div class="social-grid">
-            <a href="https://github.com/kurbanow09" target="_blank" class="social-btn">
-                <span class="s-icon">💻</span> GitHub 1
-            </a>
-            <a href="https://github.com/sohbets09" target="_blank" class="social-btn">
-                <span class="s-icon">💻</span> GitHub 2
-            </a>
-            <a href="https://instagram.com/coldxoz" target="_blank" class="social-btn">
-                <span class="s-icon">📸</span> Instagram
-            </a>
-            <a href="https://tiktok.com/@coldxoz" target="_blank" class="social-btn">
-                <span class="s-icon">🎵</span> TikTok
-            </a>
-            <a href="https://youtube.com/@coldxoz" target="_blank" class="social-btn">
-                <span class="s-icon">▶️</span> YouTube
-            </a>
-            <a href="https://wattpad.com/zeron_v7" target="_blank" class="social-btn">
-                <span class="s-icon">📖</span> Wattpad
-            </a>
+            <a href="https://github.com/sohbets09" target="_blank" class="social-btn"><span>💻</span> GitHub</a>
+            <a href="https://instagram.com/coldxoz" target="_blank" class="social-btn"><span>📸</span> Instagram</a>
+            <a href="https://tiktok.com/@coldxoz" target="_blank" class="social-btn"><span>🎵</span> TikTok</a>
+            <a href="https://youtube.com/@coldxoz" target="_blank" class="social-btn"><span>▶️</span> YouTube</a>
+            <a href="https://wattpad.com/zeron_v7" target="_blank" class="social-btn"><span>📖</span> Wattpad</a>
         </div>
 
-        <!-- ============ WATTPAD KITAPLARY ============ -->
+        <!-- ============ KITAPLAR ============ -->
         <div class="section-header">
             <div class="icon-circle">📖</div>
-            <h3>Wattpad Kitaplarym</h3>
+            <h3 data-i18n="title_book">Wattpad Kitaplarym</h3>
             <div class="section-line"></div>
         </div>
-
         <div class="books-list">
-            <a href="https://www.wattpad.com/story/412057555-g%C3%B6lgedeki-taht-nyxos-a%C3%BDaz" target="_blank"
-                class="book-card">
+            <a href="https://www.wattpad.com/story/412057555" target="_blank" class="book-card">
                 <span class="book-icon">📕</span>
                 <div class="book-info">
                     <h4>Gölgedeki Taht Nyxos | AÝAZ</h4>
                 </div>
-                <span class="arrow-icon">→</span>
             </a>
-            <a href="https://www.wattpad.com/story/409037252-k%C3%BCllerin-%C5%9F%C3%B6valyesi-a%C3%BDaz"
-                target="_blank" class="book-card">
+            <a href="https://www.wattpad.com/story/409037252" target="_blank" class="book-card">
                 <span class="book-icon">📗</span>
                 <div class="book-info">
                     <h4>Küllerin Şövalyesi | AÝAZ</h4>
                 </div>
-                <span class="arrow-icon">→</span>
             </a>
         </div>
     </div>
 
-    <!-- HTML (</body> teginiň üstüne goşuň) -->
-    <button id="scrollTopBtn" title="Ýokary çyk"
-        style="position: fixed; bottom: 20px; right: 20px; display: none; background: var(--bg-card); color: var(--accent); border: 1px solid var(--accent); padding: 10px 15px; border-radius: 50%; cursor: pointer; z-index: 100; font-weight: bold;">↑</button>
-
     <script>
-        // ============ ZARÝADLY BÖLEJIKLER ============
+        // ============ REŇK SAÝLAÝJY (Color Picker) ============
+        const colorInput = document.getElementById('themeColor');
+
+        // Hex reňki RGB-ä öwürmek funksiýasy
+        function hexToRgb(hex) {
+            let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : '0, 255, 136';
+        }
+
+        colorInput.addEventListener('input', function (e) {
+            const rgbValue = hexToRgb(e.target.value);
+            // Bütin CSS üýtgeýjilerini birbada täze saýlanan reňke görä çalşyrýar
+            document.documentElement.style.setProperty('--accent-rgb', rgbValue);
+        });
+
+        // ============ DIL SAÝLAÝJY (Türkmen, Türk, Iňlis, Rus) ============
+        const translations = {
+            tk: {
+                badge: "✦ Full-Stack Developer & Ýazyjy ✦",
+                bio: "👋 Salam! Men — <strong>ColdXoz</strong>. Web dizaýn, programma üpjünçiligi we döredijilik bilen meşgullanýaryn. Aşakda ähli <strong>websahypalarym</strong>, <strong>sosial hasaplarym</strong> we <strong>Wattpad kitaplarym</strong> ýerleşýär. 🚀",
+                stat_web: "Websahypa", stat_social: "Sosial Hasap", stat_book: "Wattpad Kitap", stat_exp: "Ýyl Tejribe",
+                title_web: "Websahypalarym", title_social: "Sosial Hasabym", title_book: "Wattpad Kitaplarym",
+                search_ph: "Websahypa adyny ýazyň...", btn_enter: "Gir", color_text: "Reňk:"
+            },
+            tr: {
+                badge: "✦ Full-Stack Geliştirici & Yazar ✦",
+                bio: "👋 Merhaba! Ben — <strong>ColdXoz</strong>. Web tasarım, yazılım ve yaratıcılıkla ilgileniyorum. Aşağıda tüm <strong>web sitelerim</strong>, <strong>sosyal hesaplarım</strong> ve <strong>Wattpad kitaplarım</strong> bulunuyor. 🚀",
+                stat_web: "Web Sitesi", stat_social: "Sosyal Hesap", stat_book: "Wattpad Kitap", stat_exp: "Yıl Tecrübe",
+                title_web: "Web Sitelerim", title_social: "Sosyal Hesaplarım", title_book: "Wattpad Kitaplarım",
+                search_ph: "Web sitesi adını yazın...", btn_enter: "Gir", color_text: "Renk:"
+            },
+            en: {
+                badge: "✦ Full-Stack Developer & Writer ✦",
+                bio: "👋 Hello! I am <strong>ColdXoz</strong>. I do web design, software development, and creative writing. Below you can find all my <strong>websites</strong>, <strong>social accounts</strong>, and <strong>Wattpad books</strong>. 🚀",
+                stat_web: "Websites", stat_social: "Social Accounts", stat_book: "Wattpad Books", stat_exp: "Years Exp",
+                title_web: "My Websites", title_social: "My Socials", title_book: "Wattpad Books",
+                search_ph: "Search website name...", btn_enter: "Enter", color_text: "Color:"
+            },
+            ru: {
+                badge: "✦ Full-Stack Разработчик & Писатель ✦",
+                bio: "👋 Привет! Я — <strong>ColdXoz</strong>. Занимаюсь веб-дизайном, программированием и творчеством. Ниже представлены все мои <strong>сайты</strong>, <strong>социальные сети</strong> и <strong>книги Wattpad</strong>. 🚀",
+                stat_web: "Веб-сайты", stat_social: "Соц. сети", stat_book: "Книги Wattpad", stat_exp: "Лет опыта",
+                title_web: "Мои Веб-сайты", title_social: "Мои Соцсети", title_book: "Мои Книги",
+                search_ph: "Введите название...", btn_enter: "Вход", color_text: "Цвет:"
+            }
+        };
+
+        function changeLang(lang) {
+            document.querySelectorAll('.btn-lang').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                el.innerHTML = translations[lang][el.getAttribute('data-i18n')];
+            });
+
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                el.placeholder = translations[lang][el.getAttribute('data-i18n-ph')];
+            });
+
+            document.getElementById('bioText').innerHTML = translations[lang].bio;
+        }
+
+        // ============ ZARÝADLY BÖLEJIKLER (Original Animasiýa) ============
         function createParticles() {
             const container = document.getElementById('particles');
-            const count = 40;
+            const count = 40; // Seniň original kodyňdaky ýaly 40 sany nokat
             for (let i = 0; i < count; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
@@ -1587,154 +879,37 @@
         }
         createParticles();
 
-        // ============ STATISTIKA SANLARY ANIMASIÝA ============
+        // ============ SAN ANIMASIÝASY ============
         function animateStats() {
-            const statNumbers = document.querySelectorAll('.stat-number');
-            statNumbers.forEach(el => {
+            document.querySelectorAll('.stat-number').forEach(el => {
                 const target = parseInt(el.getAttribute('data-count'));
-                const duration = 2000;
-                const startTime = performance.now();
-                function update(currentTime) {
-                    const elapsed = currentTime - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    const eased = 1 - Math.pow(1 - progress, 3);
-                    el.textContent = Math.floor(eased * target);
-                    if (progress < 1) {
-                        requestAnimationFrame(update);
-                    } else {
+                let current = 0;
+                const timer = setInterval(() => {
+                    current += target / 40;
+                    if (current >= target) {
                         el.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        el.textContent = Math.ceil(current);
                     }
-                }
-                requestAnimationFrame(update);
+                }, 35);
             });
         }
-
-        // ============ BAŞARNYK BARLARY ANIMASIÝA ============
-        function animateSkills() {
-            const fills = document.querySelectorAll('.skill-fill');
-            fills.forEach(fill => {
-                const width = fill.getAttribute('data-width');
-                setTimeout(() => {
-                    fill.style.width = width + '%';
-                }, 300);
-            });
-        }
+        window.addEventListener('load', () => setTimeout(animateStats, 300));
 
         // ============ GÖZLEG FUNKSIÝASY ============
         function searchWebsites() {
-            const input = document.getElementById('websiteSearch');
-            const filter = input.value.toLowerCase().trim();
+            const filter = document.getElementById('websiteSearch').value.toLowerCase().trim();
             const cards = document.querySelectorAll('.website-card');
-            const noResults = document.getElementById('noResults');
-            const clearBtn = document.getElementById('searchClear');
-            const resultsCount = document.getElementById('resultsCount');
-            let visibleCount = 0;
-
-            if (filter.length > 0) {
-                clearBtn.classList.add('visible');
-            } else {
-                clearBtn.classList.remove('visible');
-                resultsCount.classList.remove('visible');
-            }
-
             cards.forEach(card => {
                 const name = card.getAttribute('data-name').toLowerCase();
-                const url = card.querySelector('.card-url')?.textContent.toLowerCase() || '';
-                const tag = card.querySelector('.card-tag')?.textContent.toLowerCase() || '';
-
-                if (filter === '' || name.includes(filter) || url.includes(filter) || tag.includes(filter)) {
+                if (name.includes(filter)) {
                     card.classList.remove('hidden');
-                    visibleCount++;
                 } else {
                     card.classList.add('hidden');
                 }
             });
-
-            if (filter.length > 0) {
-                resultsCount.classList.add('visible');
-                resultsCount.textContent = visibleCount + ' websahypa tapyldy';
-            }
-
-            if (visibleCount === 0 && filter.length > 0) {
-                noResults.classList.add('visible');
-                resultsCount.classList.remove('visible');
-            } else {
-                noResults.classList.remove('visible');
-            }
         }
-
-        function clearSearch() {
-            const input = document.getElementById('websiteSearch');
-            const clearBtn = document.getElementById('searchClear');
-            const noResults = document.getElementById('noResults');
-            const resultsCount = document.getElementById('resultsCount');
-            const cards = document.querySelectorAll('.website-card');
-
-            input.value = '';
-            clearBtn.classList.remove('visible');
-            noResults.classList.remove('visible');
-            resultsCount.classList.remove('visible');
-            cards.forEach(card => card.classList.remove('hidden'));
-            input.focus();
-        }
-
-        // Enter bilen
-        document.getElementById('websiteSearch').addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') {
-                const visibleCards = document.querySelectorAll('.website-card:not(.hidden)');
-                if (visibleCards.length === 1) {
-                    visibleCards[0].click();
-                } else if (visibleCards.length > 0) {
-                    visibleCards[0].classList.add('highlight');
-                    visibleCards[0].scrollIntoView({behavior: 'smooth', block: 'center'});
-                    setTimeout(() => visibleCards[0].classList.remove('highlight'), 2000);
-                }
-            }
-        });
-
-        // ============ HABARLAŞMAK FORMASY ============
-        function handleContact(e) {
-            e.preventDefault();
-            const btn = e.target.querySelector('.submit-btn');
-            const originalText = btn.textContent;
-            btn.textContent = '✅ Iberildi!';
-            btn.style.background = 'linear-gradient(135deg, #00ff88, #00cc6a)';
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.style.background = '';
-                e.target.reset();
-            }, 2500);
-        }
-
-        // ============ SCROLL ANIMASIÝALAR ============
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    if (entry.target.closest('.stats-row')) animateStats();
-                    if (entry.target.closest('.skills-section')) animateSkills();
-                }
-            });
-        }, {threshold: 0.3});
-
-        document.querySelectorAll('.stats-row, .skills-section').forEach(el => observer.observe(el));
-
-        // ============ BAŞDA ÝÜKLENENDE ============
-        window.addEventListener('load', () => {
-            setTimeout(animateStats, 300);
-            setTimeout(animateSkills, 600);
-        });
-
-                const topBtn = document.getElementById("scrollTopBtn");
-        window.onscroll = function () {
-            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                topBtn.style.display = "block";
-            } else {
-                topBtn.style.display = "none";
-            }
-        };
-        topBtn.onclick = function () {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        };
     </script>
 </body>
 
