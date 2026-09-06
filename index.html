@@ -7,7 +7,6 @@
     <title>Sohbets Portfolio</title>
     <style>
         :root {
-            /* Başlangyç ýaşyl reňkiň RGB bahasy (0, 255, 136) */
             --accent-rgb: 0, 255, 136;
 
             --bg-primary: #050805;
@@ -16,7 +15,6 @@
             --bg-card-hover: #152015;
             --bg-input: #0d140d;
 
-            /* Dinamik reňkler */
             --accent: rgb(var(--accent-rgb));
             --accent-bright: rgba(var(--accent-rgb), 0.8);
             --accent-dark: rgba(var(--accent-rgb), 0.6);
@@ -61,15 +59,12 @@
             overflow-x: hidden;
         }
 
-        /* ============ ÝOKARKY OWADAN MENÝU (Dil we Reňk saýlaýjy) ============ */
         .controls-bar {
             position: absolute;
             top: 20px;
             right: 20px;
-            /* Sag burça süýşürýär */
             display: flex;
             gap: 15px;
-            /* Dil we reňk düwmesiniň arasyny açýar */
             z-index: 100;
         }
 
@@ -117,7 +112,6 @@
             cursor: pointer;
         }
 
-        /* Reňk saýlaýjyny owadanlamak */
         #themeColor {
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -145,7 +139,6 @@
             transform: scale(1.1);
         }
 
-        /* ============ UÇÝAN NOKATLAR (Öňki original wersiýaňyz) ============ */
         .particles {
             position: fixed;
             top: 0;
@@ -209,7 +202,6 @@
             animation: slideInUp 0.8s ease;
         }
 
-        /* ============ PROFIL ============ */
         .profile-section {
             text-align: center;
             margin-bottom: 50px;
@@ -294,7 +286,6 @@
             font-weight: 600;
         }
 
-        /* ============ STATISTIKALAR ============ */
         .stats-row {
             display: flex;
             flex-wrap: wrap;
@@ -336,7 +327,6 @@
             letter-spacing: 1.5px;
         }
 
-        /* ============ BÖLÜM BAŞLYKLARY ============ */
         .section-header {
             display: flex;
             align-items: center;
@@ -378,7 +368,6 @@
             margin-left: 8px;
         }
 
-        /* ============ GÖZLEG WE SCROLL (Aşak süýşme) ============ */
         .search-wrapper {
             position: relative;
             max-width: 480px;
@@ -418,7 +407,6 @@
 
         .scrollable-grid {
             max-height: 450px;
-            /* Içinden scroll etdirýän owadan guty */
             overflow-y: auto;
             padding: 10px 5px;
             margin: 0 -5px;
@@ -523,7 +511,6 @@
             display: none;
         }
 
-        /* ============ SOSIAL WE KITAPLAR ============ */
         .social-grid {
             display: flex;
             flex-wrap: wrap;
@@ -642,7 +629,6 @@
 
 <body>
 
-    <!-- Ykjamlaşdyrylan Owadan Menýu -->
     <div class="controls-bar">
         <!-- Dil Saýlaýjy -->
         <div class="control-group">
@@ -652,7 +638,6 @@
             <button class="btn-lang" onclick="changeLang('ru')">RU</button>
         </div>
 
-        <!-- Özbaşdak Reňk Saýlaýjy (Color Picker) -->
         <div class="control-group">
             <label for="themeColor" class="picker-label">
                 🎨 <span data-i18n="color_text">Reňk:</span>
@@ -661,11 +646,9 @@
         </div>
     </div>
 
-    <!-- Arkada uçýan zarýadly bölejikler (Nokatlar) -->
     <div class="particles" id="particles"></div>
 
     <div class="container">
-        <!-- ============ PROFIL ============ -->
         <div class="profile-section">
             <div class="avatar-wrapper">
                 <div class="avatar">
@@ -682,7 +665,6 @@
             </div>
         </div>
 
-        <!-- ============ STATISTIKALAR ============ -->
         <div class="stats-row">
             <div class="stat-card">
                 <div class="stat-number" data-count="8">0</div>
@@ -702,7 +684,6 @@
             </div>
         </div>
 
-        <!-- ============ WEBSAHYPALAR ============ -->
         <div class="section-header">
             <div class="icon-circle">🌐</div>
             <h3 data-i18n="title_web">Websahypalarym</h3>
@@ -715,45 +696,44 @@
                 data-i18n-ph="search_ph" oninput="searchWebsites()">
         </div>
 
-        <!-- Web sahypalar uzamaz ýaly Içi scroll bolýan guty -->
         <div class="scrollable-grid">
             <div class="website-grid" id="websiteGrid">
-                <a href="#" target="_blank" class="website-card" data-name="a song of ice and fire">
+                <a href="https://sohbets09.github.io/verzon/A_Song_of_Ice_and_Fire" target="_blank" class="website-card" data-name="a song of ice and fire">
                     <span class="card-icon">🐉</span>
                     <span class="card-name">A Song of Ice and Fire</span>
                     <span class="card-tag" data-i18n="btn_enter">Gir</span>
                 </a>
-                <a href="#" target="_blank" class="website-card" data-name="verzon">
+                <a href="https://sohbets09.github.io/verzon/Verzon/" target="_blank" class="website-card" data-name="verzon">
                     <span class="card-icon">💻</span>
                     <span class="card-name">Verzon</span>
                     <span class="card-tag" data-i18n="btn_enter">Gir</span>
                 </a>
-                <a href="#" target="_blank" class="website-card" data-name="motivasyon">
+                <a href="https://sohbets09.github.io/verzon/Motivasyon/" target="_blank" class="website-card" data-name="motivasyon">
                     <span class="card-icon">🔥</span>
                     <span class="card-name">Motivasyon</span>
                     <span class="card-tag" data-i18n="btn_enter">Gir</span>
                 </a>
-                <a href="#" target="_blank" class="website-card" data-name="75-nji dom">
+                <a href="https://sohbets09.github.io/verzon/75-nji%20dom/" target="_blank" class="website-card" data-name="75-nji dom">
                     <span class="card-icon">🏢</span>
                     <span class="card-name">75-nji dom</span>
                     <span class="card-tag" data-i18n="btn_enter">Gir</span>
                 </a>
-                <a href="#" target="_blank" class="website-card" data-name="sev">
+                <a href="https://sohbets09.github.io/verzon/sevgili/" target="_blank" class="website-card" data-name="sev">
                     <span class="card-icon">❤️</span>
                     <span class="card-name">Sev</span>
                     <span class="card-tag" data-i18n="btn_enter">Gir</span>
                 </a>
-                <a href="#" target="_blank" class="website-card" data-name="minecraft group">
+                <a href="https://sohbets09.github.io/verzon/Minecraft_Group/" target="_blank" class="website-card" data-name="minecraft group">
                     <span class="card-icon">⛏️</span>
                     <span class="card-name">Minecraft Group</span>
                     <span class="card-tag" data-i18n="btn_enter">Gir</span>
                 </a>
-                <a href="#" target="_blank" class="website-card" data-name="book store">
+                <a href="https://sohbets09.github.io/verzon/Book%20Store/" target="_blank" class="website-card" data-name="book store">
                     <span class="card-icon">📚</span>
                     <span class="card-name">Book Store</span>
                     <span class="card-tag" data-i18n="btn_enter">Gir</span>
                 </a>
-                <a href="#" target="_blank" class="website-card" data-name="ruling game">
+                <a href="https://sohbets09.github.io/verzon/ruling-game/" target="_blank" class="website-card" data-name="ruling game">
                     <span class="card-icon">🎮</span>
                     <span class="card-name">Ruling Game</span>
                     <span class="card-tag" data-i18n="btn_enter">Gir</span>
@@ -761,7 +741,6 @@
             </div>
         </div>
 
-        <!-- ============ SOSIAL HASAPLAR ============ -->
         <div class="section-header">
             <div class="icon-circle">🔗</div>
             <h3 data-i18n="title_social">Sosial Hasabym</h3>
@@ -775,7 +754,6 @@
             <a href="https://wattpad.com/zeron_v7" target="_blank" class="social-btn"><span>📖</span> Wattpad</a>
         </div>
 
-        <!-- ============ KITAPLAR ============ -->
         <div class="section-header">
             <div class="icon-circle">📖</div>
             <h3 data-i18n="title_book">Wattpad Kitaplarym</h3>
@@ -798,10 +776,8 @@
     </div>
 
     <script>
-        // ============ REŇK SAÝLAÝJY (Color Picker) ============
         const colorInput = document.getElementById('themeColor');
 
-        // Hex reňki RGB-ä öwürmek funksiýasy
         function hexToRgb(hex) {
             let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
             return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : '0, 255, 136';
@@ -813,7 +789,6 @@
             document.documentElement.style.setProperty('--accent-rgb', rgbValue);
         });
 
-        // ============ DIL SAÝLAÝJY (Türkmen, Türk, Iňlis, Rus) ============
         const translations = {
             tk: {
                 badge: "✦ Full-Stack Developer & Ýazyjy ✦",
@@ -860,7 +835,6 @@
             document.getElementById('bioText').innerHTML = translations[lang].bio;
         }
 
-        // ============ ZARÝADLY BÖLEJIKLER (Original Animasiýa) ============
         function createParticles() {
             const container = document.getElementById('particles');
             const count = 40; // Seniň original kodyňdaky ýaly 40 sany nokat
@@ -879,7 +853,6 @@
         }
         createParticles();
 
-        // ============ SAN ANIMASIÝASY ============
         function animateStats() {
             document.querySelectorAll('.stat-number').forEach(el => {
                 const target = parseInt(el.getAttribute('data-count'));
@@ -897,7 +870,6 @@
         }
         window.addEventListener('load', () => setTimeout(animateStats, 300));
 
-        // ============ GÖZLEG FUNKSIÝASY ============
         function searchWebsites() {
             const filter = document.getElementById('websiteSearch').value.toLowerCase().trim();
             const cards = document.querySelectorAll('.website-card');
